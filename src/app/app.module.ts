@@ -14,6 +14,14 @@ import { TabsPageModule } from '../pages/tabs/tabs.module';
 import { SellBookPageModule } from '../pages/sell-book/sell-book.module';
 import { BuyFeedPageModule } from '../pages/buy-feed/buy-feed.module';
 import { UserProfilePageModule } from '../pages/user-profile/user-profile.module';
+import { RegisterPageModule } from '../pages/register/register.module';
+import { LoginPageModule } from '../pages/login/login.module';
+
+import { AngularFireModule } from "angularfire2";
+import { AngularFirestoreModule } from "angularfire2/firestore";
+import { AngularFireAuthModule } from "angularfire2/auth";
+import { AngularFireStorage } from "angularfire2/storage";
+import firebase from './env'
 
 @NgModule({
   declarations: [
@@ -25,7 +33,12 @@ import { UserProfilePageModule } from '../pages/user-profile/user-profile.module
     IonicModule.forRoot(MyApp),
     SellBookPageModule,
     BuyFeedPageModule,
-    UserProfilePageModule
+    UserProfilePageModule,
+    RegisterPageModule,
+    LoginPageModule,
+    AngularFireModule.initializeApp(firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
