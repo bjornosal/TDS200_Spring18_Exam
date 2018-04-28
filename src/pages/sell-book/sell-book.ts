@@ -9,25 +9,28 @@ import { LoginPage } from "../login/login";
   selector: "page-sell-book",
   templateUrl: "sell-book.html"
 })
-
 export class SellBookPage {
-  rootPage:any;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
-  ) {
-    this.navCtrl.setRoot(LoginPage);
-    
-  }
+  ) {}
 
   ionViewWillEnter(): void {
-    if (this.af.app.auth().currentUser != null) {
-      this.navCtrl.setRoot(SellBookPage);
-    } else {
-      this.navCtrl.setRoot(LoginPage);
-    }
+    this.af.app.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.navCtrl.setRoot(SellBookPage);
+      } else {
+        this.navCtrl.setRoot(LoginPage, {
+          fromPage: "SellBookPage"
+        });
+      }
+    });
+  }
+  
+  logoutUser() {
+    this.af.app.auth().signOut();
   }
 
 }

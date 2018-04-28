@@ -12,18 +12,25 @@
   <ion-card>
 
     <ion-item>
-      <ion-input type="email" placeholder="E-mail"></ion-input>
+      <ion-input type="email" [(ngModel)]="user.email" placeholder="E-mail"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" placeholder="Password"></ion-input>
+      <ion-input type="password" [(ngModel)]="user.password" placeholder="Password"></ion-input>
     </ion-item>
 
     <ion-item>
-      <button ion-button block>
+      <button ion-button block (click)="loginUserWithEmailAndPassword()">
         Log In
       </button>
     </ion-item>
+
+    <!-- <ion-item>
+        <button ion-button block (click)="loginUserWithGoogle()">
+          Log In With Google
+        </button>
+      </ion-item> -->
+      
     <ion-item>
       <p>Don't have an account?</p>
       <button ion-button block (click)=goToRegisterPage()>

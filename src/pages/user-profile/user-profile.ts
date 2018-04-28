@@ -15,11 +15,19 @@ export class UserProfilePage {
     private af: AngularFirestore
   ) {}
 
-  ionViewWillEnter(): void {
-    if (this.af.app.auth().currentUser != null) {
-      this.navCtrl.setRoot(UserProfilePage);
-    } else {
-      this.navCtrl.setRoot(LoginPage);
-    }
+  ionViewWillEnter() {
+    this.af.app.auth().onAuthStateChanged(user => {
+      if (user) {
+        this.navCtrl.setRoot(UserProfilePage);
+      } else {
+        this.navCtrl.setRoot(LoginPage, {
+          fromPage: "UserProfilePage"
+        });
+      }
+    });
+  }
+
+  logoutUser() {
+    this.af.app.auth().signOut();
   }
 }
