@@ -1,25 +1,33 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
 
-/**
- * Generated class for the SellBookPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AngularFirestore } from "angularfire2/firestore";
+import { LoginPage } from "../login/login";
 
 @IonicPage()
 @Component({
-  selector: 'page-sell-book',
-  templateUrl: 'sell-book.html',
+  selector: "page-sell-book",
+  templateUrl: "sell-book.html"
 })
-export class SellBookPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+export class SellBookPage {
+  rootPage:any;
+
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private af: AngularFirestore
+  ) {
+    this.navCtrl.setRoot(LoginPage);
+    
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SellBookPage');
+  ionViewWillEnter(): void {
+    if (this.af.app.auth().currentUser != null) {
+      this.navCtrl.setRoot(SellBookPage);
+    } else {
+      this.navCtrl.setRoot(LoginPage);
+    }
   }
 
 }

@@ -9,4 +9,27 @@
 
 <ion-content padding>
 
+  <ion-card>
+
+    <ion-item>
+      <ion-input type="email" placeholder="E-mail"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" placeholder="Password"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <button ion-button block>
+        Log In
+      </button>
+    </ion-item>
+    <ion-item>
+      <p>Don't have an account?</p>
+      <button ion-button block (click)=goToRegisterPage()>
+        Register here
+      </button>
+    </ion-item>
+  </ion-card>
+
 </ion-content>

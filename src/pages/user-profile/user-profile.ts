@@ -1,25 +1,25 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the UserProfilePage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { Component } from "@angular/core";
+import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { AngularFirestore } from "angularfire2/firestore";
+import { LoginPage } from "../login/login";
 
 @IonicPage()
 @Component({
-  selector: 'page-user-profile',
-  templateUrl: 'user-profile.html',
+  selector: "page-user-profile",
+  templateUrl: "user-profile.html"
 })
 export class UserProfilePage {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private af: AngularFirestore
+  ) {}
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  ionViewWillEnter(): void {
+    if (this.af.app.auth().currentUser != null) {
+      this.navCtrl.setRoot(UserProfilePage);
+    } else {
+      this.navCtrl.setRoot(LoginPage);
+    }
   }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad UserProfilePage');
-  }
-
 }
