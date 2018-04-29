@@ -14,22 +14,18 @@ export class UserProfilePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
-  ) {
-  }
+  ) {}
 
   ionViewWillEnter() {
-      if (this.af.app.auth().currentUser != null) {
-        this.navCtrl.setRoot(UserProfilePage);
-      } else {
-        this.navCtrl.setRoot(LoginPage, {
-          fromPage: "UserProfilePage"
-        });
-      }
+    if (this.af.app.auth().currentUser != null) {
+      this.navCtrl.setRoot(LoginPage, {
+        fromPage: "UserProfilePage"
+      });
+    }
   }
 
   logoutUser() {
     this.af.app.auth().signOut();
     this.navCtrl.setRoot(BuyFeedPage);
   }
-
 }

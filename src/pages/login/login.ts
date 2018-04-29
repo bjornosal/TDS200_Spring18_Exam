@@ -19,7 +19,6 @@ export class LoginPage {
     private af: AngularFirestore,
     private afAuth: AngularFireAuth
   ) {
-    console.log(navParams.get("fromPage"));
     
   }
 

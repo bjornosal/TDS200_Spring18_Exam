@@ -22,6 +22,7 @@ import { AngularFirestoreModule } from "angularfire2/firestore";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireStorage } from "angularfire2/storage";
 import firebase from './env'
+import { Camera } from "@ionic-native/camera";
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import firebase from './env'
   providers: [
     StatusBar,
     SplashScreen,
+    Camera,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

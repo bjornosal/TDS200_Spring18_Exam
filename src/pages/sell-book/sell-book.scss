@@ -1,3 +1,15 @@
 page-sell-book {
+    .add-photo-container {
+        width: 100%;
+        height: 150px;
+        line-height: 146px;
+        background-color: green;
+    }
 
+    .add-photo-button {
+        width: 35%;
+        height: 55%;
+        background-color: transparent;
+        border: dashed 2px map-get($colors, primary);
+    }
 }

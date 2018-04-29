@@ -16,7 +16,6 @@ export class RegisterPage {
     public navParams: NavParams,
     private af: AngularFirestore
   ) {
-    console.log(navParams.get("fromPage"));
     
   }
 

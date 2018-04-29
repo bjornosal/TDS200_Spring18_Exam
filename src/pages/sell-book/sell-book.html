@@ -2,14 +2,35 @@
 
   <ion-navbar>
     <ion-title>Sell book</ion-title>
-  <ion-buttons end>
+    <ion-buttons end>
       <button ion-button icon-only (click)="logoutUser()">
-          <ion-icon name="log-out"></ion-icon>
-        </button>
+        <ion-icon name="log-out"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+
+  <div class="add-photo-container" text-center>
+    <button ion-button icon-only class="add-photo-button" (click)="takePhoto()">
+      <ion-icon name="add"></ion-icon>
+    </button>
+  </div>
+
+  <ion-item>
+    <ion-input type="text" max="140" placeholder="Book Title"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-textarea type="text" max="140" placeholder="Description (Max 140 characters)"></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-input type="number" placeholder="Price"></ion-input>
+  </ion-item>
+
+
+  <button ion-button block>Post book!</button>
 </ion-content>
