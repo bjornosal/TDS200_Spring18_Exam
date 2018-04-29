@@ -8,7 +8,8 @@ import { Component, Input } from '@angular/core';
 export class BookListingComponent {
 
   private bookListingTitle:string;
-
+  private listingImage:string = '../../assets/imgs/logo.png'; 
+  
   constructor() {
   }
 
