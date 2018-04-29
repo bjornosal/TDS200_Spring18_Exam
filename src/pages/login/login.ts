@@ -4,7 +4,7 @@ import { RegisterPage } from "../register/register";
 import { AngularFirestore } from "angularfire2/firestore";
 import { User } from "../../models/User";
 import { AngularFireAuth } from "angularfire2/auth";
-import * as firebase from 'firebase/app'
+import * as firebase from "firebase/app";
 @IonicPage()
 @Component({
   selector: "page-login",
@@ -19,11 +19,14 @@ export class LoginPage {
     private af: AngularFirestore,
     private afAuth: AngularFireAuth
   ) {
-    console.log(navParams.get('fromPage'));
+    console.log(navParams.get("fromPage"));
+    
   }
 
   goToRegisterPage() {
-    this.navCtrl.push(RegisterPage, this.navParams.get('fromPage'));
+    this.navCtrl.push(RegisterPage, {
+      fromPage: this.navParams.get("fromPage")
+    });
   }
 
   loginUserWithEmailAndPassword() {
@@ -31,11 +34,11 @@ export class LoginPage {
       .auth()
       .signInWithEmailAndPassword(this.user.email, this.user.password)
       .then(res => {
-        this.navCtrl.setRoot(this.navParams.get('fromPage'));
+        this.navCtrl.setRoot(this.navParams.get("fromPage"));
       })
       .catch(err => {
         //TODO add exceptionhandling maybe modal?
-        this.navCtrl.push(RegisterPage);
+        
         console.log(err);
       });
   }
@@ -48,7 +51,6 @@ export class LoginPage {
   //     this.user.firstname = credential.user.firstname,
   //     this.user.surname = credential.user.surname
   //   })
-    
+
   // }
- 
 }

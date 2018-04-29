@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from "ionic-angular";
 
 import { AngularFirestore } from "angularfire2/firestore";
 import { LoginPage } from "../login/login";
+import { BuyFeedPage } from "../buy-feed/buy-feed";
 
 @IonicPage()
 @Component({
@@ -17,20 +18,19 @@ export class SellBookPage {
     private af: AngularFirestore
   ) {}
 
-  ionViewWillEnter(): void {
-    this.af.app.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.navCtrl.setRoot(SellBookPage);
-      } else {
-        this.navCtrl.setRoot(LoginPage, {
-          fromPage: "SellBookPage"
-        });
-      }
-    });
-  }
-  
-  logoutUser() {
+
+  ionViewWillEnter() {
+    if (this.af.app.auth().currentUser != null) {
+      this.navCtrl.setRoot(SellBookPage);
+    } else {
+      this.navCtrl.setRoot(LoginPage, {
+        fromPage: "SellBookPage"
+      });
+    }
+}
+  async logoutUser(): Promise<any> {
     this.af.app.auth().signOut();
+    this.navCtrl.setRoot(BuyFeedPage);
   }
 
 }

@@ -15,7 +15,10 @@ export class RegisterPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
-  ) {}
+  ) {
+    console.log(navParams.get("fromPage"));
+    
+  }
 
   registerUserWithEmailAndPassword() {
     this.af.app
