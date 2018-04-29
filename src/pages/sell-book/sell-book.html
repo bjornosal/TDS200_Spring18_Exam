@@ -20,17 +20,17 @@
   </div>
 
   <ion-item>
-    <ion-input type="text" max="140" placeholder="Book Title"></ion-input>
+    <ion-input type="text" max="140" placeholder="Book Title" [(ngModel)]="bookListing.title"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-textarea type="text" max="140" placeholder="Description (Max 140 characters)"></ion-textarea>
+    <ion-textarea type="text" max="140" placeholder="Description (Max 140 characters)" [(ngModel)]="bookListing.description"></ion-textarea>
   </ion-item>
 
   <ion-item>
-    <ion-input type="number" placeholder="Price"></ion-input>
+    <ion-input type="number" placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
   </ion-item>
 
 
-  <button ion-button block>Post book!</button>
+  <button ion-button block (click)="postBookListing()">Post book!</button>
 </ion-content>

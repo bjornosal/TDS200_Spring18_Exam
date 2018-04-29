@@ -52,8 +52,8 @@ import { Camera } from "@ionic-native/camera";
   providers: [
     StatusBar,
     SplashScreen,
-    Camera,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    Camera
   ]
 })
 export class AppModule {}

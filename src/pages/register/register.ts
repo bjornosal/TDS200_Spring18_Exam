@@ -9,7 +9,7 @@ import { AngularFirestore } from "angularfire2/firestore";
   templateUrl: "register.html"
 })
 export class RegisterPage {
-  user: User = new User();
+  private user: User = new User();
 
   constructor(
     public navCtrl: NavController,
