@@ -21,7 +21,7 @@ import { TabsPage } from "../tabs/tabs";
 export class LoginPage {
   private user: User = new User();
   private fromPage: string;
-  private password: string;
+  private password: string = "";
 
   constructor(
     public navCtrl: NavController,

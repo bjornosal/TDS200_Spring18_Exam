@@ -11,7 +11,7 @@ import { AngularFirestore } from "angularfire2/firestore";
 export class RegisterPage {
   private user: User = new User();
   private confirmedEmail: string;
-  private password: string;
+  private password: string ="";
 
   constructor(
     public navCtrl: NavController,
@@ -21,7 +21,6 @@ export class RegisterPage {
 
   registerUserWithEmailAndPassword() {
     if (this.isUsernameFilled() && this.areEmailsEqual()) {
-      console.log("Got in");
       this.af.app
         .auth()
         .createUserWithEmailAndPassword(this.user.email, this.password)

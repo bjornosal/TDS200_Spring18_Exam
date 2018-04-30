@@ -49,8 +49,9 @@ export class SellBookPage {
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("","", "");
+    this.bookListing = new BookListing("","","");
   }
+
   addBookListingToDatabase() {
     this.af.collection<BookListing>("bookListings").add({
       title: this.bookListing.title,
