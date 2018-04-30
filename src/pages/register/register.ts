@@ -10,6 +10,8 @@ import { AngularFirestore } from "angularfire2/firestore";
 })
 export class RegisterPage {
   private user: User = new User();
+  private confirmedEmail: string;
+  private password: string;
 
   constructor(
     public navCtrl: NavController,
@@ -18,17 +20,47 @@ export class RegisterPage {
   ) {}
 
   registerUserWithEmailAndPassword() {
-    this.af.app
-      .auth()
-      .createUserWithEmailAndPassword(this.user.email, this.user.password)
-      .then(res => {
-        this.navCtrl.push(this.navParams.get("fromPage")).then(() => {
-          const index = this.navCtrl.getActive().index;
-          this.navCtrl.remove(0, index);
+    if (this.isUsernameFilled() && this.areEmailsEqual()) {
+      console.log("Got in");
+      this.af.app
+        .auth()
+        .createUserWithEmailAndPassword(this.user.email, this.password)
+        .then(res => {
+          //TODO add photo here
+
+          this.addExtraUserInformationToFirebase(this.user.name, " ");
+
+          this.navCtrl.push(this.navParams.get("fromPage")).then(() => {
+            const index = this.navCtrl.getActive().index;
+            this.navCtrl.remove(0, index);
+          });
+        })
+        .catch(err => {
+          console.log(err.message);
         });
-      })
-      .catch(err => {
-        console.log(err);
-      });
+    }
+  }
+
+  isUsernameFilled(): boolean {
+    return this.user.name.length > 0;
+  }
+
+  isPasswordFilled(): boolean {
+    return this.password.length >= 6;
+  }
+
+  areEmailsEqual(): boolean {
+    return this.user.email.toLowerCase === this.confirmedEmail.toLowerCase;
+  }
+
+  addExtraUserInformationToFirebase(name: string, photoURL: string) {
+    this.af
+      .collection<User>("users")
+      .doc(this.af.app.auth().currentUser.uid)
+      .set({
+        name: name,
+        email: this.user.email,
+        photoURL: photoURL
+      } as User);
   }
 }

@@ -1,7 +1,5 @@
 export class User {
-    firstname:string
-    surname:string
+    name:string
     email:string
-    password: string
     photoURL?: string;
 }

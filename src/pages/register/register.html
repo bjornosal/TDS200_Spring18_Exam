@@ -10,12 +10,9 @@
 <ion-content padding>
 
   <ion-card>
+  
     <ion-item>
-      <ion-input type="text" [(ngModel)]="user.firstname" placeholder="Firstname"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input type="text" [(ngModel)]="user.surname" placeholder="Surname"></ion-input>
+      <ion-input type="text" [(ngModel)]="user.name" placeholder="Name"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -23,11 +20,11 @@
     </ion-item>
 <!--TODO How to check if these two are the same? FormGroup?-->
     <ion-item>
-      <ion-input type="email" [(ngModel)]="user.email" placeholder="Confirm e-mail"></ion-input>
+      <ion-input type="email" [(ngModel)]="confirmedEmail" placeholder="Confirm e-mail"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" min=6 [(ngModel)]="user.password" placeholder="Password (6 characters or more)"></ion-input>
+      <ion-input type="password" min=6 [(ngModel)]="password" placeholder="Password (6 characters or more)"></ion-input>
     </ion-item>
 
     <ion-item>

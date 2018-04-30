@@ -24,7 +24,6 @@ export class BuyFeedPage {
   ) {
     this.setAllBookListingsCollection();
     this.setBookListingObservableOnCollection();
-    console.log(this.bookListings);
   }
 
   ionViewDidEnter() {

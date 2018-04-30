@@ -66,7 +66,7 @@ export class SellBookPage {
       this.navCtrl.push(LoginPage, {
         fromPage: "SellBookPage"
       });
-    }
+    } 
   }
 
   logoutUser() {

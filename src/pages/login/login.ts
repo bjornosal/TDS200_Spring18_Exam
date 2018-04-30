@@ -19,8 +19,9 @@ import { TabsPage } from "../tabs/tabs";
   templateUrl: "login.html"
 })
 export class LoginPage {
-  user: User = new User();
-  fromPage: string;
+  private user: User = new User();
+  private fromPage: string;
+  private password: string;
 
   constructor(
     public navCtrl: NavController,
@@ -41,7 +42,7 @@ export class LoginPage {
   loginUserWithEmailAndPassword() {
     this.af.app
       .auth()
-      .signInWithEmailAndPassword(this.user.email, this.user.password)
+      .signInWithEmailAndPassword(this.user.email, this.password)
       .then(res => {
         this.navCtrl.push(this.fromPage);
       })
