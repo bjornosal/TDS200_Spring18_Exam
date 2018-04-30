@@ -15,16 +15,17 @@ export class RegisterPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
-  ) {
-    
-  }
+  ) {}
 
   registerUserWithEmailAndPassword() {
     this.af.app
       .auth()
       .createUserWithEmailAndPassword(this.user.email, this.user.password)
       .then(res => {
-        this.navCtrl.setRoot(this.navParams.get('fromPage'));
+        this.navCtrl.push(this.navParams.get("fromPage")).then(() => {
+          const index = this.navCtrl.getActive().index;
+          this.navCtrl.remove(0, index);
+        });
       })
       .catch(err => {
         console.log(err);

@@ -6,9 +6,18 @@ import { Component, Input } from '@angular/core';
   templateUrl: 'book-listing.html'
 })
 export class BookListingComponent {
+  
+  @Input()
+  private listingImage:string; 
 
+  @Input()
   private bookListingTitle:string;
-  private listingImage:string = '../../assets/imgs/logo.png'; 
+
+  @Input()
+  private bookListingDescription:string;
+  
+  @Input()
+  private bookListingPrice:string;
   
   constructor() {
   }

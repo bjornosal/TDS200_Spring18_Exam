@@ -17,15 +17,23 @@ export class UserProfilePage {
   ) {}
 
   ionViewWillEnter() {
-    if (this.af.app.auth().currentUser != null) {
-      this.navCtrl.setRoot(LoginPage, {
-        fromPage: "UserProfilePage"
-      });
+    if (this.af.app.auth().currentUser == null) {
+      this.navCtrl
+        .push(LoginPage, {
+          fromPage: "UserProfilePage"
+        })
+        .then(() => {
+          const index = this.navCtrl.getActive().index;
+          this.navCtrl.remove(0, index);
+        });
     }
   }
 
   logoutUser() {
     this.af.app.auth().signOut();
-    this.navCtrl.setRoot(BuyFeedPage);
+    this.navCtrl.push(BuyFeedPage).then(() => {
+      const index = this.navCtrl.getActive().index;
+      this.navCtrl.remove(0, index);
+    });
   }
 }

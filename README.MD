@@ -5,6 +5,7 @@
 #### Custom Components
 https://stackoverflow.com/questions/42287304/pass-variable-to-custom-component
 https://stackoverflow.com/questions/42287304/pass-variable-to-custom-component
+
 https://www.joshmorony.com/custom-components-in-ionic-2/
 https://stackoverflow.com/questions/43507800/custom-component-in-ionic-v3
 
@@ -15,3 +16,6 @@ https://forum.ionicframework.com/t/how-to-get-current-page-name/52993/6
 https://forum.ionicframework.com/t/pass-data-between-two-pages-using-the-setroot-function/103876
 
 
+https://stackoverflow.com/questions/37296999/ionic-2-disabling-back-button-for-a-specific-view
+
+https://forum.ionicframework.com/t/disable-android-hardware-back-button-on-ionic/115533/6

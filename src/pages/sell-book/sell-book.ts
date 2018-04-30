@@ -3,7 +3,8 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  AlertController
+  AlertController,
+  ViewController
 } from "ionic-angular";
 
 import { Camera, CameraOptions } from "@ionic-native/camera";
@@ -21,7 +22,7 @@ import { isUndefined } from "ionic-angular/util/util";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  bookListing: any = new BookListing();
+  bookListing: any = new BookListing("", "");
 
   options: CameraOptions = {
     quality: 100,
@@ -36,12 +37,16 @@ export class SellBookPage {
     public navParams: NavParams,
     private af: AngularFirestore,
     private camera: Camera,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private viewCtrl: ViewController
   ) {}
 
   postBookListing() {
     this.addBookListingToDatabase();
-    this.navCtrl.setRoot(BuyFeedPage);
+    this.navCtrl.push(BuyFeedPage).then(() => {
+      const index = this.navCtrl.getActive().index;
+      this.navCtrl.remove(0, index);
+    });
   }
 
   addBookListingToDatabase() {
@@ -54,21 +59,42 @@ export class SellBookPage {
   }
 
   ionViewWillEnter() {
-    if (this.af.app.auth().currentUser == null) {
-      this.navCtrl.setRoot(LoginPage, {
-        fromPage: "SellBookPage"
-      });
+    if (!this.af.app.auth().currentUser) {
+      // this.navCtrl.push(LoginPage, {
+      //   fromPage: "SellBookPage"
+      // });
+
+      this.navCtrl
+        .push(LoginPage, {
+          fromPage: "SellBookPage"
+        })
+        .then(() => {
+          const index = this.navCtrl.getActive().index;
+          this.navCtrl.remove(0, index);
+        });
     }
+  }
+
+  ionViewDidEnter() {
+    const index = this.navCtrl.getActive().index;
+    this.navCtrl.remove(0, index);
+
+    if (!this.navCtrl.canGoBack()) {
+      this.viewCtrl.showBackButton(false);
+    }
+    
   }
 
   logoutUser() {
     this.af.app.auth().signOut();
-    this.navCtrl.setRoot(BuyFeedPage);
+    this.navCtrl.goToRoot({});
   }
 
   getPhotos(): string[] {
-    
-    return isUndefined(this.bookListing.photos)  ? null : this.bookListing.photos;
+    return isUndefined(this.bookListing.photos) ||
+      this.bookListing.photo == null
+      ? ["../../assets/imgs/fallback-photo.jpg"]
+      : this.bookListing.photos;
   }
 
   takePhoto() {

@@ -1,6 +1,8 @@
 export class BookListing {
-    title: string
-    description:string
-    price?:number
-    photos?: string[]
+  constructor(
+    public title: string,
+    public description: string,
+    public price?: number,
+    public photos?: string[]
+  ) {}
 }
