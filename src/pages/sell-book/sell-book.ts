@@ -21,8 +21,9 @@ import { isUndefined } from "ionic-angular/util/util";
   selector: "page-sell-book",
   templateUrl: "sell-book.html"
 })
+
 export class SellBookPage {
-  bookListing: any = new BookListing("", "");
+  bookListing: any = new BookListing("", "", "");
 
   options: CameraOptions = {
     quality: 100,
@@ -43,37 +44,35 @@ export class SellBookPage {
 
   postBookListing() {
     this.addBookListingToDatabase();
-    this.navCtrl.push(BuyFeedPage).then(() => {
-      const index = this.navCtrl.getActive().index;
-      this.navCtrl.remove(0, index);
-    });
+    this.clearSellBookPage();
+    this.navCtrl.parent.select(0);
   }
 
+  clearSellBookPage() {
+    this.bookListing = new BookListing("","", "");
+  }
   addBookListingToDatabase() {
     this.af.collection<BookListing>("bookListings").add({
       title: this.bookListing.title,
       description: this.bookListing.description,
       price: this.bookListing.price,
+      uid: this.af.app.auth().currentUser.uid,
       photos: this.getPhotos()
     } as BookListing);
   }
 
   ionViewWillEnter() {
     if (!this.af.app.auth().currentUser) {
-      this.navCtrl.setRoot(LoginPage, {
-        frompage: "SellBookPage"
+      this.navCtrl.push(LoginPage, {
+        fromPage: "SellBookPage"
       });
-    } else {
-      this.navCtrl.setRoot(SellBookPage);
     }
   }
 
   logoutUser() {
     this.af.app.auth().signOut();
-    this.navCtrl.push(BuyFeedPage).then(() => {
-      const index = this.navCtrl.getActive().index;
-      this.navCtrl.remove(0, index);
-    });
+    this.clearSellBookPage();
+    this.navCtrl.parent.select(0);
   }
 
   getPhotos(): string[] {

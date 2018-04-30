@@ -11,7 +11,6 @@ import { User } from "../../models/User";
 import { AngularFireAuth } from "angularfire2/auth";
 import * as firebase from "firebase/app";
 import { TabsPage } from "../tabs/tabs";
-import { BuyFeedPage } from "../buy-feed/buy-feed";
 @IonicPage({
   priority: "high"
 })
@@ -44,7 +43,7 @@ export class LoginPage {
       .auth()
       .signInWithEmailAndPassword(this.user.email, this.user.password)
       .then(res => {
-        this.navCtrl.setRoot(this.fromPage);
+        this.navCtrl.push(this.fromPage);
       })
       .catch(err => {
         //TODO add exceptionhandling maybe modal?
