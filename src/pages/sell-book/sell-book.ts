@@ -60,34 +60,20 @@ export class SellBookPage {
 
   ionViewWillEnter() {
     if (!this.af.app.auth().currentUser) {
-      // this.navCtrl.push(LoginPage, {
-      //   fromPage: "SellBookPage"
-      // });
-
-      this.navCtrl
-        .push(LoginPage, {
-          fromPage: "SellBookPage"
-        })
-        .then(() => {
-          const index = this.navCtrl.getActive().index;
-          this.navCtrl.remove(0, index);
-        });
+      this.navCtrl.setRoot(LoginPage, {
+        frompage: "SellBookPage"
+      });
+    } else {
+      this.navCtrl.setRoot(SellBookPage);
     }
-  }
-
-  ionViewDidEnter() {
-    const index = this.navCtrl.getActive().index;
-    this.navCtrl.remove(0, index);
-
-    if (!this.navCtrl.canGoBack()) {
-      this.viewCtrl.showBackButton(false);
-    }
-    
   }
 
   logoutUser() {
     this.af.app.auth().signOut();
-    this.navCtrl.goToRoot({});
+    this.navCtrl.push(BuyFeedPage).then(() => {
+      const index = this.navCtrl.getActive().index;
+      this.navCtrl.remove(0, index);
+    });
   }
 
   getPhotos(): string[] {

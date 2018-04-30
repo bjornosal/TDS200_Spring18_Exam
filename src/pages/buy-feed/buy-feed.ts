@@ -6,6 +6,7 @@ import {
 } from "angularfire2/firestore";
 import { BookListing } from "../../models/BookListing";
 import { Observable } from "rxjs/Observable";
+import { TabsPage } from "../tabs/tabs";
 
 @IonicPage()
 @Component({
@@ -24,6 +25,10 @@ export class BuyFeedPage {
     this.setAllBookListingsCollection();
     this.setBookListingObservableOnCollection();
     console.log(this.bookListings);
+  }
+
+  ionViewDidEnter() {
+    //TODO implement select on tabs
   }
 
   setAllBookListingsCollection() {
