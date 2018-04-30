@@ -7,6 +7,7 @@ import {
 import { BookListing } from "../../models/BookListing";
 import { Observable } from "rxjs/Observable";
 import { TabsPage } from "../tabs/tabs";
+import { ListingPage } from "../listing/listing";
 
 @IonicPage()
 @Component({
@@ -50,5 +51,12 @@ export class BuyFeedPage {
           };
         });
       });
+  }
+
+  goToListing(listing:BookListing) {
+    this.navCtrl.push(ListingPage, 
+    {
+      listing: listing
+    })
   }
 }

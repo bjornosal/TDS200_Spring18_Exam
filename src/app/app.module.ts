@@ -23,6 +23,8 @@ import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireStorage } from "angularfire2/storage";
 import firebase from './env'
 import { Camera } from "@ionic-native/camera";
+import { ListingPage } from '../pages/listing/listing';
+import { ListingPageModule } from '../pages/listing/listing.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +39,7 @@ import { Camera } from "@ionic-native/camera";
     UserProfilePageModule,
     RegisterPageModule,
     LoginPageModule,
+    ListingPageModule,
     AngularFireModule.initializeApp(firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -47,7 +50,8 @@ import { Camera } from "@ionic-native/camera";
     TabsPage,
     SellBookPage,
     BuyFeedPage,
-    UserProfilePage
+    UserProfilePage,
+    ListingPage
   ],
   providers: [
     StatusBar,
