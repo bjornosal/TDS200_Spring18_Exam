@@ -34,7 +34,7 @@ export class UserProfilePage {
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
       .ref.get()
-      .then((doc) =>{
+      .then((doc) => {
         this.user = doc.data() as User;
       });
   }

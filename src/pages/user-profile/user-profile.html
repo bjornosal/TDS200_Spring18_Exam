@@ -2,22 +2,46 @@
 
   <ion-navbar hideBackButton="true">
     <ion-title>User Profile</ion-title>
-  <ion-buttons end>
+    <ion-buttons end>
 
-    <button ion-button icon-only (click)=logoutUser()>
-      <ion-icon name="log-out"></ion-icon>
-    </button>
-  </ion-buttons>
-</ion-navbar>
+      <button ion-button icon-only (click)=logoutUser()>
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
-  <ion-item>
-    <img src={{userProfilePhoto}}>
-  </ion-item>
-  <ion-item>
-    <p>Name: {{user.name}}</p>
-    <p>E-mail: {{user.email}}</p>
-  </ion-item>
+<ion-content>
+  <ion-grid class="userInformationContainer">
+
+    <ion-row>
+      <ion-col col-auto>
+        <img src={{user.photoURL}}>
+      </ion-col>
+
+      <ion-col>
+        <ion-row>
+          <p class="userName">Name: {{user.name}}</p>
+        </ion-row>
+        <ion-row>
+          <p class="userEmail">E-mail: {{user.email}}</p>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <div class="messagesAndListingsContainer">
+    <button full ion-button>Messages</button>
+    <button full ion-button>My Listings</button>
+
+    <ion-list class="messagesContainer">
+      
+    </ion-list>
+
+    <ion-list class="myListingsContainer">  
+      
+    </ion-list>
+  </div> 
 </ion-content>
