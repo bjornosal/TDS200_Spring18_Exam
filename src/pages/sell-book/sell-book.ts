@@ -50,7 +50,7 @@ export class SellBookPage {
   }
 
   postBookListing() {
-    if (this.doFieldValidation() === undefined) {
+    if (this.doFieldValidation() === "") {
       this.addBookListingToDatabase();
       this.clearSellBookPage();
       this.navCtrl.parent.select(0);
@@ -80,8 +80,6 @@ export class SellBookPage {
       result = result.concat("Description field can not be empty.\n");
     if (this.bookListing.price === undefined || this.bookListing.price === "")
       result = result.concat("Price field can not be empty.\n");
-    console.log(result);
-
     return result;
   }
 

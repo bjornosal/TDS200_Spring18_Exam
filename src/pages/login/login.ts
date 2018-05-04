@@ -40,16 +40,30 @@ export class LoginPage {
   }
 
   loginUserWithEmailAndPassword() {
-    this.af.app
-      .auth()
-      .signInWithEmailAndPassword(this.user.email, this.password)
-      .then(res => {
-        this.navCtrl.push(this.fromPage);
-      })
-      .catch(err => {
-        //TODO add exceptionhandling maybe modal?
+    if (this.doFieldValidation() === "") {
+      this.af.app
+        .auth()
+        .signInWithEmailAndPassword(this.user.email, this.password)
+        .then(res => {
+          this.navCtrl.push(this.fromPage);
+        })
+        .catch(err => {
+          //TODO add exceptionhandling maybe modal?
+          alert(err.message);
+        });
+    } else {
+      alert(this.doFieldValidation());
+    }
+  }
 
-        console.log(err);
-      });
+  doFieldValidation(): string {
+    let result: string = "";
+
+    if (this.user.email === "" || this.user.email === undefined)
+      result = result.concat("E-mail field can not be empty.\n");
+    if (this.password === "")
+      result = result.concat("Password field can not be empty.\n");
+
+    return result;
   }
 }

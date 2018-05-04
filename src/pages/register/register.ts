@@ -37,7 +37,19 @@ export class RegisterPage {
         .catch(err => {
           console.log(err.message);
         });
+    } else {
+      alert(this.getFieldValidationResult());
     }
+  }
+
+  getFieldValidationResult(): string {
+    let result: string = "";
+    
+    if (!this.isUsernameFilled())
+      result = result.concat("Username field can not be empty.\n");
+    if (!this.areEmailsEqual())
+      result = result.concat("Emails are not the same. \n");
+    return result;
   }
 
   isUsernameFilled(): boolean {
