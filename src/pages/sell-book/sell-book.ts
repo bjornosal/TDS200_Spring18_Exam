@@ -21,7 +21,6 @@ import { isUndefined } from "ionic-angular/util/util";
   selector: "page-sell-book",
   templateUrl: "sell-book.html"
 })
-
 export class SellBookPage {
   bookListing: any = new BookListing("", "", "");
 
@@ -42,14 +41,24 @@ export class SellBookPage {
     private viewCtrl: ViewController
   ) {}
 
+  ionViewWillEnter() {
+    if (!this.af.app.auth().currentUser) {
+      this.navCtrl.push(LoginPage, {
+        fromPage: "SellBookPage"
+      });
+    }
+  }
+
   postBookListing() {
-    this.addBookListingToDatabase();
-    this.clearSellBookPage();
-    this.navCtrl.parent.select(0);
+    if (this.doFieldValidation() == null) {
+      this.addBookListingToDatabase();
+      this.clearSellBookPage();
+      this.navCtrl.parent.select(0);
+    }
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("","","");
+    this.bookListing = new BookListing("", "", "",null);
   }
 
   addBookListingToDatabase() {
@@ -62,12 +71,13 @@ export class SellBookPage {
     } as BookListing);
   }
 
-  ionViewWillEnter() {
-    if (!this.af.app.auth().currentUser) {
-      this.navCtrl.push(LoginPage, {
-        fromPage: "SellBookPage"
-      });
-    } 
+  doFieldValidation(): string {
+    if (this.bookListing.title === "") return "Title field can not be empty";
+    if (this.bookListing.description === "")
+      return "Description field can not be empty";
+    if (this.bookListing.price === undefined || this.bookListing.price === "")
+      return "Price field can not be empty";
+    return null;
   }
 
   logoutUser() {
