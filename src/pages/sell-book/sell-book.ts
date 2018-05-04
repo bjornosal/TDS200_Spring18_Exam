@@ -4,7 +4,8 @@ import {
   NavController,
   NavParams,
   AlertController,
-  ViewController
+  ViewController,
+  ToastController
 } from "ionic-angular";
 
 import { Camera, CameraOptions } from "@ionic-native/camera";
@@ -38,7 +39,8 @@ export class SellBookPage {
     private af: AngularFirestore,
     private camera: Camera,
     private alertCtrl: AlertController,
-    private viewCtrl: ViewController
+    private viewCtrl: ViewController,
+    private toastCtrl: ToastController
   ) {}
 
   ionViewWillEnter() {
@@ -54,6 +56,8 @@ export class SellBookPage {
       this.addBookListingToDatabase();
       this.clearSellBookPage();
       this.navCtrl.parent.select(0);
+    } else {
+      this.presentToast(this.doFieldValidation());
     }
   }
 
@@ -117,5 +121,16 @@ export class SellBookPage {
       buttons: ["OK"]
     });
     alert.present();
+  }
+
+  
+  presentToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: "top"
+    });
+
+    toast.present();
   }
 }

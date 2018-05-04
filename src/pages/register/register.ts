@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, ToastController } from "ionic-angular";
 import { User } from "../../models/User";
 import { AngularFirestore } from "angularfire2/firestore";
 
@@ -16,7 +16,8 @@ export class RegisterPage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private af: AngularFirestore
+    private af: AngularFirestore,
+    private toastCtrl: ToastController
   ) {}
 
   registerUserWithEmailAndPassword() {
@@ -35,10 +36,10 @@ export class RegisterPage {
           });
         })
         .catch(err => {
-          console.log(err.message);
+          this.presentToast(err.message);
         });
     } else {
-      alert(this.getFieldValidationResult());
+      this.presentToast(this.getFieldValidationResult());
     }
   }
 
@@ -73,5 +74,15 @@ export class RegisterPage {
         email: this.user.email,
         photoURL: photoURL
       } as User);
+  }
+
+  presentToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: "top"
+    });
+
+    toast.present();
   }
 }

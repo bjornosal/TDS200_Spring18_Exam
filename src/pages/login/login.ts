@@ -10,7 +10,9 @@ import { AngularFirestore } from "angularfire2/firestore";
 import { User } from "../../models/User";
 import { AngularFireAuth } from "angularfire2/auth";
 import * as firebase from "firebase/app";
+import { ToastController } from "ionic-angular";
 import { TabsPage } from "../tabs/tabs";
+
 @IonicPage({
   priority: "high"
 })
@@ -28,7 +30,8 @@ export class LoginPage {
     public navParams: NavParams,
     private af: AngularFirestore,
     private afAuth: AngularFireAuth,
-    private viewCtrl: ViewController
+    private viewCtrl: ViewController,
+    private toastCtrl: ToastController
   ) {
     this.fromPage = this.navParams.get("fromPage");
   }
@@ -48,11 +51,10 @@ export class LoginPage {
           this.navCtrl.push(this.fromPage);
         })
         .catch(err => {
-          //TODO add exceptionhandling maybe modal?
-          alert(err.message);
+          this.presentToast(err.message);
         });
     } else {
-      alert(this.doFieldValidation());
+      this.presentToast(this.doFieldValidation());
     }
   }
 
@@ -66,4 +68,15 @@ export class LoginPage {
 
     return result;
   }
+  
+  presentToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: "top"
+    });
+
+    toast.present();
+  }
+
 }
