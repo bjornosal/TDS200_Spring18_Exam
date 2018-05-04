@@ -35,7 +35,7 @@ export class ListingPage {
 
   isListingByCurrentUser(): boolean {
     if (this.af.app.auth().currentUser != null) {
-      return this.bookListing.uid == this.af.app.auth().currentUser.uid;
+      return this.bookListing.seller == this.af.app.auth().currentUser.uid;
     } else {
       return false;
     }

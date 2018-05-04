@@ -70,7 +70,7 @@ export class SellBookPage {
       title: this.bookListing.title,
       description: this.bookListing.description,
       price: this.bookListing.price,
-      uid: this.af.app.auth().currentUser.uid,
+      seller: this.af.app.auth().currentUser.uid,
       photos: this.getPhotos()
     } as BookListing);
   }
