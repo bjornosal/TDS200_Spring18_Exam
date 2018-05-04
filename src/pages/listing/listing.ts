@@ -33,4 +33,11 @@ export class ListingPage {
     messageModal.present();
   }
 
+  isListingByCurrentUser(): boolean {
+    if (this.af.app.auth().currentUser != null) {
+      return this.bookListing.uid == this.af.app.auth().currentUser.uid;
+    } else {
+      return false;
+    }
+  }
 }

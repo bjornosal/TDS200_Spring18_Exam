@@ -23,7 +23,6 @@ export class MessagePage {
     //Message TODO: need model
     //ListingBookId
 
-
   }
 
 
