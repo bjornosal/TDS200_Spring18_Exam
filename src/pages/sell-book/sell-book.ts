@@ -50,7 +50,7 @@ export class SellBookPage {
   }
 
   postBookListing() {
-    if (this.doFieldValidation() == null) {
+    if (this.doFieldValidation() === undefined) {
       this.addBookListingToDatabase();
       this.clearSellBookPage();
       this.navCtrl.parent.select(0);
@@ -58,7 +58,7 @@ export class SellBookPage {
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "",null);
+    this.bookListing = new BookListing("", "", "", null);
   }
 
   addBookListingToDatabase() {
@@ -72,12 +72,17 @@ export class SellBookPage {
   }
 
   doFieldValidation(): string {
-    if (this.bookListing.title === "") return "Title field can not be empty";
+    let result: string = "";
+
+    if (this.bookListing.title === "")
+      result = result.concat("Title field can not be empty.\n");
     if (this.bookListing.description === "")
-      return "Description field can not be empty";
+      result = result.concat("Description field can not be empty.\n");
     if (this.bookListing.price === undefined || this.bookListing.price === "")
-      return "Price field can not be empty";
-    return null;
+      result = result.concat("Price field can not be empty.\n");
+    console.log(result);
+
+    return result;
   }
 
   logoutUser() {
