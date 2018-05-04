@@ -10,5 +10,5 @@
 <ion-content>
   <ion-item>Description: {{bookListing.description}}</ion-item>
   <ion-item>Price: {{bookListing.price}}</ion-item>
-  <button ion-button>Contact Seller</button>
+  <button ion-button (click)="presentMessageModal()">Contact Seller</button>
 </ion-content>

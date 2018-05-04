@@ -25,6 +25,8 @@ import firebase from './env'
 import { Camera } from "@ionic-native/camera";
 import { ListingPage } from '../pages/listing/listing';
 import { ListingPageModule } from '../pages/listing/listing.module';
+import { MessagePageModule } from '../pages/message/message.module';
+import { MessagePage } from '../pages/message/message';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,7 @@ import { ListingPageModule } from '../pages/listing/listing.module';
     RegisterPageModule,
     LoginPageModule,
     ListingPageModule,
+    MessagePageModule,
     AngularFireModule.initializeApp(firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -51,7 +54,8 @@ import { ListingPageModule } from '../pages/listing/listing.module';
     SellBookPage,
     BuyFeedPage,
     UserProfilePage,
-    ListingPage
+    ListingPage,
+    MessagePage
   ],
   providers: [
     StatusBar,
