@@ -7,9 +7,19 @@
 </ion-header>
 
 <ion-content padding>
-  <ion-label>Message to Seller</ion-label>
-  <ion-input placeholder="Enter Title"></ion-input>
-  <ion-textarea placeholder="Enter Message"></ion-textarea>
+  <ion-item>
+    <ion-label>Message to Seller</ion-label>
+  </ion-item>
+  <ion-item>
+    <ion-input placeholder="Enter Title"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-textarea placeholder="Enter Message"></ion-textarea>
+  </ion-item>
+  
   <button ion-button (click)="closeModal()">Cancel</button>
   <button ion-button>Send Message</button>
+  <!--Add a feed of messages underneath.
+    MessageComponent
+    All Messages Between The Two Users For This Book-->
 </ion-content>

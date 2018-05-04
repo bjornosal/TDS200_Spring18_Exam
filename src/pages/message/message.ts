@@ -15,4 +15,18 @@ export class MessagePage {
     this.navCtrl.pop();
   }
 
+  //TODO: SendMessage() here
+
+  sendMessage() {
+    //CurrentUserUid
+    //RecipientUserUid
+    //Message TODO: need model
+    //ListingBookId
+
+
+  }
+
+
+
+
 }
