@@ -30,6 +30,15 @@
   <ion-item>
     <ion-input type="number" placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
   </ion-item>
+  
+  <ion-item>
+      <ion-label>Condition</ion-label>
+      <ion-select [(ngModel)]="condition">
+        <ion-option value="conditionNew">New</ion-option>
+        <ion-option value="conditionUsed">Used</ion-option>
+        <ion-option value="conditionWellUsed">Well-Used</ion-option>
+      </ion-select>
+    </ion-item>
 
 
   <button ion-button block (click)="postBookListing()">Post book!</button>

@@ -10,7 +10,7 @@ import { MessageModel } from "../../models/MessageModel";
   templateUrl: "message.html"
 })
 export class MessagePage {
-  private bookListing: BookListing = new BookListing("", "", "");
+  private bookListing: BookListing = new BookListing("", "", "", null, null);
   private message: MessageModel = new MessageModel("", "", "", "", "");
 
   constructor(

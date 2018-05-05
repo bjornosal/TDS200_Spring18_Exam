@@ -48,7 +48,11 @@ export class LoginPage {
         .auth()
         .signInWithEmailAndPassword(this.user.email, this.password)
         .then(res => {
-          this.navCtrl.push(this.fromPage);
+          if (this.fromPage === "contact") {
+            this.closeModal();
+          } else {
+            this.navCtrl.push(this.fromPage);
+          }
         })
         .catch(err => {
           this.presentToast(err.message);
@@ -68,7 +72,7 @@ export class LoginPage {
 
     return result;
   }
-  
+
   presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,

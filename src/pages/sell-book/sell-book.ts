@@ -16,6 +16,7 @@ import { BuyFeedPage } from "../buy-feed/buy-feed";
 
 import { BookListing } from "../../models/BookListing";
 import { isUndefined } from "ionic-angular/util/util";
+import { Condition } from "../../models/enums/enums";
 
 @IonicPage()
 @Component({
@@ -23,7 +24,12 @@ import { isUndefined } from "ionic-angular/util/util";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  bookListing: any = new BookListing("", "", "");
+  bookListing: any = new BookListing("", "", "", null, null);
+
+  private condition: Condition;
+  private conditionNew: Condition = Condition.New;
+  private conditionUsed: Condition = Condition.Used;
+  private conditionWellUsed: Condition = Condition["Well-Used"];
 
   options: CameraOptions = {
     quality: 100,
@@ -62,7 +68,7 @@ export class SellBookPage {
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "", null);
+    this.bookListing = new BookListing("", "", "", null, null);
   }
 
   addBookListingToDatabase() {
@@ -71,7 +77,8 @@ export class SellBookPage {
       description: this.bookListing.description,
       price: this.bookListing.price,
       seller: this.af.app.auth().currentUser.uid,
-      photos: this.getPhotos()
+      photos: this.getPhotos(),
+      condition: this.condition
     } as BookListing);
   }
 
@@ -84,6 +91,8 @@ export class SellBookPage {
       result = result.concat("Description field can not be empty.\n");
     if (this.bookListing.price === undefined || this.bookListing.price === "")
       result = result.concat("Price field can not be empty.\n");
+    if (this.condition === undefined)
+      result = result.concat("Condition needs to be set.\n");
     return result;
   }
 
@@ -123,7 +132,6 @@ export class SellBookPage {
     alert.present();
   }
 
-  
   presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,

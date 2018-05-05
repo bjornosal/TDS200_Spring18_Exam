@@ -17,7 +17,7 @@ import { LoginPage } from "../login/login";
   templateUrl: "listing.html"
 })
 export class ListingPage {
-  private bookListing: BookListing = new BookListing("", "", "");
+  private bookListing: BookListing = new BookListing("", "", "", null, null);
 
   constructor(
     public navCtrl: NavController,
