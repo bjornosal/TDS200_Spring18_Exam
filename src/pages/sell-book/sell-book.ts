@@ -84,15 +84,15 @@ export class SellBookPage {
 
   doFieldValidation(): string {
     let result: string = "";
-
+    //TODO: Consider adding an alertCtrl
     if (this.bookListing.title === "")
-      result = result.concat("Title field can not be empty.\n");
+      result = result.concat("Title field can not be empty. ");
     if (this.bookListing.description === "")
-      result = result.concat("Description field can not be empty.\n");
+      result = result.concat("Description field can not be empty. ");
     if (this.bookListing.price === undefined || this.bookListing.price === "")
-      result = result.concat("Price field can not be empty.\n");
+      result = result.concat("Price field can not be empty. ");
     if (this.condition === undefined)
-      result = result.concat("Condition needs to be set.\n");
+      result = result.concat("Condition needs to be set. ");
     return result;
   }
 

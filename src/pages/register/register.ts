@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, ToastController } from "ionic-angular";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ToastController
+} from "ionic-angular";
 import { User } from "../../models/User";
 import { AngularFirestore } from "angularfire2/firestore";
 
@@ -11,7 +16,7 @@ import { AngularFirestore } from "angularfire2/firestore";
 export class RegisterPage {
   private user: User = new User();
   private confirmedEmail: string;
-  private password: string ="";
+  private password: string = "";
 
   constructor(
     public navCtrl: NavController,
@@ -26,14 +31,17 @@ export class RegisterPage {
         .auth()
         .createUserWithEmailAndPassword(this.user.email, this.password)
         .then(res => {
-          //TODO add photo here
+          //TODO: add photo here
 
           this.addExtraUserInformationToFirebase(this.user.name, " ");
-
-          this.navCtrl.push(this.navParams.get("fromPage")).then(() => {
-            const index = this.navCtrl.getActive().index;
-            this.navCtrl.remove(0, index);
-          });
+          if (this.navParams.get("fromPage") === "contact") {
+            this.closeModal();
+          } else {
+            this.navCtrl.push(this.navParams.get("fromPage")).then(() => {
+              const index = this.navCtrl.getActive().index;
+              this.navCtrl.remove(0, index);
+            });
+          }
         })
         .catch(err => {
           this.presentToast(err.message);
@@ -45,11 +53,11 @@ export class RegisterPage {
 
   getFieldValidationResult(): string {
     let result: string = "";
-    
+
     if (!this.isUsernameFilled())
-      result = result.concat("Username field can not be empty.\n");
+      result = result.concat("Username field can not be empty.<br>");
     if (!this.areEmailsEqual())
-      result = result.concat("Emails are not the same. \n");
+      result = result.concat("Emails are not the same. <br>");
     return result;
   }
 
@@ -84,5 +92,10 @@ export class RegisterPage {
     });
 
     toast.present();
+  }
+
+  closeModal() {
+    this.navCtrl.remove(1);
+    this.navCtrl.pop();
   }
 }

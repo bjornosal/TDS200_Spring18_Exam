@@ -12,9 +12,10 @@
   <ion-label>Description</ion-label>
   <p>{{bookListing.description}}</p>
   <p>{{bookListing.condition}}</p>
-
-  <ion-label>Price</ion-label>
-  <ion-item>{{bookListing.price}}</ion-item>
+  <ion-item>
+    <ion-label>Price</ion-label>
+    <p> {{bookListing.price}}</p>
+  </ion-item>
   <button ion-button (click)="presentMessageModal()" *ngIf="!isListingByCurrentUser()">Contact Seller</button>
   <button ion-button *ngIf="isListingByCurrentUser()">Edit Post</button>
-</ion-content>    
+</ion-content>

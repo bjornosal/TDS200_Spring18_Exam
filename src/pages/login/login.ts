@@ -12,6 +12,7 @@ import { AngularFireAuth } from "angularfire2/auth";
 import * as firebase from "firebase/app";
 import { ToastController } from "ionic-angular";
 import { TabsPage } from "../tabs/tabs";
+import { BuyFeedPage } from "../buy-feed/buy-feed";
 
 @IonicPage({
   priority: "high"
@@ -34,6 +35,7 @@ export class LoginPage {
     private toastCtrl: ToastController
   ) {
     this.fromPage = this.navParams.get("fromPage");
+   
   }
 
   goToRegisterPage() {
@@ -66,9 +68,9 @@ export class LoginPage {
     let result: string = "";
 
     if (this.user.email === "" || this.user.email === undefined)
-      result = result.concat("E-mail field can not be empty.\n");
+      result = result.concat("E-mail field can not be empty. <br>");
     if (this.password === "")
-      result = result.concat("Password field can not be empty.\n");
+      result = result.concat("Password field can not be empty.<br>");
 
     return result;
   }
