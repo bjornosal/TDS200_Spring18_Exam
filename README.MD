@@ -19,3 +19,6 @@ https://forum.ionicframework.com/t/pass-data-between-two-pages-using-the-setroot
 https://stackoverflow.com/questions/37296999/ionic-2-disabling-back-button-for-a-specific-view
 
 https://forum.ionicframework.com/t/disable-android-hardware-back-button-on-ionic/115533/6
+
+
+TODO: before delivery, create two dummy users with messages so that person checking can see all functionality.

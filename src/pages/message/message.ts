@@ -29,8 +29,6 @@ export class MessagePage {
     this.navCtrl.pop();
   }
 
-  // TODO: SendMessage() here
-
   sendMessage() {
     this.message.recipientId = this.bookListing.seller;
     if (this.af.app.auth().currentUser != null) {

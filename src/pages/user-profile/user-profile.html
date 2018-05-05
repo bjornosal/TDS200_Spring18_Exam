@@ -37,11 +37,14 @@
     <button full ion-button>My Listings</button>
 
     <ion-list class="messagesContainer">
-      
+      <message *ngFor="let message of messages | async" [title]="message.title" [messageText]="message.messageText">Test</message>
+      <!-- <book-listing *ngFor="let listing of bookListings | async" [listingImage]="listing.photos[0]" [bookListingTitle]="listing.title"
+      [bookListingPrice]="listing.price" (click)="goToListing(listing)">
+    </book-listing> -->
     </ion-list>
 
-    <ion-list class="myListingsContainer">  
-      
+    <ion-list class="myListingsContainer">
+
     </ion-list>
-  </div> 
+  </div>
 </ion-content>

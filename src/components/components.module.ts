@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BookListingComponent } from './book-listing/book-listing';
+import { MessageComponent } from './message/message';
 @NgModule({
-	declarations: [BookListingComponent],
+	declarations: [BookListingComponent,
+    MessageComponent],
 	imports: [],
-	exports: [BookListingComponent]
+	exports: [BookListingComponent,
+    MessageComponent]
 })
 export class ComponentsModule {}
