@@ -79,4 +79,7 @@ export class LoginPage {
     toast.present();
   }
 
+  closeModal() {
+    this.navCtrl.pop();
+  }
 }

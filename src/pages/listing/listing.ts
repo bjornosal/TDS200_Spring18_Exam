@@ -8,6 +8,8 @@ import {
 import { BookListing } from "../../models/BookListing";
 import { AngularFirestore } from "angularfire2/firestore";
 import { MessagePage } from "../message/message";
+import { MessageModel } from "../../models/MessageModel";
+import { LoginPage } from "../login/login";
 
 @IonicPage()
 @Component({
@@ -16,7 +18,6 @@ import { MessagePage } from "../message/message";
 })
 export class ListingPage {
   private bookListing: BookListing = new BookListing("", "", "");
-
 
   constructor(
     public navCtrl: NavController,
@@ -30,14 +31,22 @@ export class ListingPage {
   }
 
   presentMessageModal() {
-    let messageModal = this.modalCtrl.create(MessagePage, {
-      listing: this.navParams.get("listing")
-    });
+    let messageModal = null;
+
+    if (this.isCurrentUserLoggedIn()) {
+      messageModal = this.modalCtrl.create(MessagePage, {
+        listing: this.navParams.get("listing")
+      });
+    } else {
+      messageModal = this.modalCtrl.create(LoginPage, {
+        fromPage: "contact"
+      });
+    }
     messageModal.present();
   }
 
-  isCurrentUserLoggedIn():boolean  {
-    return this.af.app.auth().currentUser != null
+  private isCurrentUserLoggedIn(): boolean {
+    return this.af.app.auth().currentUser != null;
   }
 
   isListingByCurrentUser(): boolean {
