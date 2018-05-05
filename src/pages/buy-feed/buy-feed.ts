@@ -44,7 +44,7 @@ export class BuyFeedPage {
         return actions.map(action => {
           let data = action.payload.doc.data() as BookListing;
           let id = action.payload.doc.id;
-
+          data.bookId = id;
           return {
             id,
             ...data
@@ -53,7 +53,7 @@ export class BuyFeedPage {
       });
   }
 
-  goToListing(listing:BookListing) {
+  goToListing(listing:BookListing){
     this.navCtrl.push(ListingPage, 
     {
       listing: listing

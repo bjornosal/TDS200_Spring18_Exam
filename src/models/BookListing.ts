@@ -1,7 +1,8 @@
 export class BookListing {
+  bookId: string;
+  
   constructor(
-    //TODO: listing 
-    // public listingId: string,
+    //TODO: listing
     public title: string,
     public description: string,
     public seller: string,

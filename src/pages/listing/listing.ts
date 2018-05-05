@@ -17,6 +17,7 @@ import { MessagePage } from "../message/message";
 export class ListingPage {
   private bookListing: BookListing = new BookListing("", "", "");
 
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -29,8 +30,14 @@ export class ListingPage {
   }
 
   presentMessageModal() {
-    let messageModal = this.modalCtrl.create(MessagePage);
+    let messageModal = this.modalCtrl.create(MessagePage, {
+      listing: this.navParams.get("listing")
+    });
     messageModal.present();
+  }
+
+  isCurrentUserLoggedIn():boolean  {
+    return this.af.app.auth().currentUser != null
   }
 
   isListingByCurrentUser(): boolean {

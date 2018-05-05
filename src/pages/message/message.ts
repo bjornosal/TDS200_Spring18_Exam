@@ -30,16 +30,22 @@ export class MessagePage {
   // TODO: SendMessage() here
 
   sendMessage() {
-    
     this.message.recipientId = this.bookListing.seller;
-    this.message.senderId = this.af.app.auth().currentUser.uid;
-    this.message.bookId
-
+    if(this.af.app.auth().currentUser != null) {
+      this.message.senderId = this.af.app.auth().currentUser.uid;
+    }
+    console.log("Seller:"+this.bookListing.seller);
+    console.log("BookId: "+this.bookListing.bookId);
+    console.log("Sender: "+this.message.senderId);
+//TODO: add validation if user is logged in 
+//TODO: add validation if fields are empty.
     //TODO: INSERT MODEL OF MESSAGE
     //CurrentUserUid
     //RecipientUserUid
     //Message TODO: need model
     //Listing Book Id TODO: need to add
   }
+
+
 
 }
