@@ -105,7 +105,7 @@ export class SellBookPage {
   getPhotos(): string[] {
     return isUndefined(this.bookListing.photos) ||
       this.bookListing.photo == null
-      ? ["../../assets/imgs/fallback-photo.jpg"]
+      ? ["assets/imgs/fallback-photo.jpg"]
       : this.bookListing.photos;
   }
 
