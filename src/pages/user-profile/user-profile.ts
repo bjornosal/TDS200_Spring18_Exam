@@ -24,7 +24,6 @@ import { ListingPage } from "../listing/listing";
 })
 export class UserProfilePage {
   private user: User = new User();
-  private sender: User = new User();
   private listing: BookListing = new BookListing("", "", "", null, null);
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
@@ -35,7 +34,6 @@ export class UserProfilePage {
 
   private allConversations: Set<Conversation> = new Set<Conversation>();
 
-  public bookTitle: string;
   private displayMessages: boolean = true;
 
   // public recipientId: string

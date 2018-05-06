@@ -6,11 +6,13 @@ import {
   ModalController
 } from "ionic-angular";
 import { BookListing } from "../../models/BookListing";
-import { AngularFirestore } from "angularfire2/firestore";
+import { AngularFirestore, AngularFirestoreCollection } from "angularfire2/firestore";
 import { MessagePage } from "../message/message";
 import { MessageModel } from "../../models/MessageModel";
 import { LoginPage } from "../login/login";
 import { EditListingPage } from "../edit-listing/edit-listing";
+import { Observable } from "rxjs/Observable";
+import { Conversation } from "../../models/Conversation";
 
 @IonicPage()
 @Component({
@@ -20,13 +22,22 @@ import { EditListingPage } from "../edit-listing/edit-listing";
 export class ListingPage {
   private bookListing: BookListing = new BookListing("", "", "", null, null);
   private openedAsModal: boolean = false;
+  
+  private allMessages: AngularFirestoreCollection<MessageModel>;
+  private messages: Observable<MessageModel[]>;
+
+  private allConversations: Set<Conversation> = new Set<Conversation>();
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore,
     private modalCtrl: ModalController
-  ) {}
+  ) {
+    this.setAllMessagesCollection();
+    this.setAllMessageObservableOnCollection();
+    this.messages.subscribe();
+  }
 
   ionViewWillEnter() {
     this.bookListing = this.navParams.get("listing");
@@ -51,10 +62,7 @@ export class ListingPage {
   }
 
   presentEditModal() {
-    let editModal = null;
-    console.log(this.navParams.get("listing"));
-
-    editModal = this.modalCtrl
+  this.modalCtrl
       .create(EditListingPage, {
         listing: this.navParams.get("listing")
       })
@@ -79,5 +87,50 @@ export class ListingPage {
 
   closeModal() {
     this.navCtrl.pop();
+  }
+
+
+  /**
+   * Convos
+   */
+
+  setAllMessagesCollection() {
+    this.allMessages = this.af.collection<MessageModel>("messages");
+  }
+
+  setAllMessageObservableOnCollection() {
+    this.messages = this.allMessages.snapshotChanges().map(actions => {
+      return actions.map(action => {
+        let data = action.payload.doc.data() as MessageModel;
+        let id = action.payload.doc.id;
+
+        let conv: Conversation = new Conversation(
+          data.senderId,
+          data.bookId,
+          data.senderName,
+          data.bookTitle
+        );
+
+        this.addToConversation(conv);
+        return {
+          id,
+          ...data
+        };
+      });
+    });
+  }
+
+  addToConversation(conv: Conversation) {
+    this.messages.subscribe();
+    let found = false;
+    this.allConversations.forEach(element => {
+      if (element.listing === conv.listing && element.sender === conv.sender) {
+        found = true;
+      }
+    });
+
+    if (!found && conv.sender != this.af.app.auth().currentUser.uid) {
+      this.allConversations.add(conv);
+    }
   }
 }
