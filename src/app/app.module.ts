@@ -29,6 +29,11 @@ import { MessagePageModule } from '../pages/message/message.module';
 import { MessagePage } from '../pages/message/message';
 import { EditListingPage } from '../pages/edit-listing/edit-listing';
 import { EditListingPageModule } from '../pages/edit-listing/edit-listing.module';
+import { ChatPage } from '../pages/chat/chat';
+import { ChatPageModule } from '../pages/chat/chat.module';
+import { MessageComponent } from '../components/message/message';
+import { ComponentsModule } from '../components/components.module';
+import { BookListingComponent } from '../components/book-listing/book-listing';
 
 @NgModule({
   declarations: [
@@ -46,9 +51,11 @@ import { EditListingPageModule } from '../pages/edit-listing/edit-listing.module
     ListingPageModule,
     MessagePageModule,
     EditListingPageModule,
+    ChatPageModule,
     AngularFireModule.initializeApp(firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    ComponentsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -59,7 +66,8 @@ import { EditListingPageModule } from '../pages/edit-listing/edit-listing.module
     UserProfilePage,
     ListingPage,
     MessagePage,
-    EditListingPage
+    EditListingPage,
+    ChatPage,
   ],
   providers: [
     StatusBar,

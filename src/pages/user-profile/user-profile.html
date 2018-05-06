@@ -37,7 +37,7 @@
     <button full ion-button (click)="openListingsContainer()">My Listings</button>
 
     <ion-list class="messagesContainer" *ngIf="displayMessagesContainer()">
-      <ion-item *ngFor="let conversation of allConversations">
+      <ion-item *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
         <p>Sender: {{conversation.senderName}}</p>
         <p>Title: {{conversation.bookTitle}}</p>
       </ion-item>

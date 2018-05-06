@@ -18,7 +18,7 @@
   <p> {{bookListing.price}}</p>
 
   <ion-list class="messagesContainer" >
-    <ion-item *ngFor="let conversation of allConversations">
+    <ion-item *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
       <p>Sender: {{conversation.senderName}}</p>
       <p>Title: {{conversation.bookTitle}}</p>
     </ion-item>

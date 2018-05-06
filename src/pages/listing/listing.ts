@@ -6,13 +6,17 @@ import {
   ModalController
 } from "ionic-angular";
 import { BookListing } from "../../models/BookListing";
-import { AngularFirestore, AngularFirestoreCollection } from "angularfire2/firestore";
+import {
+  AngularFirestore,
+  AngularFirestoreCollection
+} from "angularfire2/firestore";
 import { MessagePage } from "../message/message";
 import { MessageModel } from "../../models/MessageModel";
 import { LoginPage } from "../login/login";
 import { EditListingPage } from "../edit-listing/edit-listing";
 import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
+import { ChatPage } from "../chat/chat";
 
 @IonicPage()
 @Component({
@@ -22,7 +26,7 @@ import { Conversation } from "../../models/Conversation";
 export class ListingPage {
   private bookListing: BookListing = new BookListing("", "", "", null, null);
   private openedAsModal: boolean = false;
-  
+
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
@@ -62,7 +66,7 @@ export class ListingPage {
   }
 
   presentEditModal() {
-  this.modalCtrl
+    this.modalCtrl
       .create(EditListingPage, {
         listing: this.navParams.get("listing")
       })
@@ -88,7 +92,6 @@ export class ListingPage {
   closeModal() {
     this.navCtrl.pop();
   }
-
 
   /**
    * Convos
@@ -132,5 +135,11 @@ export class ListingPage {
     if (!found && conv.sender != this.af.app.auth().currentUser.uid) {
       this.allConversations.add(conv);
     }
+  }
+  
+  goToConversation(conversation:Conversation) {
+    this.navCtrl.push(ChatPage, {
+      conversation: conversation
+    });
   }
 }

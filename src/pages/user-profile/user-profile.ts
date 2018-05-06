@@ -16,6 +16,7 @@ import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
 import { BookListing } from "../../models/BookListing";
 import { ListingPage } from "../listing/listing";
+import { ChatPage } from "../chat/chat";
 
 @IonicPage()
 @Component({
@@ -160,12 +161,18 @@ export class UserProfilePage {
   presentListingModal(listing: BookListing) {
     let listingModal = null;
     console.log(listing);
-    
+
     listingModal = this.modalCtrl
       .create(ListingPage, {
         listing: listing,
         modal: true
       })
       .present();
+  }
+
+  goToConversation(conversation:Conversation) {
+    this.navCtrl.push(ChatPage, {
+      conversation: conversation
+    });
   }
 }
