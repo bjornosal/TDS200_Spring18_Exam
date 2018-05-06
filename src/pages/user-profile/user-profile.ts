@@ -24,10 +24,13 @@ export class UserProfilePage {
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
+  private allListings: AngularFirestoreCollection<BookListing>;
+  private listings: Observable<BookListing[]>;
+
   private allConversations: Set<Conversation> = new Set<Conversation>();
 
   public bookTitle: string;
-  private displayMessages:boolean = true;
+  private displayMessages: boolean = true;
 
   // public recipientId: string
   // public bookId: string
@@ -40,6 +43,7 @@ export class UserProfilePage {
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
     this.messages.subscribe();
+    this.getAllListingsByUser();
   }
 
   ionViewWillEnter() {
@@ -99,7 +103,21 @@ export class UserProfilePage {
   }
 
   getAllListingsByUser() {
-    
+    this.allListings = this.af.collection<BookListing>("bookListings", ref => {
+      return ref.where("seller", "==", this.af.app.auth().currentUser.uid);
+    });
+
+    this.listings = this.allListings.snapshotChanges().map(actions => {
+      return actions.map(action => {
+        let data = action.payload.doc.data() as BookListing;
+        let id = action.payload.doc.id;
+
+        return {
+          id,
+          ...data
+        };
+      });
+    });
   }
 
   logoutUser() {
@@ -121,7 +139,7 @@ export class UserProfilePage {
     }
   }
 
-  displayMessagesContainer():boolean {
+  displayMessagesContainer(): boolean {
     return this.displayMessages;
   }
 
