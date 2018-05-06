@@ -25,9 +25,7 @@ export class UserProfilePage {
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
-  private allConversationsWithIds: Set<Conversation> = new Set<Conversation>();
   private allConversations: Set<Conversation> = new Set<Conversation>();
-  private conversation: Conversation = new Conversation("", "");
 
   public bookTitle: string;
 
@@ -84,14 +82,12 @@ export class UserProfilePage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
 
-        let conv: Conversation = new Conversation("", "");
+        let conv: Conversation = new Conversation("", "", "", "");
         conv.sender = data.senderId;
         conv.listing = data.bookId;
-        console.log("Sender ID : " + conv.sender);
-        console.log("listing ID : " + conv.listing);
-        console.log(this.allConversationsWithIds.size);
-        // this.conversation.sender = this.getTitleOfListing(conv);
-        this.addToConversation(conv, data.senderName, data.bookTitle);
+        conv.senderName = data.senderName;
+        conv.bookTitle = data.bookTitle;
+        this.addToConversation(conv);
         return {
           id,
           ...data
@@ -105,21 +101,17 @@ export class UserProfilePage {
     this.navCtrl.parent.select(0);
   }
 
-  addToConversation(conv: Conversation, name: string, title: string) {
+  addToConversation(conv: Conversation) {
     this.messages.subscribe();
     let found = false;
-    this.allConversationsWithIds.forEach(element => {
+    this.allConversations.forEach(element => {
       if (element.listing === conv.listing && element.sender === conv.sender) {
         found = true;
       }
     });
 
     if (!found) {
-      this.allConversationsWithIds.add(conv);
-      let conversation: Conversation = new Conversation("", "");
-      conversation.listing = title;
-      conversation.sender = name;
-      this.allConversations.add(conversation);
+      this.allConversations.add(conv);
     }
  
   }
