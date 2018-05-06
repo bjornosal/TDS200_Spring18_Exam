@@ -7,23 +7,29 @@ import {
   ViewController,
   ToastController
 } from "ionic-angular";
-
-import { Camera, CameraOptions } from "@ionic-native/camera";
-
-import { AngularFirestore } from "angularfire2/firestore";
-import { LoginPage } from "../login/login";
-import { BuyFeedPage } from "../buy-feed/buy-feed";
-
 import { BookListing } from "../../models/BookListing";
-import { isUndefined } from "ionic-angular/util/util";
+import { Camera, CameraOptions } from "@ionic-native/camera";
 import { Condition } from "../../models/enums/enums";
+import { AngularFirestore } from "angularfire2/firestore";
 
 @IonicPage()
 @Component({
-  selector: "page-sell-book",
-  templateUrl: "sell-book.html"
+  selector: "page-edit-listing",
+  templateUrl: "edit-listing.html"
 })
-export class SellBookPage {
+export class EditListingPage {
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private af: AngularFirestore,
+    private camera: Camera,
+    private alertCtrl: AlertController,
+    private viewCtrl: ViewController,
+    private toastCtrl: ToastController
+  ) {
+    this.bookListing = navParams.get("listing");
+  }
+
   bookListing: any = new BookListing("", "", "", null, null);
 
   private condition: Condition;
@@ -39,36 +45,27 @@ export class SellBookPage {
     correctOrientation: true
   };
 
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private af: AngularFirestore,
-    private camera: Camera,
-    private alertCtrl: AlertController,
-    private viewCtrl: ViewController,
-    private toastCtrl: ToastController
-  ) {}
-
-  ionViewWillEnter() {
-    if (!this.af.app.auth().currentUser) {
-      this.navCtrl.push(LoginPage, {
-        fromPage: "SellBookPage"
-      });
-    }
-  }
-
   postBookListing() {
     if (this.doFieldValidation() === "") {
       this.addBookListingToDatabase();
-      this.clearSellBookPage();
-      this.navCtrl.parent.select(0);
+      this.closeModal();
     } else {
       this.presentToast(this.doFieldValidation());
     }
   }
 
-  clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "", null, null);
+  editBookListingInDatabase() {
+    this.af
+      .collection<BookListing>("bookListings")
+      .doc(this.bookListing.bookId)
+      .set({
+        title: this.bookListing.title,
+        description: this.bookListing.description,
+        price: this.bookListing.price,
+        seller: this.af.app.auth().currentUser.uid,
+        photos: this.getPhotos(),
+        condition: this.condition
+      } as BookListing);
   }
 
   addBookListingToDatabase() {
@@ -94,12 +91,6 @@ export class SellBookPage {
     if (this.condition === undefined)
       result = result.concat("Condition needs to be set. ");
     return result;
-  }
-
-  logoutUser() {
-    this.af.app.auth().signOut();
-    this.clearSellBookPage();
-    this.navCtrl.parent.select(0);
   }
 
   getPhotos(): string[] {
@@ -140,5 +131,9 @@ export class SellBookPage {
     });
 
     toast.present();
+  }
+
+  closeModal() {
+    this.navCtrl.pop();
   }
 }

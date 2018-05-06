@@ -16,6 +16,6 @@
     <ion-label>Price</ion-label>
     <p> {{bookListing.price}}</p>
   </ion-item>
-  <button ion-button (click)="presentMessageModal()" *ngIf="!isListingByCurrentUser()">Contact Seller</button>
-  <button ion-button *ngIf="isListingByCurrentUser()">Edit Post</button>
+  <button ion-button block (click)="presentMessageModal()" *ngIf="!isListingByCurrentUser()">Contact Seller</button>
+  <button ion-button block (click)="presentEditModal()" *ngIf="isListingByCurrentUser()">Edit Post</button>
 </ion-content>

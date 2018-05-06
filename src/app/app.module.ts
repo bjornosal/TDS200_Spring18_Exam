@@ -27,6 +27,8 @@ import { ListingPage } from '../pages/listing/listing';
 import { ListingPageModule } from '../pages/listing/listing.module';
 import { MessagePageModule } from '../pages/message/message.module';
 import { MessagePage } from '../pages/message/message';
+import { EditListingPage } from '../pages/edit-listing/edit-listing';
+import { EditListingPageModule } from '../pages/edit-listing/edit-listing.module';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { MessagePage } from '../pages/message/message';
     LoginPageModule,
     ListingPageModule,
     MessagePageModule,
+    EditListingPageModule,
     AngularFireModule.initializeApp(firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -55,7 +58,8 @@ import { MessagePage } from '../pages/message/message';
     BuyFeedPage,
     UserProfilePage,
     ListingPage,
-    MessagePage
+    MessagePage,
+    EditListingPage
   ],
   providers: [
     StatusBar,

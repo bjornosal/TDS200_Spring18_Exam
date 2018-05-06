@@ -1,0 +1,40 @@
+<ion-header>
+
+    <ion-navbar>
+      <ion-title>Edit Listing</ion-title>
+    </ion-navbar>
+  </ion-header>
+  
+  
+  <ion-content>
+<!--   
+    <div class="add-photo-container" text-center>
+      <button ion-button icon-only class="add-photo-button" (click)="takePhoto()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </div> -->
+  
+    <ion-item>
+      <ion-input type="text" max="140" placeholder="Book Title" [(ngModel)]="bookListing.title"></ion-input>
+    </ion-item>
+  
+    <ion-item>
+      <ion-textarea type="text" max="140" placeholder="Description (Max 140 characters)" [(ngModel)]="bookListing.description"></ion-textarea>
+    </ion-item>
+  
+    <ion-item>
+      <ion-input type="number" placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+        <ion-label>Condition</ion-label>
+        <ion-select [(ngModel)]="condition">
+          <ion-option [value]="conditionNew">New</ion-option>
+          <ion-option [value]="conditionUsed">Used</ion-option>
+          <ion-option [value]="conditionWellUsed">Well-Used</ion-option>
+        </ion-select>
+      </ion-item>
+  
+  
+    <button ion-button block (click)="postBookListing()">Save!</button>
+  </ion-content>

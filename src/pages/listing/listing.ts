@@ -10,6 +10,7 @@ import { AngularFirestore } from "angularfire2/firestore";
 import { MessagePage } from "../message/message";
 import { MessageModel } from "../../models/MessageModel";
 import { LoginPage } from "../login/login";
+import { EditListingPage } from "../edit-listing/edit-listing";
 
 @IonicPage()
 @Component({
@@ -43,6 +44,16 @@ export class ListingPage {
       });
     }
     messageModal.present();
+  }
+
+  presentEditModal() {
+    let editModal = null;
+
+    editModal = this.modalCtrl
+      .create(EditListingPage, {
+        listing: this.navParams.get("listing")
+      })
+      .present();
   }
 
   private isCurrentUserLoggedIn(): boolean {

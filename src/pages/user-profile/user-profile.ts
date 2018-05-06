@@ -82,11 +82,8 @@ export class UserProfilePage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
 
-        let conv: Conversation = new Conversation("", "", "", "");
-        conv.sender = data.senderId;
-        conv.listing = data.bookId;
-        conv.senderName = data.senderName;
-        conv.bookTitle = data.bookTitle;
+        let conv: Conversation = new Conversation(data.senderId, data.bookId, data.senderName, data.bookTitle);
+     
         this.addToConversation(conv);
         return {
           id,
