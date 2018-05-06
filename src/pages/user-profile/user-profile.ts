@@ -9,6 +9,8 @@ import { BuyFeedPage } from "../buy-feed/buy-feed";
 import { User } from "../../models/User";
 import { MessageModel } from "../../models/MessageModel";
 import { Observable } from "rxjs/Observable";
+import { Conversation } from "../../models/Conversation";
+import { BookListing } from "../../models/BookListing";
 
 @IonicPage()
 @Component({
@@ -17,23 +19,29 @@ import { Observable } from "rxjs/Observable";
 })
 export class UserProfilePage {
   private user: User = new User();
+  private sender: User = new User();
+  private listing: BookListing = new BookListing("", "", "", null, null);
+
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
-  public title: string
-  public messageText: string
-  // public senderId: string
+  private allConversationsWithIds: Set<Conversation> = new Set<Conversation>();
+  private allConversations: Set<Conversation> = new Set<Conversation>();
+  private conversation: Conversation = new Conversation("", "");
+
+  public bookTitle: string;
+
   // public recipientId: string
   // public bookId: string
 
-  
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
   ) {
-    this.setAllBookListingsCollection();
-    this.setBookListingObservableOnCollection();
+    this.setAllMessagesCollection();
+    this.setAllMessageObservableOnCollection();
+    this.messages.subscribe();
   }
 
   ionViewWillEnter() {
@@ -42,11 +50,11 @@ export class UserProfilePage {
         fromPage: "UserProfilePage"
       });
     } else {
-      this.getUserFromDatabase();
+      this.getCurrentUserFromDatabase();
     }
   }
 
-  getUserFromDatabase() {
+  getCurrentUserFromDatabase() {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -56,16 +64,34 @@ export class UserProfilePage {
       });
   }
 
+  getBookFromDatabase(bookId: string) {
+    this.af
+      .collection<BookListing>("bookListings")
+      .doc(bookId)
+      .ref.get()
+      .then(doc => {
+        this.listing = doc.data() as BookListing;
+      });
+  }
 
-  setAllBookListingsCollection() {
+  setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages");
   }
-  
-  setBookListingObservableOnCollection() {
+
+  setAllMessageObservableOnCollection() {
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
+
+        let conv: Conversation = new Conversation("", "");
+        conv.sender = data.senderId;
+        conv.listing = data.bookId;
+        console.log("Sender ID : " + conv.sender);
+        console.log("listing ID : " + conv.listing);
+        console.log(this.allConversationsWithIds.size);
+        // this.conversation.sender = this.getTitleOfListing(conv);
+        this.addToConversation(conv, data.senderName, data.bookTitle);
         return {
           id,
           ...data
@@ -77,5 +103,24 @@ export class UserProfilePage {
   logoutUser() {
     this.af.app.auth().signOut();
     this.navCtrl.parent.select(0);
+  }
+
+  addToConversation(conv: Conversation, name: string, title: string) {
+    this.messages.subscribe();
+    let found = false;
+    this.allConversationsWithIds.forEach(element => {
+      if (element.listing === conv.listing && element.sender === conv.sender) {
+        found = true;
+      }
+    });
+
+    if (!found) {
+      this.allConversationsWithIds.add(conv);
+      let conversation: Conversation = new Conversation("", "");
+      conversation.listing = title;
+      conversation.sender = name;
+      this.allConversations.add(conversation);
+    }
+ 
   }
 }

@@ -20,5 +20,7 @@ https://stackoverflow.com/questions/37296999/ionic-2-disabling-back-button-for-a
 
 https://forum.ionicframework.com/t/disable-android-hardware-back-button-on-ionic/115533/6
 
+//Check if value exists in FB
+https://stackoverflow.com/questions/37910008/check-if-value-exists-in-firebase-db
 
 TODO: before delivery, create two dummy users with messages so that person checking can see all functionality.

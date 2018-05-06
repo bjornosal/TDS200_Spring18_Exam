@@ -31,9 +31,7 @@ export class BuyFeedPage {
   }
 
   setAllBookListingsCollection() {
-    this.allBookListingsCollection = this.af.collection<BookListing>(
-      "bookListings"
-    );
+    this.allBookListingsCollection = this.af.collection<BookListing>("bookListings");
   }
 
   setBookListingObservableOnCollection() {

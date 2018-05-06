@@ -9,6 +9,7 @@ export class MessageComponent {
 
   @Input() private messageText:string;
   @Input() private title:string;
+  @Input() private senderId:string;
 
   constructor() {
   }
