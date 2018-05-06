@@ -6,7 +6,7 @@
   </ion-header>
   
   
-  <ion-content>
+  <ion-content padding>
 <!--   
     <div class="add-photo-container" text-center>
       <button ion-button icon-only class="add-photo-button" (click)="takePhoto()">
@@ -28,7 +28,7 @@
     
     <ion-item>
         <ion-label>Condition</ion-label>
-        <ion-select [(ngModel)]="condition">
+        <ion-select [(ngModel)]="bookListing.condition">
           <ion-option [value]="conditionNew">New</ion-option>
           <ion-option [value]="conditionUsed">Used</ion-option>
           <ion-option [value]="conditionWellUsed">Well-Used</ion-option>

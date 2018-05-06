@@ -5,7 +5,6 @@ import {
   AngularFirestoreCollection
 } from "angularfire2/firestore";
 import { LoginPage } from "../login/login";
-import { BuyFeedPage } from "../buy-feed/buy-feed";
 import { User } from "../../models/User";
 import { MessageModel } from "../../models/MessageModel";
 import { Observable } from "rxjs/Observable";
@@ -28,6 +27,7 @@ export class UserProfilePage {
   private allConversations: Set<Conversation> = new Set<Conversation>();
 
   public bookTitle: string;
+  private displayMessages:boolean = true;
 
   // public recipientId: string
   // public bookId: string
@@ -82,8 +82,13 @@ export class UserProfilePage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
 
-        let conv: Conversation = new Conversation(data.senderId, data.bookId, data.senderName, data.bookTitle);
-     
+        let conv: Conversation = new Conversation(
+          data.senderId,
+          data.bookId,
+          data.senderName,
+          data.bookTitle
+        );
+
         this.addToConversation(conv);
         return {
           id,
@@ -91,6 +96,10 @@ export class UserProfilePage {
         };
       });
     });
+  }
+
+  getAllListingsByUser() {
+    
   }
 
   logoutUser() {
@@ -110,6 +119,17 @@ export class UserProfilePage {
     if (!found && conv.sender !== this.af.app.auth().currentUser.uid) {
       this.allConversations.add(conv);
     }
- 
+  }
+
+  displayMessagesContainer():boolean {
+    return this.displayMessages;
+  }
+
+  openListingsContainer() {
+    this.displayMessages = false;
+  }
+
+  openMessagesContainer() {
+    this.displayMessages = true;
   }
 }

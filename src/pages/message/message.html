@@ -17,8 +17,8 @@
     <ion-textarea [(ngModel)]="messageText" placeholder="Enter Message"></ion-textarea>
   </ion-item>
 
-  <button ion-button (click)="closeModal()">Cancel</button>
-  <button ion-button (click)="sendMessage()">Send Message</button>
+  <button block ion-button (click)="sendMessage()">Send Message</button>
+  <button block ion-button (click)="closeModal()">Cancel</button>
   <!--
     Add a feed of messages underneath.
     MessageComponent

@@ -32,7 +32,6 @@ export class EditListingPage {
 
   bookListing: any = new BookListing("", "", "", null, null);
 
-  private condition: Condition;
   private conditionNew: Condition = Condition.New;
   private conditionUsed: Condition = Condition.Used;
   private conditionWellUsed: Condition = Condition["Well-Used"];
@@ -64,19 +63,8 @@ export class EditListingPage {
         price: this.bookListing.price,
         seller: this.af.app.auth().currentUser.uid,
         photos: this.getPhotos(),
-        condition: this.condition
+        condition: this.bookListing.condition
       } as BookListing);
-  }
-
-  addBookListingToDatabase() {
-    this.af.collection<BookListing>("bookListings").add({
-      title: this.bookListing.title,
-      description: this.bookListing.description,
-      price: this.bookListing.price,
-      seller: this.af.app.auth().currentUser.uid,
-      photos: this.getPhotos(),
-      condition: this.condition
-    } as BookListing);
   }
 
   doFieldValidation(): string {
@@ -88,7 +76,7 @@ export class EditListingPage {
       result = result.concat("Description field can not be empty. ");
     if (this.bookListing.price === undefined || this.bookListing.price === "")
       result = result.concat("Price field can not be empty. ");
-    if (this.condition === undefined)
+    if (this.bookListing.condition === undefined)
       result = result.concat("Condition needs to be set. ");
     return result;
   }

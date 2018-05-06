@@ -33,19 +33,19 @@
 
 
   <div class="messagesAndListingsContainer">
-    <button full ion-button>Messages</button>
-    <button full ion-button>My Listings</button>
+    <button full ion-button (click)="openMessagesContainer()">Messages</button>
+    <button full ion-button (click)="openListingsContainer()">My Listings</button>
 
-    <ion-list class="messagesContainer">
+    <ion-list class="messagesContainer" *ngIf="displayMessagesContainer()" >
       <ion-item *ngFor="let conversation of allConversations">
-        <p>Sender: {{conversation.senderName}}</p> 
+        <p>Sender: {{conversation.senderName}}</p>
         <p>Title: {{conversation.bookTitle}}</p>
       </ion-item>
 
     </ion-list>
 
-    <ion-list class="myListingsContainer">
-
+    <ion-list class="myListingsContainer" *ngIf="!displayMessagesContainer()" >
+     
     </ion-list>
   </div>
 </ion-content>
