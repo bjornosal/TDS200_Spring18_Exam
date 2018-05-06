@@ -31,7 +31,9 @@ export class BuyFeedPage {
   }
 
   setAllBookListingsCollection() {
-    this.allBookListingsCollection = this.af.collection<BookListing>("bookListings");
+    this.allBookListingsCollection = this.af.collection<BookListing>(
+      "bookListings"
+    );
   }
 
   setBookListingObservableOnCollection() {
@@ -50,12 +52,9 @@ export class BuyFeedPage {
       });
   }
 
-  goToListing(listing:BookListing){
-    this.navCtrl.push(ListingPage, 
-    {
+  goToListing(listing: BookListing) {
+    this.navCtrl.push(ListingPage, {
       listing: listing
-    })
+    });
   }
-
-  
 }

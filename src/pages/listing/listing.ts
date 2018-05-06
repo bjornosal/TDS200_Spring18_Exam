@@ -38,13 +38,14 @@ export class ListingPage {
     private af: AngularFirestore,
     private modalCtrl: ModalController
   ) {
+
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
     this.messages.subscribe();
+    this.bookListing = this.navParams.get("listing");
   }
 
   ionViewWillEnter() {
-    this.bookListing = this.navParams.get("listing");
     if (this.navParams.get("modal") == true) {
       this.openedAsModal = this.navParams.get("modal");
     }
@@ -131,13 +132,18 @@ export class ListingPage {
         found = true;
       }
     });
-
-    if (!found && conv.sender != this.af.app.auth().currentUser.uid) {
+    console.log("Book id: " +this.bookListing.bookId);
+    console.log("Conv id: " + conv.listing);
+    if (
+      !found &&
+      conv.sender != this.af.app.auth().currentUser.uid &&
+      this.bookListing.bookId === conv.listing
+    ) {
       this.allConversations.add(conv);
     }
   }
-  
-  goToConversation(conversation:Conversation) {
+
+  goToConversation(conversation: Conversation) {
     this.navCtrl.push(ChatPage, {
       conversation: conversation
     });
