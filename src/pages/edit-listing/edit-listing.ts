@@ -47,7 +47,7 @@ export class EditListingPage {
 
   postBookListing() {
     if (this.doFieldValidation() === "") {
-      this.addBookListingToDatabase();
+      this.editBookListingInDatabase();
       this.closeModal();
     } else {
       this.presentToast(this.doFieldValidation());
