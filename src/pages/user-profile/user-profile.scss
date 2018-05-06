@@ -5,7 +5,7 @@ page-user-profile {
             width: 10px;
         }
     }
-    img {
+    .profilePhoto {
         width: 25vw;
         height: 25vw;
         border-radius: 100%;
@@ -26,6 +26,12 @@ page-user-profile {
         }
         .myListingsContainer {
             width: 100%;
+            
+            img{
+                width: 15vw;
+                height: 15vw;
+                float: left;
+            }
         }
     }
 }

@@ -17,7 +17,7 @@
 
     <ion-row>
       <ion-col col-auto>
-        <img src={{user.photoURL}}>
+        <img class="profilePhoto" src={{user.photoURL}}>
       </ion-col>
 
       <ion-col>
@@ -45,7 +45,8 @@
     </ion-list>
 
     <ion-list class="myListingsContainer" *ngIf="!displayMessagesContainer()">
-      <ion-item *ngFor="let listing of listings | async">
+      <ion-item *ngFor="let listing of listings | async" (click)="presentListingModal(listing)">
+        <img src="{{listing.photos[0]}}"/>
         <p>Listing: {{listing.title}}</p>
       </ion-item>
     </ion-list>

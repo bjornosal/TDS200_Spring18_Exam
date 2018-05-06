@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ModalController
+} from "ionic-angular";
 import {
   AngularFirestore,
   AngularFirestoreCollection
@@ -10,6 +15,7 @@ import { MessageModel } from "../../models/MessageModel";
 import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
 import { BookListing } from "../../models/BookListing";
+import { ListingPage } from "../listing/listing";
 
 @IonicPage()
 @Component({
@@ -38,7 +44,8 @@ export class UserProfilePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private af: AngularFirestore
+    private af: AngularFirestore,
+    private modalCtrl: ModalController
   ) {
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
@@ -111,6 +118,7 @@ export class UserProfilePage {
       return actions.map(action => {
         let data = action.payload.doc.data() as BookListing;
         let id = action.payload.doc.id;
+        data.bookId = id;
 
         return {
           id,
@@ -149,5 +157,17 @@ export class UserProfilePage {
 
   openMessagesContainer() {
     this.displayMessages = true;
+  }
+
+  presentListingModal(listing: BookListing) {
+    let listingModal = null;
+    console.log(listing);
+    
+    listingModal = this.modalCtrl
+      .create(ListingPage, {
+        listing: listing,
+        modal: true
+      })
+      .present();
   }
 }

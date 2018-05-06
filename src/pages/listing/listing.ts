@@ -19,6 +19,7 @@ import { EditListingPage } from "../edit-listing/edit-listing";
 })
 export class ListingPage {
   private bookListing: BookListing = new BookListing("", "", "", null, null);
+  private openedAsModal: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -29,6 +30,9 @@ export class ListingPage {
 
   ionViewWillEnter() {
     this.bookListing = this.navParams.get("listing");
+    if (this.navParams.get("modal") == true) {
+      this.openedAsModal = this.navParams.get("modal");
+    }
   }
 
   presentMessageModal() {
@@ -48,6 +52,7 @@ export class ListingPage {
 
   presentEditModal() {
     let editModal = null;
+    console.log(this.navParams.get("listing"));
 
     editModal = this.modalCtrl
       .create(EditListingPage, {
@@ -66,5 +71,13 @@ export class ListingPage {
     } else {
       return false;
     }
+  }
+
+  isOpenedByModal(): boolean {
+    return this.openedAsModal;
+  }
+
+  closeModal() {
+    this.navCtrl.pop();
   }
 }
