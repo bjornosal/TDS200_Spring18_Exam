@@ -110,7 +110,7 @@ export class UserProfilePage {
       }
     });
 
-    if (!found) {
+    if (!found && conv.sender !== this.af.app.auth().currentUser.uid) {
       this.allConversations.add(conv);
     }
  
