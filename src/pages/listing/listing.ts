@@ -112,7 +112,9 @@ export class ListingPage {
           data.senderId,
           data.bookId,
           data.senderName,
-          data.bookTitle
+          data.bookTitle,
+          data.recipientId,
+          data.recipientName
         );
 
         this.addToConversation(conv);

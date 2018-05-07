@@ -24,7 +24,7 @@ import { ChatPage } from "../chat/chat";
   templateUrl: "user-profile.html"
 })
 export class UserProfilePage {
-  private user: User = new User("","","");
+  private user: User = new User("", "", "");
   private listing: BookListing = new BookListing("", "", "", null, null);
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
@@ -37,7 +37,7 @@ export class UserProfilePage {
 
   private displayMessages: boolean = true;
 
-  private hasUnreadMessages:boolean = false;
+  private hasUnreadMessages: boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -45,7 +45,7 @@ export class UserProfilePage {
     private af: AngularFirestore,
     private modalCtrl: ModalController
   ) {
-
+    this.getCurrentUserFromDatabase();
   }
 
   ionViewWillEnter() {
@@ -54,11 +54,6 @@ export class UserProfilePage {
         fromPage: "UserProfilePage"
       });
     } else {
-      this.getCurrentUserFromDatabase();
-      this.setAllMessagesCollection();
-      this.setAllMessageObservableOnCollection();
-      this.messages.subscribe();
-      this.getAllListingsByUser();
     }
   }
 
@@ -69,6 +64,12 @@ export class UserProfilePage {
       .ref.get()
       .then(doc => {
         this.user = doc.data() as User;
+      })
+      .then(res => {
+        this.setAllMessagesCollection();
+        this.setAllMessageObservableOnCollection();
+        this.messages.subscribe();
+        this.getAllListingsByUser();
       });
   }
 
@@ -93,12 +94,14 @@ export class UserProfilePage {
         let id = action.payload.doc.id;
         let name = data.senderName;
 
-        //TODO: Pull all this out into method.
-        if(data.read == false && data.recipientId === this.af.app.auth().currentUser.uid) {
+        if (
+          data.read == false &&
+          data.recipientId === this.af.app.auth().currentUser.uid
+        ) {
           this.hasUnreadMessages = true;
         }
 
-        if(data.senderId === this.af.app.auth().currentUser.uid) {
+        if (data.senderId === this.af.app.auth().currentUser.uid) {
           name = data.recipientName;
         }
 
@@ -106,7 +109,9 @@ export class UserProfilePage {
           data.senderId,
           data.bookId,
           name,
-          data.bookTitle
+          data.bookTitle,
+          data.recipientId,
+          data.recipientName
         );
 
         this.addToConversation(conv);
@@ -143,10 +148,15 @@ export class UserProfilePage {
   }
 
   addToConversation(conv: Conversation) {
-    this.messages.subscribe();
     let found = false;
     this.allConversations.forEach(element => {
-      if (element.listing === conv.listing && ((element.sender === conv.sender) || (element.sender === this.af.app.auth().currentUser.uid))) {
+
+      console.log(element.listing);
+      //TODO: take into method
+      if (
+        element.listing === conv.listing &&
+        ((element.sender === conv.sender) || (element.recipientName === conv.sender))
+      ) {
         found = true;
       }
     });
@@ -180,7 +190,7 @@ export class UserProfilePage {
       .present();
   }
 
-  goToConversation(conversation:Conversation) {
+  goToConversation(conversation: Conversation) {
     this.navCtrl.push(ChatPage, {
       conversation: conversation
     });

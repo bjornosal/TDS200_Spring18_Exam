@@ -27,18 +27,18 @@ export class MessagePage {
 
   public messageText: string;
   public messageTitle: string;
-  private user: User = new User("","","");
-  private recipient: User = new User("","","");
+  private user: User = new User("", "", "");
+  private recipient: User = new User("", "", "");
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
-  ) {this.bookListing = this.navParams.get("listing");
-  this.getCurrentUserFromDatabase();
-  this.getRecipientFromDatabase(this.bookListing.seller);}
-
- 
+  ) {
+    this.bookListing = this.navParams.get("listing");
+    this.getCurrentUserFromDatabase();
+    this.getRecipientFromDatabase(this.bookListing.seller);
+  }
 
   closeModal() {
     this.navCtrl.pop();
@@ -70,6 +70,7 @@ export class MessagePage {
   }
 
   getRecipientFromDatabase(userId: string) {
+    
     this.af
       .collection<User>("users")
       .doc(userId)

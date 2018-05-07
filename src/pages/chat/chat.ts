@@ -56,10 +56,12 @@ export class ChatPage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
 
-        if ((data.senderId === this.senderId || data.recipientId === this.senderId) && data.bookId === this.bookId) {
-
-          data.read = true;
-
+        if (
+          (data.senderId === this.senderId ||
+            data.recipientId === this.senderId) &&
+          data.bookId === this.bookId
+        ) {
+          this.setMessageToRead(id);
           return {
             id,
             ...data
@@ -67,6 +69,15 @@ export class ChatPage {
         }
       });
     });
+  }
+
+  setMessageToRead(messageId: string) {
+    this.af
+      .collection<MessageModel>("messages")
+      .doc(messageId)
+      .update({
+        read: true
+      } as MessageModel);
   }
 
   presentMessageModal() {

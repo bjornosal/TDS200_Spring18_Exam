@@ -3,7 +3,9 @@ export class Conversation {
       public sender: string,
       public listing: string,
       public senderName: string,
-      public bookTitle: string
+      public bookTitle: string,
+      public recipientId:string, 
+      public recipientName: string
     ) {}
   }
   
