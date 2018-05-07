@@ -45,10 +45,7 @@ export class UserProfilePage {
     private af: AngularFirestore,
     private modalCtrl: ModalController
   ) {
-    this.setAllMessagesCollection();
-    this.setAllMessageObservableOnCollection();
-    this.messages.subscribe();
-    this.getAllListingsByUser();
+
   }
 
   ionViewWillEnter() {
@@ -58,6 +55,10 @@ export class UserProfilePage {
       });
     } else {
       this.getCurrentUserFromDatabase();
+      this.setAllMessagesCollection();
+      this.setAllMessageObservableOnCollection();
+      this.messages.subscribe();
+      this.getAllListingsByUser();
     }
   }
 
@@ -93,7 +94,7 @@ export class UserProfilePage {
         let name = data.senderName;
 
         //TODO: Pull all this out into method.
-        if(data.read = true) {
+        if(data.read == false && data.recipientId === this.af.app.auth().currentUser.uid) {
           this.hasUnreadMessages = true;
         }
 
