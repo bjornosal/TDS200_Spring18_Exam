@@ -38,8 +38,8 @@
 
     <ion-list class="messagesContainer" *ngIf="displayMessagesContainer()">
       <ion-item *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
-        <p>Sender: {{conversation.senderName}}</p>
-        <p>Title: {{conversation.bookTitle}}</p>
+        <p>Book Title: {{conversation.bookTitle}}</p>
+        <p>Person: {{conversation.senderName}}</p>
       </ion-item>
 
     </ion-list>

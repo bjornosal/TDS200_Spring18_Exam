@@ -10,10 +10,10 @@
 <ion-content padding>
   <ion-list>
     <div *ngFor="let message of messages | async">
-      <p>{{conversation.senderName}}</p>
       <message *ngIf="message != undefined" 
       [title]="message.title" 
       [messageText]="message.messageText">Test</message>
     </div>
   </ion-list>
+  <button ion-button (click)="presentMessageModal()">Reply</button>
 </ion-content>

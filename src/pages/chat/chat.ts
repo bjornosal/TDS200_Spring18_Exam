@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  ModalController
+} from "ionic-angular";
 import { MessageModel } from "../../models/MessageModel";
 import {
   AngularFirestore,
@@ -7,7 +12,8 @@ import {
 } from "angularfire2/firestore";
 import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
-
+import { MessagePage } from "../message/message";
+import { BookListing } from "../../models/BookListing";
 
 @IonicPage()
 @Component({
@@ -15,19 +21,21 @@ import { Conversation } from "../../models/Conversation";
   templateUrl: "chat.html"
 })
 export class ChatPage {
+  private listing: BookListing = new BookListing("", "", "", null, null, null);
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
-  private bookId: string;
+  private bookId: string = "";
   private senderId: string;
-  private conversation:Conversation;
+  private conversation: Conversation;
   public messageText: string;
   public messageTitle: string;
-  
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private af: AngularFirestore
+    private af: AngularFirestore,
+    private modalCtrl: ModalController
   ) {
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
@@ -35,6 +43,7 @@ export class ChatPage {
     this.conversation = navParams.get("conversation");
     this.bookId = this.conversation.listing;
     this.senderId = this.conversation.sender;
+    this.getBookFromDatabase(this.conversation.listing);
   }
 
   setAllMessagesCollection() {
@@ -47,11 +56,10 @@ export class ChatPage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
 
-        if (
-          (data.senderId === this.senderId ||
-            data.recipientId === this.senderId) &&
-          data.bookId === this.bookId
-        ) {
+        if ((data.senderId === this.senderId || data.recipientId === this.senderId) && data.bookId === this.bookId) {
+
+          data.read = true;
+
           return {
             id,
             ...data
@@ -59,5 +67,24 @@ export class ChatPage {
         }
       });
     });
+  }
+
+  presentMessageModal() {
+    this.modalCtrl
+      .create(MessagePage, {
+        listing: this.listing
+      })
+      .present();
+  }
+
+  getBookFromDatabase(bookId: string) {
+    this.af
+      .collection<BookListing>("bookListings")
+      .doc(bookId)
+      .ref.get()
+      .then(doc => {
+        this.listing = doc.data() as BookListing;
+        this.listing.bookId = bookId;
+      });
   }
 }

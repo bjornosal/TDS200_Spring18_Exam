@@ -1,5 +1,7 @@
 export class User {
-    name:string
-    email:string
-    photoURL?: string;
+  constructor(
+    public name: string,
+    public email: string,
+    public photoURL?: string
+  ) {}
 }

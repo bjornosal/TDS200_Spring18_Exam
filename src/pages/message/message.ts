@@ -13,21 +13,32 @@ import { User } from "../../models/User";
 })
 export class MessagePage {
   private bookListing: BookListing = new BookListing("", "", "", null, null);
-  private message: MessageModel = new MessageModel("", "", "", "", "","","");
+  private message: MessageModel = new MessageModel(
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    "",
+    null
+  );
+
   public messageText: string;
   public messageTitle: string;
-  private user: User = new User();
+  private user: User = new User("","","");
+  private recipient: User = new User("","","");
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
-  ) {}
+  ) {this.bookListing = this.navParams.get("listing");
+  this.getCurrentUserFromDatabase();
+  this.getRecipientFromDatabase(this.bookListing.seller);}
 
-  ionViewWillEnter() {
-    this.bookListing = this.navParams.get("listing");
-    this.getCurrentUserFromDatabase();
-  }
+ 
 
   closeModal() {
     this.navCtrl.pop();
@@ -38,10 +49,12 @@ export class MessagePage {
       title: this.messageTitle,
       messageText: this.messageText,
       senderId: this.af.app.auth().currentUser.uid,
-      senderName:this.user.name,
+      senderName: this.user.name,
       recipientId: this.bookListing.seller,
+      recipientName: this.recipient.name,
       bookId: this.bookListing.bookId,
-      bookTitle: this.bookListing.title
+      bookTitle: this.bookListing.title,
+      read: false
     } as MessageModel);
     this.closeModal();
   }
@@ -53,6 +66,16 @@ export class MessagePage {
       .ref.get()
       .then(doc => {
         this.user = doc.data() as User;
+      });
+  }
+
+  getRecipientFromDatabase(userId: string) {
+    this.af
+      .collection<User>("users")
+      .doc(userId)
+      .ref.get()
+      .then(doc => {
+        this.recipient = doc.data() as User;
       });
   }
 }

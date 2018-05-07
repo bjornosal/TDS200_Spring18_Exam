@@ -14,7 +14,7 @@ import { AngularFirestore } from "angularfire2/firestore";
   templateUrl: "register.html"
 })
 export class RegisterPage {
-  private user: User = new User();
+  private user: User = new User("","","");
   private confirmedEmail: string;
   private password: string = "";
 

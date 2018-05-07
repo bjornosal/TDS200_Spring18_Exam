@@ -24,7 +24,7 @@ import { ChatPage } from "../chat/chat";
   templateUrl: "user-profile.html"
 })
 export class UserProfilePage {
-  private user: User = new User();
+  private user: User = new User("","","");
   private listing: BookListing = new BookListing("", "", "", null, null);
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
@@ -37,8 +37,7 @@ export class UserProfilePage {
 
   private displayMessages: boolean = true;
 
-  // public recipientId: string
-  // public bookId: string
+  private hasUnreadMessages:boolean = false;
 
   constructor(
     public navCtrl: NavController,
@@ -91,11 +90,21 @@ export class UserProfilePage {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
+        let name = data.senderName;
+
+        //TODO: Pull all this out into method.
+        if(data.read = true) {
+          this.hasUnreadMessages = true;
+        }
+
+        if(data.senderId === this.af.app.auth().currentUser.uid) {
+          name = data.recipientName;
+        }
 
         let conv: Conversation = new Conversation(
           data.senderId,
           data.bookId,
-          data.senderName,
+          name,
           data.bookTitle
         );
 
@@ -136,12 +145,12 @@ export class UserProfilePage {
     this.messages.subscribe();
     let found = false;
     this.allConversations.forEach(element => {
-      if (element.listing === conv.listing && element.sender === conv.sender) {
+      if (element.listing === conv.listing && ((element.sender === conv.sender) || (element.sender === this.af.app.auth().currentUser.uid))) {
         found = true;
       }
     });
 
-    if (!found && conv.sender !== this.af.app.auth().currentUser.uid) {
+    if (!found) {
       this.allConversations.add(conv);
     }
   }
