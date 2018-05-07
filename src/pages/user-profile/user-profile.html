@@ -45,7 +45,7 @@
     </ion-list>
 
     <ion-list class="myListingsContainer" *ngIf="!displayMessagesContainer()">
-      <ion-item *ngFor="let listing of listings | async" (click)="presentListingModal(listing)">
+      <ion-item *ngFor="let listing of listings | async | reverse" (click)="presentListingModal(listing)">
         <img src="{{listing.photos[0]}}"/>
         <p>Listing: {{listing.title}}</p>
       </ion-item>
