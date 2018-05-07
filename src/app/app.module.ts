@@ -34,7 +34,7 @@ import { ChatPageModule } from '../pages/chat/chat.module';
 import { MessageComponent } from '../components/message/message';
 import { ComponentsModule } from '../components/components.module';
 import { BookListingComponent } from '../components/book-listing/book-listing';
-import { UnreadMessagesProvider } from '../providers/unread-messages/unread-messages';
+import { PipesModule } from '../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,8 @@ import { UnreadMessagesProvider } from '../providers/unread-messages/unread-mess
     AngularFireModule.initializeApp(firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
-    ComponentsModule
+    ComponentsModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -74,8 +75,6 @@ import { UnreadMessagesProvider } from '../providers/unread-messages/unread-mess
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Camera,
-    UnreadMessagesProvider
-  ]
+    Camera  ]
 })
 export class AppModule {}

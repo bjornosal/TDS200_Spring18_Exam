@@ -22,7 +22,7 @@ import { BuyFeedPage } from "../buy-feed/buy-feed";
   templateUrl: "login.html"
 })
 export class LoginPage {
-  private user: User = new User();
+  private user: User = new User("","","");
   private fromPage: string;
   private password: string = "";
 

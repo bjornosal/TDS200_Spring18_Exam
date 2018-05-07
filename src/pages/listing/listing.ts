@@ -41,7 +41,6 @@ export class ListingPage {
 
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
-    this.messages.subscribe();
     this.bookListing = this.navParams.get("listing");
   }
 
@@ -127,15 +126,12 @@ export class ListingPage {
   }
 
   addToConversation(conv: Conversation) {
-    this.messages.subscribe();
     let found = false;
     this.allConversations.forEach(element => {
       if (element.listing === conv.listing && element.sender === conv.sender) {
         found = true;
       }
     });
-    console.log("Book id: " +this.bookListing.bookId);
-    console.log("Conv id: " + conv.listing);
     if (
       !found &&
       conv.sender != this.af.app.auth().currentUser.uid &&

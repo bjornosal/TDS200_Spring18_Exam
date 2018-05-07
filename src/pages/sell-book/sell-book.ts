@@ -123,7 +123,6 @@ export class SellBookPage {
   }
 
   displayErrorAlert(err) {
-    console.log(err);
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",

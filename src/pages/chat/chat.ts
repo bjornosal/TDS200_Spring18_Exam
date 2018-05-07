@@ -39,29 +39,36 @@ export class ChatPage {
   ) {
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
-    this.messages.subscribe();
+
     this.conversation = navParams.get("conversation");
     this.bookId = this.conversation.listing;
     this.senderId = this.conversation.sender;
+
     this.getBookFromDatabase(this.conversation.listing);
   }
 
   setAllMessagesCollection() {
-    this.allMessages = this.af.collection<MessageModel>("messages");
+    this.allMessages = this.af.collection<MessageModel>("messages", ref => {
+      return ref.orderBy('created')
+    });
   }
 
   setAllMessageObservableOnCollection() {
     this.messages = this.allMessages.snapshotChanges().map(actions => {
+      
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
+        
+        if(data.senderId != this.af.app.auth().currentUser.uid) {
+          this.setMessageToRead(id);          
+        }
 
         if (
           (data.senderId === this.senderId ||
             data.recipientId === this.senderId) &&
           data.bookId === this.bookId
         ) {
-          this.setMessageToRead(id);
           return {
             id,
             ...data

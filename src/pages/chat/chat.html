@@ -9,7 +9,7 @@
 
 <ion-content padding>
   <ion-list>
-    <div *ngFor="let message of messages | async">
+    <div *ngFor="let message of messages | async | reverse">
       <message *ngIf="message != undefined" 
       [title]="message.title" 
       [messageText]="message.messageText">Test</message>

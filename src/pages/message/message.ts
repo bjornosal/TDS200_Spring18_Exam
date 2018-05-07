@@ -5,6 +5,8 @@ import { BookListing } from "../../models/BookListing";
 import { MessageModel } from "../../models/MessageModel";
 import { Conversation } from "../../models/Conversation";
 import { User } from "../../models/User";
+import * as firebase from 'firebase';
+
 
 @IonicPage()
 @Component({
@@ -22,6 +24,7 @@ export class MessagePage {
     "",
     "",
     "",
+    null, 
     null
   );
 
@@ -54,7 +57,8 @@ export class MessagePage {
       recipientName: this.recipient.name,
       bookId: this.bookListing.bookId,
       bookTitle: this.bookListing.title,
-      read: false
+      read: false,
+      created: firebase.firestore.FieldValue.serverTimestamp()
     } as MessageModel);
     this.closeModal();
   }

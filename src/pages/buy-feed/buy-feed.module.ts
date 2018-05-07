@@ -3,6 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { BuyFeedPage } from './buy-feed';
 import { BookListingComponent } from '../../components/book-listing/book-listing';
 import { ComponentsModule } from '../../components/components.module';
+import { PipesModule } from '../../pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { ComponentsModule } from '../../components/components.module';
   ],
   imports: [
     IonicPageModule.forChild(BuyFeedPage),
-    ComponentsModule    
+    ComponentsModule,
+    PipesModule
   ],
 })
 export class BuyFeedPageModule {}

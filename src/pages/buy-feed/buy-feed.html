@@ -11,7 +11,7 @@
 
 <ion-content>
   <ion-list class="listing-container">
-    <book-listing *ngFor="let listing of bookListings | async" [listingImage]="listing.photos[0]" [bookListingTitle]="listing.title"
+    <book-listing *ngFor="let listing of bookListings | async | reverse" [listingImage]="listing.photos[0]" [bookListingTitle]="listing.title"
       [bookListingPrice]="listing.price" (click)="goToListing(listing)">
     </book-listing>
   </ion-list>

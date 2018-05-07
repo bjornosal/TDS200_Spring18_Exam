@@ -8,7 +8,8 @@ export class MessageModel {
       public recipientName: string,
       public bookId: string,
       public bookTitle:string,
-      public read:boolean     
+      public read:boolean,
+      public created: any
     ) {}
   }
   

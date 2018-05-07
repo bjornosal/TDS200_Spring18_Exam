@@ -68,8 +68,8 @@ export class UserProfilePage {
       .then(res => {
         this.setAllMessagesCollection();
         this.setAllMessageObservableOnCollection();
-        this.messages.subscribe();
         this.getAllListingsByUser();
+        this.messages.subscribe();
       });
   }
 
@@ -84,7 +84,9 @@ export class UserProfilePage {
   }
 
   setAllMessagesCollection() {
-    this.allMessages = this.af.collection<MessageModel>("messages");
+    this.allMessages = this.af.collection<MessageModel>("messages", ref => {
+      return ref.orderBy('created')
+    });
   }
 
   setAllMessageObservableOnCollection() {
@@ -93,6 +95,7 @@ export class UserProfilePage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
         let name = data.senderName;
+
 
         if (
           data.read == false &&
@@ -104,7 +107,7 @@ export class UserProfilePage {
         if (data.senderId === this.af.app.auth().currentUser.uid) {
           name = data.recipientName;
         }
-
+        //TODO: update chats created at
         let conv: Conversation = new Conversation(
           data.senderId,
           data.bookId,
@@ -150,12 +153,11 @@ export class UserProfilePage {
   addToConversation(conv: Conversation) {
     let found = false;
     this.allConversations.forEach(element => {
-
-      console.log(element.listing);
       //TODO: take into method
       if (
         element.listing === conv.listing &&
-        ((element.sender === conv.sender) || (element.recipientName === conv.sender))
+        (element.sender === conv.sender ||
+          element.recipientName === conv.sender)
       ) {
         found = true;
       }
@@ -180,7 +182,6 @@ export class UserProfilePage {
 
   presentListingModal(listing: BookListing) {
     let listingModal = null;
-    console.log(listing);
 
     listingModal = this.modalCtrl
       .create(ListingPage, {
