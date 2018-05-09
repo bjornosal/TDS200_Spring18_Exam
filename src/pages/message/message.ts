@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from "ionic-angular";
 import { AngularFirestore } from "angularfire2/firestore";
 import { BookListing } from "../../models/BookListing";
 import { MessageModel } from "../../models/MessageModel";
-import { Conversation } from "../../models/Conversation";
 import { User } from "../../models/User";
 import * as firebase from 'firebase';
 
@@ -15,18 +14,6 @@ import * as firebase from 'firebase';
 })
 export class MessagePage {
   private bookListing: BookListing = new BookListing("", "", "", null, null);
-  private message: MessageModel = new MessageModel(
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    null, 
-    null
-  );
 
   public messageText: string;
   public messageTitle: string;
@@ -49,7 +36,6 @@ export class MessagePage {
 
   sendMessage() {
     this.af.collection<MessageModel>("messages").add({
-      title: this.messageTitle,
       messageText: this.messageText,
       senderId: this.af.app.auth().currentUser.uid,
       senderName: this.user.name,

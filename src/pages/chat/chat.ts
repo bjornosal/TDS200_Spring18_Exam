@@ -29,7 +29,6 @@ export class ChatPage {
   private senderId: string;
   private conversation: Conversation;
   public messageText: string;
-  public messageTitle: string;
 
   constructor(
     public navCtrl: NavController,
