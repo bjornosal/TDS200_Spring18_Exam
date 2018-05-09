@@ -3,7 +3,8 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ModalController
+  ModalController,
+  ToastController
 } from "ionic-angular";
 import { MessageModel } from "../../models/MessageModel";
 import {
@@ -39,10 +40,9 @@ export class ChatPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore,
-    private modalCtrl: ModalController
-  ) {
-  
-  }
+    private modalCtrl: ModalController,
+    private toastCtrl: ToastController
+  ) {}
 
   ionViewWillEnter() {
     this.setAllMessagesCollection();
@@ -109,18 +109,28 @@ export class ChatPage {
   }
 
   sendMessage() {
-    this.af.collection<MessageModel>("messages").add({
-      messageText: this.messageText,
-      senderId: this.af.app.auth().currentUser.uid,
-      senderName: this.user.name,
-      recipientId: this.listing.seller,
-      recipientName: this.recipient.name,
-      bookId: this.listing.bookId,
-      bookTitle: this.listing.title,
-      read: false,
-      created: firebase.firestore.FieldValue.serverTimestamp()
-    } as MessageModel);
-    this.messageText = "";
+    if (this.messageText !== "") {
+      this.af.collection<MessageModel>("messages").add({
+        messageText: this.messageText,
+        senderId: this.af.app.auth().currentUser.uid,
+        senderName: this.user.name,
+        recipientId: this.listing.seller,
+        recipientName: this.recipient.name,
+        bookId: this.listing.bookId,
+        bookTitle: this.listing.title,
+        read: false,
+        created: firebase.firestore.FieldValue.serverTimestamp()
+      } as MessageModel);
+      this.messageText = "";
+    } else {
+      let toast = this.toastCtrl.create({
+        message: "Message can not be empty",
+        duration: 3000,
+        position: "top"
+      });
+
+      toast.present();
+    }
   }
 
   getCurrentUserFromDatabase() {
