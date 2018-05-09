@@ -24,7 +24,7 @@ import { Condition } from "../../models/enums/enums";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  bookListing: any = new BookListing("", "", "", null, null);
+  private bookListing: any = new BookListing("", "", "", null, null, false, null);
 
   private condition: Condition;
   private conditionNew: Condition = Condition.New;
@@ -68,7 +68,7 @@ export class SellBookPage {
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "", null, null);
+    this.bookListing = new BookListing("", "", "", null, null, false, null);
   }
 
   addBookListingToDatabase() {

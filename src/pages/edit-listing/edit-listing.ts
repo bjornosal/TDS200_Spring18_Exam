@@ -30,7 +30,7 @@ export class EditListingPage {
     this.bookListing = navParams.get("listing");
   }
 
-  bookListing: any = new BookListing("", "", "", null, null);
+  bookListing: any = new BookListing("", "", "", null, null, false, null);
 
   private conditionNew: Condition = Condition.New;
   private conditionUsed: Condition = Condition.Used;
@@ -62,6 +62,7 @@ export class EditListingPage {
         description: this.bookListing.description,
         price: this.bookListing.price,
         seller: this.af.app.auth().currentUser.uid,
+        sold: false,
         photos: this.getPhotos(),
         condition: this.bookListing.condition
       } as BookListing);

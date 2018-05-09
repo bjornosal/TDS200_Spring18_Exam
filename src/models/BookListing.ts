@@ -9,7 +9,7 @@ export class BookListing {
     public seller: string,
     public condition: Condition,
     public price: number,
+    public sold: boolean,
     public photos?: string[]
   ) {}
-
 }

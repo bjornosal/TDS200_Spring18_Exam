@@ -24,7 +24,7 @@ import { ChatPage } from "../chat/chat";
   templateUrl: "listing.html"
 })
 export class ListingPage {
-  private bookListing: BookListing = new BookListing("", "", "", null, null);
+  private bookListing: BookListing = new BookListing("", "", "", null, null, false, null);
   private openedAsModal: boolean = false;
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
