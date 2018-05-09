@@ -107,7 +107,6 @@ export class UserProfilePage {
         if (data.senderId === this.af.app.auth().currentUser.uid) {
           name = data.recipientName;
         }
-        //TODO: update chats created at
         let conv: Conversation = new Conversation(
           data.senderId,
           data.bookId,

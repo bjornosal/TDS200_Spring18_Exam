@@ -17,6 +17,8 @@ import { EditListingPage } from "../edit-listing/edit-listing";
 import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
 import { ChatPage } from "../chat/chat";
+import { User } from "../../models/User";
+import { Subscription } from "rxjs/Subscription";
 
 @IonicPage()
 @Component({
@@ -24,13 +26,23 @@ import { ChatPage } from "../chat/chat";
   templateUrl: "listing.html"
 })
 export class ListingPage {
-  private bookListing: BookListing = new BookListing("", "", "", null, null, false, null);
+  private seller: User = new User("", "", null);
+  private bookListing: BookListing = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    null
+  );
   private openedAsModal: boolean = false;
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
   private allConversations: Set<Conversation> = new Set<Conversation>();
+  private subscription: Subscription;
 
   constructor(
     public navCtrl: NavController,
@@ -38,16 +50,20 @@ export class ListingPage {
     private af: AngularFirestore,
     private modalCtrl: ModalController
   ) {
-
+    this.bookListing = this.navParams.get("listing");
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
-    this.bookListing = this.navParams.get("listing");
   }
 
   ionViewWillEnter() {
+    this.subscription = this.messages.subscribe();
     if (this.navParams.get("modal") == true) {
       this.openedAsModal = this.navParams.get("modal");
     }
+  }
+
+  ionViewDidLeave() {
+    this.subscription.unsubscribe();
   }
 
   presentMessageModal() {
@@ -95,10 +111,13 @@ export class ListingPage {
 
   /**
    * Convos
+   * TODO: remove this
    */
 
   setAllMessagesCollection() {
-    this.allMessages = this.af.collection<MessageModel>("messages");
+    this.allMessages = this.af.collection<MessageModel>("messages", ref => {
+      return ref.where("bookId", "==", this.bookListing.bookId).orderBy("created");
+    });
   }
 
   setAllMessageObservableOnCollection() {
@@ -106,11 +125,19 @@ export class ListingPage {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
+        let name = data.senderName;
 
+        data.read == false &&
+          data.recipientId === this.af.app.auth().currentUser.uid;
+
+        if (data.senderId === this.af.app.auth().currentUser.uid) {
+          name = data.recipientName;
+        }
+        //TODO: update chats created at
         let conv: Conversation = new Conversation(
           data.senderId,
           data.bookId,
-          data.senderName,
+          name,
           data.bookTitle,
           data.recipientId,
           data.recipientName
@@ -128,18 +155,36 @@ export class ListingPage {
   addToConversation(conv: Conversation) {
     let found = false;
     this.allConversations.forEach(element => {
-      if (element.listing === conv.listing && element.sender === conv.sender) {
+      //TODO: take into method
+      if (
+        element.listing === conv.listing &&
+        (element.sender === conv.sender ||
+          element.recipientName === conv.sender)
+      ) {
         found = true;
       }
     });
-    if (
-      !found &&
-      conv.sender != this.af.app.auth().currentUser.uid &&
-      this.bookListing.bookId === conv.listing
-    ) {
+
+    if (!found) {
       this.allConversations.add(conv);
     }
   }
+
+  // addToConversation(conv: Conversation) {
+  //   let found = false;
+  //   this.allConversations.forEach(element => {
+  //     if (element.listing === conv.listing && element.sender === conv.sender) {
+  //       found = true;
+  //     }
+  //   });
+  //   if (
+  //     !found &&
+  //     conv.sender != this.af.app.auth().currentUser.uid &&
+  //     this.bookListing.bookId === conv.listing
+  //   ) {
+  //     this.allConversations.add(conv);
+  //   }
+  // }
 
   goToConversation(conversation: Conversation) {
     this.navCtrl.push(ChatPage, {

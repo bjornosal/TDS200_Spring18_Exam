@@ -60,7 +60,6 @@ export class MessagePage {
   }
 
   getRecipientFromDatabase(userId: string) {
-    
     this.af
       .collection<User>("users")
       .doc(userId)
