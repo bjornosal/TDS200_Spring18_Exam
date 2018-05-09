@@ -33,6 +33,8 @@ https://blog.codecentric.de/en/2018/01/different-ways-unsubscribing-rxjs-observa
 
 https://forum.ionicframework.com/t/how-to-increment-badge-in-the-tabs/83376
 
+https://stackoverflow.com/questions/38057537/how-to-check-the-length-of-an-observable-array
+
 https://stackoverflow.com/questions/42718627/how-do-i-fix-a-button-to-bottom-ionic
 
 Reversing order of array

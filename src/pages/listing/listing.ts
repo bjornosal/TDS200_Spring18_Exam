@@ -18,7 +18,6 @@ import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
 import { ChatPage } from "../chat/chat";
 import { User } from "../../models/User";
-import { Subscription } from "rxjs/Subscription";
 
 @IonicPage()
 @Component({
@@ -43,7 +42,6 @@ export class ListingPage {
   private messages: Observable<MessageModel[]>;
 
   private allConversations: Set<Conversation> = new Set<Conversation>();
-  private subscription: Subscription;
 
   constructor(
     public navCtrl: NavController,
@@ -62,7 +60,6 @@ export class ListingPage {
       this.getCurrentUserFromDatabase();
     }
   }
-
 
   getSellerFromDatabase() {
     this.af
@@ -210,11 +207,10 @@ export class ListingPage {
     let conversation: Conversation = incomingConversation;
 
     if (this.af.app.auth().currentUser == null) {
-    } else {
       this.navCtrl.push(LoginPage, {
         fromPage: "contact"
       });
-
+    } else {
       if (this.allConversations.size === 0) {
         conversation = new Conversation(
           this.af.app.auth().currentUser.uid,
@@ -229,5 +225,14 @@ export class ListingPage {
         conversation: conversation
       });
     }
+  }
+
+  markBookAsSold() {
+    this.af
+      .collection<BookListing>("bookListings")
+      .doc(this.bookListing.bookId)
+      .update({
+        sold: true
+      } as BookListing);
   }
 }

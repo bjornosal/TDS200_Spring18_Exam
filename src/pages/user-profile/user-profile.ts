@@ -17,7 +17,6 @@ import { Conversation } from "../../models/Conversation";
 import { BookListing } from "../../models/BookListing";
 import { ListingPage } from "../listing/listing";
 import { ChatPage } from "../chat/chat";
-import { UnreadMessagesProvider } from "../../providers/unread-messages/unread-messages";
 
 @IonicPage()
 @Component({
@@ -52,8 +51,7 @@ export class UserProfilePage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore,
-    private modalCtrl: ModalController,
-    private unreadProvider: UnreadMessagesProvider
+    private modalCtrl: ModalController
   ) {}
 
   ionViewWillEnter() {
