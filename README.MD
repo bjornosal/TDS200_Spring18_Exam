@@ -31,5 +31,8 @@ date in firebase
 https://forum.ionicframework.com/t/remove-subscriptions-when-leaving-page/73485
 https://blog.codecentric.de/en/2018/01/different-ways-unsubscribing-rxjs-observables-angular/
 
+
+https://stackoverflow.com/questions/42718627/how-do-i-fix-a-button-to-bottom-ionic
+
 Reversing order of array
 <https://stackoverflow.com/questions/48659890/ionic-latest-add-item-not-display-in-the-list-top>

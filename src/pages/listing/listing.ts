@@ -27,6 +27,7 @@ import { Subscription } from "rxjs/Subscription";
 })
 export class ListingPage {
   private seller: User = new User("", "", null);
+  
   private bookListing: BookListing = new BookListing(
     "",
     "",

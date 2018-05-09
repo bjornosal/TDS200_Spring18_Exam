@@ -16,7 +16,6 @@ export class MessagePage {
   private bookListing: BookListing = new BookListing("", "", "", null, null, false, null);
 
   public messageText: string;
-  public messageTitle: string;
   private user: User = new User("", "", "");
   private recipient: User = new User("", "", "");
 

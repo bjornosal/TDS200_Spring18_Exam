@@ -13,6 +13,15 @@
       <message *ngIf="message != undefined" 
       [messageText]="message.messageText">Test</message>
     </div>
+
   </ion-list>
-  <button ion-button (click)="presentMessageModal()">Reply</button>
 </ion-content>
+
+<ion-footer>
+    <ion-item>
+        <ion-textarea [(ngModel)]="messageText" placeholder="Enter Message"></ion-textarea>
+      </ion-item>
+    
+      <button block ion-button (click)="sendMessage()">Send Message</button>
+    <!-- <button ion-button block (click)="presentMessageModal()">Message</button>   -->
+</ion-footer>
