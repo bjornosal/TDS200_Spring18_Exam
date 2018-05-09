@@ -27,7 +27,7 @@ import { Subscription } from "rxjs/Subscription";
 })
 export class ListingPage {
   private seller: User = new User("", "", null);
-  
+  private user: User = new User("", "", null);
   private bookListing: BookListing = new BookListing(
     "",
     "",
@@ -50,23 +50,19 @@ export class ListingPage {
     public navParams: NavParams,
     private af: AngularFirestore,
     private modalCtrl: ModalController
-  ) {
-    this.bookListing = this.navParams.get("listing");
-    this.setAllMessagesCollection();
-    this.setAllMessageObservableOnCollection();
-  }
+  ) {}
 
   ionViewWillEnter() {
-    this.subscription = this.messages.subscribe();
     if (this.navParams.get("modal") == true) {
       this.openedAsModal = this.navParams.get("modal");
     }
+    this.bookListing = this.navParams.get("listing");
     this.getSellerFromDatabase();
+    if (this.af.app.auth().currentUser != null) {
+      this.getCurrentUserFromDatabase();
+    }
   }
 
-  ionViewDidLeave() {
-    this.subscription.unsubscribe();
-  }
 
   getSellerFromDatabase() {
     this.af
@@ -75,6 +71,21 @@ export class ListingPage {
       .ref.get()
       .then(doc => {
         this.seller = doc.data() as User;
+      });
+  }
+
+  getCurrentUserFromDatabase() {
+    this.af
+      .collection<User>("users")
+      .doc(this.af.app.auth().currentUser.uid)
+      .ref.get()
+      .then(doc => {
+        this.user = doc.data() as User;
+      })
+      .then(res => {
+        this.setAllMessagesCollection();
+        this.setAllMessageObservableOnCollection();
+        this.messages.subscribe();
       });
   }
 
@@ -120,11 +131,6 @@ export class ListingPage {
   closeModal() {
     this.navCtrl.pop();
   }
-
-  /**
-   * Convos
-   * TODO: remove this
-   */
 
   setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
@@ -200,9 +206,28 @@ export class ListingPage {
   //   }
   // }
 
-  goToConversation(conversation: Conversation) {
-    this.navCtrl.push(ChatPage, {
-      conversation: conversation
-    });
+  goToConversation(incomingConversation?: Conversation) {
+    let conversation: Conversation = incomingConversation;
+
+    if (this.af.app.auth().currentUser == null) {
+    } else {
+      this.navCtrl.push(LoginPage, {
+        fromPage: "contact"
+      });
+
+      if (this.allConversations.size === 0) {
+        conversation = new Conversation(
+          this.af.app.auth().currentUser.uid,
+          this.bookListing.bookId,
+          this.user.name,
+          this.bookListing.title,
+          this.bookListing.seller,
+          this.seller.name
+        );
+      }
+      this.navCtrl.push(ChatPage, {
+        conversation: conversation
+      });
+    }
   }
 }

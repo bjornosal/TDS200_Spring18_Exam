@@ -12,7 +12,6 @@ import {
 } from "angularfire2/firestore";
 import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
-import { MessagePage } from "../message/message";
 import { BookListing } from "../../models/BookListing";
 import { User } from "../../models/User";
 import * as firebase from "firebase";
@@ -95,14 +94,6 @@ export class ChatPage {
       } as MessageModel);
   }
 
-  presentMessageModal() {
-    this.modalCtrl
-      .create(MessagePage, {
-        listing: this.listing
-      })
-      .present();
-  }
-
   getBookFromDatabase(bookId: string) {
     this.af
       .collection<BookListing>("bookListings")
@@ -129,6 +120,7 @@ export class ChatPage {
       read: false,
       created: firebase.firestore.FieldValue.serverTimestamp()
     } as MessageModel);
+    this.messageText = "";
   }
 
   getCurrentUserFromDatabase() {

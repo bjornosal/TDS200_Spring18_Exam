@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Chat - </ion-title>
+    <ion-title>{{recipient.name}} - {{listing.title}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -9,6 +9,8 @@
 
 <ion-content padding>
   <ion-list>
+    <!--TODO: add pipe for CSS???-->
+    
     <div *ngFor="let message of messages | async | reverse">
       <message *ngIf="message != undefined" 
       [messageText]="message.messageText">Test</message>
@@ -23,5 +25,4 @@
       </ion-item>
     
       <button block ion-button (click)="sendMessage()">Send Message</button>
-    <!-- <button ion-button block (click)="presentMessageModal()">Message</button>   -->
 </ion-footer>

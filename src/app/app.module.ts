@@ -35,6 +35,7 @@ import { MessageComponent } from '../components/message/message';
 import { ComponentsModule } from '../components/components.module';
 import { BookListingComponent } from '../components/book-listing/book-listing';
 import { PipesModule } from '../pipes/pipes.module';
+import { UnreadMessagesProvider } from '../providers/unread-messages/unread-messages';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { PipesModule } from '../pipes/pipes.module';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Camera  ]
+    Camera,
+    UnreadMessagesProvider  ]
 })
 export class AppModule {}
