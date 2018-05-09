@@ -60,10 +60,21 @@ export class ListingPage {
     if (this.navParams.get("modal") == true) {
       this.openedAsModal = this.navParams.get("modal");
     }
+    this.getSellerFromDatabase();
   }
 
   ionViewDidLeave() {
     this.subscription.unsubscribe();
+  }
+
+  getSellerFromDatabase() {
+    this.af
+      .collection<User>("users")
+      .doc(this.bookListing.seller)
+      .ref.get()
+      .then(doc => {
+        this.seller = doc.data() as User;
+      });
   }
 
   presentMessageModal() {
@@ -116,7 +127,9 @@ export class ListingPage {
 
   setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
-      return ref.where("bookId", "==", this.bookListing.bookId).orderBy("created");
+      return ref
+        .where("bookId", "==", this.bookListing.bookId)
+        .orderBy("created");
     });
   }
 

@@ -25,7 +25,15 @@ import { ChatPage } from "../chat/chat";
 })
 export class UserProfilePage {
   private user: User = new User("", "", "");
-  private listing: BookListing = new BookListing("", "", "", null, null, false, null);
+  private listing: BookListing = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    null
+  );
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
@@ -44,9 +52,7 @@ export class UserProfilePage {
     public navParams: NavParams,
     private af: AngularFirestore,
     private modalCtrl: ModalController
-  ) {
-    this.getCurrentUserFromDatabase();
-  }
+  ) {}
 
   ionViewWillEnter() {
     if (!this.af.app.auth().currentUser) {
@@ -54,6 +60,7 @@ export class UserProfilePage {
         fromPage: "UserProfilePage"
       });
     } else {
+      this.getCurrentUserFromDatabase();
     }
   }
 
@@ -85,7 +92,7 @@ export class UserProfilePage {
 
   setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
-      return ref.orderBy('created')
+      return ref.orderBy("created");
     });
   }
 
@@ -95,7 +102,6 @@ export class UserProfilePage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
         let name = data.senderName;
-
 
         if (
           data.read == false &&

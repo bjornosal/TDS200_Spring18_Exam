@@ -17,12 +17,14 @@
   <ion-label>Price</ion-label>
   <p> {{bookListing.price}}</p>
 
+
+  <user-profile-information [user]="seller"></user-profile-information> 
+
   <ion-list class="messagesContainer">
     <ion-item *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
       <p>Sender: {{conversation.senderName}}</p>
       <p>Title: {{conversation.bookTitle}}</p>
     </ion-item>
-
   </ion-list>
 
   <ion-row>
@@ -36,5 +38,6 @@
 
   <button ion-button block (click)="presentMessageModal()" *ngIf="!isListingByCurrentUser()">Contact Seller</button>
   <button ion-button block (click)="closeModal()" *ngIf="isOpenedByModal()">Close</button>
+
 
 </ion-content>
