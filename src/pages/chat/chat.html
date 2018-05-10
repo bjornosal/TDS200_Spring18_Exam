@@ -10,19 +10,18 @@
 <ion-content padding>
   <ion-list>
     <!--TODO: add pipe for CSS???-->
-    
+
     <ng-container *ngFor="let message of messages | async | reverse">
-      <message *ngIf="message != undefined" 
-      [messageText]="message.messageText">Test</message>
-    </ng-container>>
+      <message *ngIf="message != undefined" [messageText]="message.messageText">Test</message>
+    </ng-container>
 
   </ion-list>
 </ion-content>
 
 <ion-footer>
-    <ion-item>
-        <ion-textarea [(ngModel)]="messageText" placeholder="Enter Message"></ion-textarea>
-      </ion-item>
-    
-      <button block ion-button (click)="sendMessage()">Send Message</button>
+  <ion-item>
+    <ion-textarea [(ngModel)]="messageText" placeholder="Enter Message"></ion-textarea>
+  </ion-item>
+
+  <button block ion-button (click)="sendMessage()">Send Message</button>
 </ion-footer>
