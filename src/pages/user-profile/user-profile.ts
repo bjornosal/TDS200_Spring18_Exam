@@ -45,8 +45,6 @@ export class UserProfilePage {
 
   private displayMessages: boolean = true;
 
-  private hasUnreadMessages: boolean = false;
-
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -102,13 +100,6 @@ export class UserProfilePage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
         let name = data.senderName;
-
-        if (
-          data.read == false &&
-          data.recipientId === this.af.app.auth().currentUser.uid
-        ) {
-          this.hasUnreadMessages = true;
-        }
 
         if (data.senderId === this.af.app.auth().currentUser.uid) {
           name = data.recipientName;

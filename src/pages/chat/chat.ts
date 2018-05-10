@@ -32,6 +32,7 @@ export class ChatPage {
   private senderId: string;
   private conversation: Conversation;
   public messageText: string;
+  private recipientId: string = "";
 
   private user: User = new User("", "", "");
   private recipient: User = new User("", "", "");
@@ -55,6 +56,7 @@ export class ChatPage {
     this.getBookFromDatabase(this.conversation.listing);
     this.messages.subscribe();
   }
+
   setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref.orderBy("created");
@@ -67,7 +69,8 @@ export class ChatPage {
         let data = action.payload.doc.data() as MessageModel;
         let id = action.payload.doc.id;
 
-        if (data.senderId != this.af.app.auth().currentUser.uid) {
+        if (data.senderId !== this.af.app.auth().currentUser.uid) {
+  
           this.setMessageToRead(id);
         }
 
@@ -95,6 +98,7 @@ export class ChatPage {
   }
 
   getBookFromDatabase(bookId: string) {
+    console.log(this.conversation.sender);
     this.af
       .collection<BookListing>("bookListings")
       .doc(bookId)
@@ -104,23 +108,43 @@ export class ChatPage {
         this.listing.bookId = bookId;
       })
       .then(res => {
-        this.getRecipientFromDatabase(this.listing.seller);
+        if (this.af.app.auth().currentUser.uid === this.listing.seller) {
+          if (
+            this.af.app.auth().currentUser.uid === this.conversation.recipientId
+          ) {
+            console.log("### TEST 1 ###");
+            
+            this.getRecipientFromDatabase(this.conversation.sender);
+            this.recipientId = this.conversation.sender;
+            
+          } else {
+            console.log("### TEST 2 ###");
+            this.getRecipientFromDatabase(this.conversation.recipientId);
+            this.recipientId = this.conversation.recipientId;
+          }
+        } else {
+          console.log("### TEST 3 ###");
+          this.getRecipientFromDatabase(this.listing.seller);
+          this.recipientId = this.listing.seller;
+        }
       });
   }
 
   sendMessage() {
+    console.log(this.recipient.name);
     if (this.messageText !== "") {
       this.af.collection<MessageModel>("messages").add({
         messageText: this.messageText,
         senderId: this.af.app.auth().currentUser.uid,
         senderName: this.user.name,
-        recipientId: this.listing.seller,
+        recipientId: this.recipientId,
         recipientName: this.recipient.name,
         bookId: this.listing.bookId,
         bookTitle: this.listing.title,
         read: false,
         created: firebase.firestore.FieldValue.serverTimestamp()
       } as MessageModel);
+      
       this.messageText = "";
     } else {
       let toast = this.toastCtrl.create({

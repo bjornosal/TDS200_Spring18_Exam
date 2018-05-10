@@ -27,6 +27,10 @@
     </ion-item>
   </ion-list>
 
+
+</ion-content>
+
+<ion-footer>
   <ion-row>
     <ion-col>
       <button ion-button block (click)="presentEditModal()" *ngIf="isListingByCurrentUser()">Edit Post</button>
@@ -39,4 +43,4 @@
 
   <button ion-button block (click)="goToConversation()" *ngIf="!isListingByCurrentUser()">Message</button>
   <button ion-button block (click)="closeModal()" *ngIf="isOpenedByModal()">Close</button>
-</ion-content>
+</ion-footer>
