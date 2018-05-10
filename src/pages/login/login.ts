@@ -88,4 +88,6 @@ export class LoginPage {
   closeModal() {
     this.navCtrl.pop();
   }
+
+  
 }

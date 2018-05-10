@@ -1,8 +1,4 @@
 book-listing {
-  @mixin buy-feed-img($width, $height) {
-    width: $width;
-    height: $height;
-  }
   .bookListingContainer {
     width: 100%;
     border: 1px solid map-get($colors, transparent-black);
@@ -25,9 +21,7 @@ book-listing {
         
         bottom: 0;
         color: #FFF;
-
       }
-
     }
 
     .bookListingTitle {

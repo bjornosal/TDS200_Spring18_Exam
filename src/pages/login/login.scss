@@ -1,3 +1,10 @@
 page-login {
+  ion-content {
+    background: url("../../assets/imgs/login-screen.jpg") no-repeat center fixed;
+    background-size: cover;
+  }
 
+  .login-information-text {
+      color: #000;
+  }
 }

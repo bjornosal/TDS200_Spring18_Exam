@@ -1,16 +1,9 @@
-<ion-header>
-
-  <ion-navbar hideBackButton="true">
-    <ion-title>Login</ion-title>
-  </ion-navbar>
-
-</ion-header>
-
-
 <ion-content padding>
 
   <ion-card>
-
+    <ion-item>
+      <h1 class="login-header">Login</h1>
+    </ion-item>
     <ion-item>
       <ion-input type="email" [(ngModel)]="user.email" placeholder="E-mail"></ion-input>
     </ion-item>
@@ -25,19 +18,15 @@
       </button>
     </ion-item>
 
-    <!-- <ion-item>
-        <button ion-button block (click)="loginUserWithGoogle()">
-          Log In With Google
-        </button>
-      </ion-item> -->
-      
     <ion-item>
-      <p>Don't have an account?</p>
+      <p class="login-information-text">Don't have an account?</p>
       <button ion-button block (click)=goToRegisterPage()>
         Register here
       </button>
     </ion-item>
   </ion-card>
-  <button ion-button block *ngIf="fromPage === 'contact'" (click)="closeModal()">Cancel</button>
 
 </ion-content>
+<ion-footer>
+  <button ion-button block *ngIf="fromPage === 'contact'" (click)="closeModal()">Cancel</button>
+</ion-footer>
