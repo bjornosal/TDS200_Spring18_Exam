@@ -180,4 +180,8 @@ export class ChatPage {
   closeModal() {
     this.navCtrl.pop();
   }
+
+  isMessageSentByCurrentUser(message:MessageModel):boolean {
+    return this.af.app.auth().currentUser.uid === message.senderId;
+  }
 }

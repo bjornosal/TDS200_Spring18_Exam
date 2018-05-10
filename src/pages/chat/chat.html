@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>{{recipient.name}} - {{listing.title}}</ion-title>
+    <ion-title>Listing: {{listing.title}}</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -12,7 +12,7 @@
     <!--TODO: add pipe for CSS???-->
 
     <ng-container *ngFor="let message of messages | async | reverse">
-      <message *ngIf="message != undefined" [messageText]="message.messageText">Test</message>
+      <message  [class.message-by-current-user]="!isMessageSentByCurrentUser(message)" *ngIf="message != undefined" [messageText]="message.messageText">Test</message>
     </ng-container>
 
   </ion-list>

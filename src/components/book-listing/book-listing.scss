@@ -1,7 +1,6 @@
 book-listing {
   .bookListingContainer {
     width: 100%;
-    border: 1px solid map-get($colors, transparent-black);
     .bookListingImageContainer {
       position: relative;
       width: 100%;
@@ -18,9 +17,9 @@ book-listing {
         padding: 2.5% 5% 2.5% 5%;
         position: absolute;
         background-color: map-get($map: $colors, $key: transparent-black);
-        
+
         bottom: 0;
-        color: #FFF;
+        color: #fff;
       }
     }
 
