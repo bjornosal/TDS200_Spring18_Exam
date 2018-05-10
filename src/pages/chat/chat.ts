@@ -98,7 +98,6 @@ export class ChatPage {
   }
 
   getBookFromDatabase(bookId: string) {
-    console.log(this.conversation.sender);
     this.af
       .collection<BookListing>("bookListings")
       .doc(bookId)
@@ -112,18 +111,15 @@ export class ChatPage {
           if (
             this.af.app.auth().currentUser.uid === this.conversation.recipientId
           ) {
-            console.log("### TEST 1 ###");
             
             this.getRecipientFromDatabase(this.conversation.sender);
             this.recipientId = this.conversation.sender;
             
           } else {
-            console.log("### TEST 2 ###");
             this.getRecipientFromDatabase(this.conversation.recipientId);
             this.recipientId = this.conversation.recipientId;
           }
         } else {
-          console.log("### TEST 3 ###");
           this.getRecipientFromDatabase(this.listing.seller);
           this.recipientId = this.listing.seller;
         }
@@ -131,7 +127,6 @@ export class ChatPage {
   }
 
   sendMessage() {
-    console.log(this.recipient.name);
     if (this.messageText !== "") {
       this.af.collection<MessageModel>("messages").add({
         messageText: this.messageText,

@@ -17,6 +17,10 @@ export class BuyFeedPage {
   private allBookListingsCollection: AngularFirestoreCollection<BookListing>;
   private bookListings: Observable<BookListing[]>;
 
+  private filterPriceStart: number = 0;
+  private filterPriceEnd: number = 2000;
+  private filterSearch: string = "";
+
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
@@ -26,14 +30,12 @@ export class BuyFeedPage {
     this.setBookListingObservableOnCollection();
   }
 
-  ionViewDidEnter() {
-    //TODO implement select on tabs
-  }
-
   setAllBookListingsCollection() {
-    this.allBookListingsCollection = this.af.collection<BookListing>("bookListings", ref => {
-      return ref.where("sold", "==", false);
-    }
+    this.allBookListingsCollection = this.af.collection<BookListing>(
+      "bookListings",
+      ref => {
+        return ref.where("sold", "==", false);
+      }
     );
   }
 
@@ -57,5 +59,23 @@ export class BuyFeedPage {
     this.navCtrl.push(ListingPage, {
       listing: listing
     });
+  }
+
+  checkIfListingPassesFilter(listing: BookListing): boolean {
+    let found: boolean = false;
+
+    if (this.filterSearch !== null) {
+      if (
+        listing.title
+          .toLocaleLowerCase()
+          .includes(this.filterSearch.toLocaleLowerCase()) &&
+        this.filterPriceStart <= listing.price &&
+        listing.price <= this.filterPriceEnd
+      ) {
+        found = true;
+      }
+    }
+
+    return found;
   }
 }
