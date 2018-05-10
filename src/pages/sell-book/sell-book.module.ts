@@ -5,9 +5,10 @@ import { SellBookPage } from './sell-book';
 @NgModule({
   declarations: [
     SellBookPage,
+
   ],
   imports: [
-    IonicPageModule.forChild(SellBookPage),
+    IonicPageModule.forChild(SellBookPage)
   ],
 })
 export class SellBookPageModule {}

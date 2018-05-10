@@ -15,9 +15,10 @@ import { LoginPage } from "../login/login";
 import { BuyFeedPage } from "../buy-feed/buy-feed";
 
 import { BookListing } from "../../models/BookListing";
-import { isUndefined } from "ionic-angular/util/util";
 import { Condition } from "../../models/enums/enums";
 import { AngularFireStorage } from "angularfire2/storage";
+import { Geolocation } from "@ionic-native/geolocation";
+import { PlacesProvider } from "../../providers/places/places";
 
 @IonicPage()
 @Component({
@@ -32,6 +33,7 @@ export class SellBookPage {
   private conditionUsed: Condition = Condition.Used;
   private conditionWellUsed: Condition = Condition["Well-Used"];
   private previewImage: string = "";
+  private currentAddress: string = "";
 
   options: CameraOptions = {
     quality: 100,
@@ -49,7 +51,9 @@ export class SellBookPage {
     private camera: Camera,
     private alertCtrl: AlertController,
     private viewCtrl: ViewController,
-    private toastCtrl: ToastController
+    private toastCtrl: ToastController,
+    private geolocation: Geolocation,
+    private placesProvider: PlacesProvider
   ) {}
 
   ionViewWillEnter() {
@@ -165,5 +169,24 @@ export class SellBookPage {
     });
 
     toast.present();
+  }
+
+  getLocation() {
+    this.geolocation
+      .getCurrentPosition()
+      .then((res: any) => {
+        this.placesProvider
+          .getAddressBasedOnLatLng(res.coords.latitude, res.coords.longitude)
+          .then((place: any) => {
+            console.log(place);
+            
+            this.currentAddress = place.results[3].formatted_address;
+            console.log(this.currentAddress);
+            
+          });
+      })
+      .catch(err => {
+        console.log("error: " + err);
+      });
   }
 }
