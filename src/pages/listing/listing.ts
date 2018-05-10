@@ -177,7 +177,7 @@ export class ListingPage {
       if (
         element.listing === conv.listing &&
         (element.sender === conv.sender ||
-          element.recipientName === conv.sender)
+          element.recipientId === conv.sender)
       ) {
         found = true;
       }
@@ -187,22 +187,6 @@ export class ListingPage {
       this.allConversations.add(conv);
     }
   }
-
-  // addToConversation(conv: Conversation) {
-  //   let found = false;
-  //   this.allConversations.forEach(element => {
-  //     if (element.listing === conv.listing && element.sender === conv.sender) {
-  //       found = true;
-  //     }
-  //   });
-  //   if (
-  //     !found &&
-  //     conv.sender != this.af.app.auth().currentUser.uid &&
-  //     this.bookListing.bookId === conv.listing
-  //   ) {
-  //     this.allConversations.add(conv);
-  //   }
-  // }
 
   goToConversation(incomingConversation?: Conversation) {
     let conversation: Conversation = incomingConversation;

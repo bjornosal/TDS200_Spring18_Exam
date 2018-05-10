@@ -150,10 +150,13 @@ export class UserProfilePage {
     let found = false;
     this.allConversations.forEach(element => {
       //TODO: take into method
+
+     
+      
       if (
         element.listing === conv.listing &&
         (element.sender === conv.sender ||
-          element.recipientName === conv.sender)
+          element.recipientId === conv.sender)
       ) {
         found = true;
       }
