@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams } from "ionic-angular";
+import { IonicPage, NavController, NavParams, MenuController } from "ionic-angular";
 import {
   AngularFirestore,
   AngularFirestoreCollection
@@ -78,4 +78,5 @@ export class BuyFeedPage {
 
     return found;
   }
+
 }

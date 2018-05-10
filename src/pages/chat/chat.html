@@ -11,10 +11,10 @@
   <ion-list>
     <!--TODO: add pipe for CSS???-->
     
-    <div *ngFor="let message of messages | async | reverse">
+    <ng-container *ngFor="let message of messages | async | reverse">
       <message *ngIf="message != undefined" 
       [messageText]="message.messageText">Test</message>
-    </div>
+    </ng-container>>
 
   </ion-list>
 </ion-content>

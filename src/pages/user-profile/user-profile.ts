@@ -40,7 +40,7 @@ export class UserProfilePage {
 
   private allListings: AngularFirestoreCollection<BookListing>;
   private listings: Observable<BookListing[]>;
-
+  
   private allConversations: Set<Conversation> = new Set<Conversation>();
 
   private displayMessages: boolean = true;
@@ -74,6 +74,7 @@ export class UserProfilePage {
         this.setAllMessagesCollection();
         this.setAllMessageObservableOnCollection();
         this.getAllListingsByUser();
+        this.getObservableOnAllListings();
         this.messages.subscribe();
       });
   }
@@ -127,6 +128,10 @@ export class UserProfilePage {
       return ref.where("seller", "==", this.af.app.auth().currentUser.uid);
     });
 
+  
+  }
+
+  getObservableOnAllListings() {
     this.listings = this.allListings.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as BookListing;
@@ -149,10 +154,6 @@ export class UserProfilePage {
   addToConversation(conv: Conversation) {
     let found = false;
     this.allConversations.forEach(element => {
-      //TODO: take into method
-
-     
-      
       if (
         element.listing === conv.listing &&
         (element.sender === conv.sender ||
@@ -173,6 +174,7 @@ export class UserProfilePage {
 
   openListingsContainer() {
     this.displayMessages = false;
+    this.getObservableOnAllListings();    
   }
 
   openMessagesContainer() {
