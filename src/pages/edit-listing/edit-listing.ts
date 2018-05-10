@@ -4,7 +4,6 @@ import {
   NavController,
   NavParams,
   AlertController,
-  ViewController,
   ToastController
 } from "ionic-angular";
 import { BookListing } from "../../models/BookListing";
@@ -42,7 +41,6 @@ export class EditListingPage {
     private af: AngularFirestore,
     private camera: Camera,
     private alertCtrl: AlertController,
-    private viewCtrl: ViewController,
     private toastCtrl: ToastController,
     private afStorage: AngularFireStorage,
     private geolocation: Geolocation,
