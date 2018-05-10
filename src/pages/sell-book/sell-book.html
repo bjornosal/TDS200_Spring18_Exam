@@ -21,6 +21,7 @@
 
   </div>
 
+
   <ion-item>
     <ion-input type="text" max="140" placeholder="Book Title" [(ngModel)]="bookListing.title"></ion-input>
   </ion-item>
@@ -34,13 +35,23 @@
   </ion-item>
 
   <ion-item>
-    <ion-label>Condition</ion-label>
-    <ion-select [(ngModel)]="condition">
+    <ion-select placeholder="Condition"[(ngModel)]="condition">
       <ion-option [value]="conditionNew">New</ion-option>
       <ion-option [value]="conditionUsed">Used</ion-option>
       <ion-option [value]="conditionWellUsed">Well-Used</ion-option>
     </ion-select>
   </ion-item>
+
+   <ion-row>
+      <ion-col col-10>
+        <ion-input type="text" max="150" placeholder="Address"></ion-input>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button icon-only>
+          <ion-icon name="locate"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row> 
 
 
 </ion-content>
