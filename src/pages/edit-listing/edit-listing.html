@@ -1,18 +1,23 @@
+
 <ion-header>
 
     <ion-navbar>
       <ion-title>Edit Listing</ion-title>
+    
     </ion-navbar>
   </ion-header>
   
   
-  <ion-content padding>
-<!--   
+  <ion-content>
+  
     <div class="add-photo-container" text-center>
       <button ion-button icon-only class="add-photo-button" (click)="takePhoto()">
         <ion-icon name="add"></ion-icon>
       </button>
-    </div> -->
+      <img  [src]="bookListing.photos[0]" />
+  
+    </div>
+  
   
     <ion-item>
       <ion-input type="text" max="140" placeholder="Book Title" [(ngModel)]="bookListing.title"></ion-input>
@@ -25,17 +30,28 @@
     <ion-item>
       <ion-input type="number" placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
     </ion-item>
-    
+  
     <ion-item>
-        <ion-label>Condition</ion-label>
-        <ion-select [(ngModel)]="bookListing.condition">
-          <ion-option [value]="conditionNew">New</ion-option>
-          <ion-option [value]="conditionUsed">Used</ion-option>
-          <ion-option [value]="conditionWellUsed">Well-Used</ion-option>
-        </ion-select>
-      </ion-item>
+      <ion-select placeholder="Condition" [(ngModel)]="bookListing.condition">
+        <ion-option [value]="conditionNew">New</ion-option>
+        <ion-option [value]="conditionUsed">Used</ion-option>
+        <ion-option [value]="conditionWellUsed">Well-Used</ion-option>
+      </ion-select>
+    </ion-item>
   
-  
-    <button ion-button block (click)="postBookListing()">Save!</button>
-    <button ion-button block (click)="closeModal()">Cancel</button>
+    <ion-row>
+      <ion-col col-10>
+        <ion-input type="text" max="150" placeholder="Address" [(ngModel)]="bookListing.address"></ion-input>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button icon-only (click)="getLocation()">
+          <ion-icon name="locate"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
   </ion-content>
+  
+  <ion-footer>
+      <button ion-button block (click)="postBookListing()">Save!</button>
+      <button ion-button block (click)="closeModal()">Cancel</button>
+  </ion-footer>

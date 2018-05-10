@@ -11,6 +11,9 @@ import { BookListing } from "../../models/BookListing";
 import { Camera, CameraOptions } from "@ionic-native/camera";
 import { Condition } from "../../models/enums/enums";
 import { AngularFirestore } from "angularfire2/firestore";
+import { AngularFireStorage } from "angularfire2/storage";
+import { Geolocation } from "@ionic-native/geolocation";
+import { PlacesProvider } from "../../providers/places/places";
 
 @IonicPage()
 @Component({
@@ -18,23 +21,12 @@ import { AngularFirestore } from "angularfire2/firestore";
   templateUrl: "edit-listing.html"
 })
 export class EditListingPage {
-  constructor(
-    public navCtrl: NavController,
-    public navParams: NavParams,
-    private af: AngularFirestore,
-    private camera: Camera,
-    private alertCtrl: AlertController,
-    private viewCtrl: ViewController,
-    private toastCtrl: ToastController
-  ) {
-    this.bookListing = navParams.get("listing");
-  }
-
   bookListing: any = new BookListing("", "", "", null, null, false, null);
 
   private conditionNew: Condition = Condition.New;
   private conditionUsed: Condition = Condition.Used;
   private conditionWellUsed: Condition = Condition["Well-Used"];
+  private previewImage: string = "";
 
   options: CameraOptions = {
     quality: 100,
@@ -44,16 +36,45 @@ export class EditListingPage {
     correctOrientation: true
   };
 
+  constructor(
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private af: AngularFirestore,
+    private camera: Camera,
+    private alertCtrl: AlertController,
+    private viewCtrl: ViewController,
+    private toastCtrl: ToastController,
+    private afStorage: AngularFireStorage,
+    private geolocation: Geolocation,
+    private placesProvider: PlacesProvider
+  ) {
+    this.bookListing = navParams.get("listing");
+  }
+
   postBookListing() {
     if (this.doFieldValidation() === "") {
-      this.editBookListingInDatabase();
-      this.closeModal();
+      let imageFileName = `${
+        this.af.app.auth().currentUser.email
+      }_${new Date().getTime()}.png`;
+
+      let task = this.afStorage
+        .ref(imageFileName)
+        .putString(this.previewImage, "base64", { contentType: "image/png" });
+      let uploadEvent = task.downloadURL();
+
+      uploadEvent.subscribe(uploadImageUrl => {
+        if (this.previewImage === "") {
+          this.editBookListingInDatabase(this.bookListing.photos[0]);
+        } else {
+          this.editBookListingInDatabase(this.previewImage);
+        }
+      });
     } else {
       this.presentToast(this.doFieldValidation());
     }
   }
 
-  editBookListingInDatabase() {
+  editBookListingInDatabase(imageUrl: string) {
     this.af
       .collection<BookListing>("bookListings")
       .doc(this.bookListing.bookId)
@@ -63,9 +84,12 @@ export class EditListingPage {
         price: this.bookListing.price,
         seller: this.af.app.auth().currentUser.uid,
         sold: false,
-        photos: this.getPhotos(),
+        photos: [imageUrl],
         condition: this.bookListing.condition
-      } as BookListing);
+      } as BookListing)
+      .then(res => {
+        this.closeModal();
+      });
   }
 
   doFieldValidation(): string {
@@ -77,6 +101,10 @@ export class EditListingPage {
       result = result.concat("Description field can not be empty. ");
     if (this.bookListing.price === undefined || this.bookListing.price === "")
       result = result.concat("Price field can not be empty. ");
+    if (this.bookListing.price > 2000)
+      result = result.concat(
+        "Price can not be above 2000. It's used books, not pure gold."
+      );
     if (this.bookListing.condition === undefined)
       result = result.concat("Condition needs to be set. ");
     return result;
@@ -88,13 +116,11 @@ export class EditListingPage {
       ? ["assets/imgs/fallback-photo.jpg"]
       : this.bookListing.photos;
   }
-
   takePhoto() {
     this.camera.getPicture(this.options).then(
       imageData => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64:
         this.bookListing.photos.push("data:image/jpeg;base64," + imageData);
+        this.previewImage = imageData;
       },
       err => {
         this.displayErrorAlert(err);
@@ -123,5 +149,20 @@ export class EditListingPage {
 
   closeModal() {
     this.navCtrl.pop();
+  }
+
+  getLocation() {
+    this.geolocation
+      .getCurrentPosition()
+      .then((res: any) => {
+        this.placesProvider
+          .getAddressBasedOnLatLng(res.coords.latitude, res.coords.longitude)
+          .then((place: any) => {
+            this.bookListing.address = place.results[3].formatted_address;
+          });
+      })
+      .catch(err => {
+        console.log("error: " + err);
+      });
   }
 }

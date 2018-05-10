@@ -26,14 +26,22 @@ import { PlacesProvider } from "../../providers/places/places";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  private bookListing: any = new BookListing("", "", "", null, null, false, []);
+  private bookListing: any = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    "",
+    []
+  );
 
   private condition: Condition;
   private conditionNew: Condition = Condition.New;
   private conditionUsed: Condition = Condition.Used;
   private conditionWellUsed: Condition = Condition["Well-Used"];
   private previewImage: string = "";
-  private currentAddress: string = "";
 
   options: CameraOptions = {
     quality: 100,
@@ -64,6 +72,7 @@ export class SellBookPage {
     }
   }
 
+  //TODO did this work?
   postBookListing() {
     if (this.doFieldValidation() === "") {
       let imageFileName = `${
@@ -76,12 +85,12 @@ export class SellBookPage {
       let uploadEvent = task.downloadURL();
 
       uploadEvent.subscribe(uploadImageUrl => {
-        if (uploadImageUrl === "") {
-          this.addBookListingToDatabase(uploadImageUrl);
-        } else {
+        if (this.previewImage === "") {
           this.addBookListingToDatabase("assets/imgs/fallback-photo.jpg");
+        } else {
+          this.addBookListingToDatabase(uploadImageUrl);
         }
-        this.addBookListingToDatabase(uploadImageUrl);
+
         this.navCtrl.parent.select(0);
       });
     } else {
@@ -90,7 +99,7 @@ export class SellBookPage {
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "", null, null, false, []);
+    this.bookListing = new BookListing("", "", "", null, null, false, "", []);
     this.previewImage = "";
   }
 
@@ -120,6 +129,8 @@ export class SellBookPage {
       result = result.concat("Description field can not be empty. ");
     if (this.bookListing.price === undefined || this.bookListing.price === "")
       result = result.concat("Price field can not be empty. ");
+    if (this.bookListing.price > 2000)
+      result = result.concat("Price can not be above 2000. It's used books, not pure gold.");
     if (this.condition === undefined)
       result = result.concat("Condition needs to be set. ");
     return result;
@@ -178,11 +189,7 @@ export class SellBookPage {
         this.placesProvider
           .getAddressBasedOnLatLng(res.coords.latitude, res.coords.longitude)
           .then((place: any) => {
-            console.log(place);
-            
-            this.currentAddress = place.results[3].formatted_address;
-            console.log(this.currentAddress);
-            
+            this.bookListing.address = place.results[3].formatted_address;
           });
       })
       .catch(err => {

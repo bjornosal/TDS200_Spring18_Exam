@@ -31,29 +31,27 @@
   </ion-item>
 
   <ion-item>
-    <ion-input type="number" placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
+    <ion-input type="number"  placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-select placeholder="Condition"[(ngModel)]="condition">
+    <ion-select placeholder="Condition" [(ngModel)]="condition">
       <ion-option [value]="conditionNew">New</ion-option>
       <ion-option [value]="conditionUsed">Used</ion-option>
       <ion-option [value]="conditionWellUsed">Well-Used</ion-option>
     </ion-select>
   </ion-item>
 
-   <ion-row>
-      <ion-col col-10>
-        <ion-input type="text" max="150" placeholder="Address" [(ngModel)]="currentAddress"></ion-input>
-      </ion-col>
-      <ion-col col-2>
-        <button ion-button icon-only (click)="getLocation()">
-          <ion-icon name="locate"></ion-icon>
-        </button>
-      </ion-col>
-    </ion-row> 
-
-
+  <ion-row>
+    <ion-col col-10>
+      <ion-input type="text" max="150" placeholder="Address" [(ngModel)]="bookListing.address"></ion-input>
+    </ion-col>
+    <ion-col col-2>
+      <button ion-button icon-only (click)="getLocation()">
+        <ion-icon name="locate"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
 </ion-content>
 
 <ion-footer>
