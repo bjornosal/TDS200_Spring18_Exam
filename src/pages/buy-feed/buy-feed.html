@@ -1,9 +1,18 @@
 <ion-header>
-
-
   <ion-navbar hideBackButton="true">
     <ion-searchbar [(ngModel)]="filterSearch" (ionInput)="setBookListingObservableOnCollection()" placeholder="Search ROOT..."></ion-searchbar>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="openFilters()">
+        <ion-icon name="options"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
+
+  <ion-range class="buyfeed-navbar-range" *ngIf="getFilterIsOpen()" dualKnobs="true" pin="true" min="0" max="2000" [(ngModel)]="priceRange" (ionChange)="setBookListingObservableOnCollection()">
+    <ion-label range-left>0</ion-label>
+    <ion-label range-right>2000</ion-label>
+  </ion-range>
+
 </ion-header>
 
 <ion-content>

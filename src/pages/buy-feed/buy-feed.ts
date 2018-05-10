@@ -1,5 +1,10 @@
 import { Component } from "@angular/core";
-import { IonicPage, NavController, NavParams, MenuController } from "ionic-angular";
+import {
+  IonicPage,
+  NavController,
+  NavParams,
+  MenuController
+} from "ionic-angular";
 import {
   AngularFirestore,
   AngularFirestoreCollection
@@ -16,6 +21,11 @@ import { ListingPage } from "../listing/listing";
 export class BuyFeedPage {
   private allBookListingsCollection: AngularFirestoreCollection<BookListing>;
   private bookListings: Observable<BookListing[]>;
+  private filterIsOpen = false; 
+
+  private priceRange = {
+    lower: 0, upper: 2000
+  };
 
   private filterPriceStart: number = 0;
   private filterPriceEnd: number = 2000;
@@ -56,6 +66,7 @@ export class BuyFeedPage {
   }
 
   goToListing(listing: BookListing) {
+    this.filterIsOpen = false;
     this.navCtrl.push(ListingPage, {
       listing: listing
     });
@@ -75,8 +86,14 @@ export class BuyFeedPage {
         found = true;
       }
     }
-
     return found;
   }
 
+  openFilters() {
+    this.filterIsOpen = !this.filterIsOpen;
+  }
+
+  getFilterIsOpen() {
+    return this.filterIsOpen;    
+  }
 }
