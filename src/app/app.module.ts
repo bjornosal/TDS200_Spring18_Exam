@@ -35,7 +35,6 @@ import { MessageComponent } from '../components/message/message';
 import { ComponentsModule } from '../components/components.module';
 import { BookListingComponent } from '../components/book-listing/book-listing';
 import { PipesModule } from '../pipes/pipes.module';
-import { UnreadMessagesProvider } from '../providers/unread-messages/unread-messages';
 
 @NgModule({
   declarations: [
@@ -70,13 +69,12 @@ import { UnreadMessagesProvider } from '../providers/unread-messages/unread-mess
     ListingPage,
     MessagePage,
     EditListingPage,
-    ChatPage,
+    ChatPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Camera,
-    UnreadMessagesProvider  ]
+    Camera  ]
 })
 export class AppModule {}
