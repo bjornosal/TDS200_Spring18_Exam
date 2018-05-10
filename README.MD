@@ -39,3 +39,5 @@ https://stackoverflow.com/questions/42718627/how-do-i-fix-a-button-to-bottom-ion
 
 Reversing order of array
 <https://stackoverflow.com/questions/48659890/ionic-latest-add-item-not-display-in-the-list-top>
+
+<https://codepen.io/calendee/pen/wjugd>

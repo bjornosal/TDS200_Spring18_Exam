@@ -1,8 +1,5 @@
 page-buy-feed {
-  @mixin buy-feed-img($width, $height) {
-    width: $width;
-    height: $height;
-  }
+
 
   .listing-container {
     width: 100%;
@@ -11,17 +8,12 @@ page-buy-feed {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: stretch;
-    img {
-      @include buy-feed-img(100% !important, auto !important);
-    }
+    
 
     book-listing {
-      width: 48%;
-      height: 180px;
-      -webkit-box-shadow: -4px 6px 5px 0px rgba(0, 0, 0, 0.3);
-      -moz-box-shadow: -4px 6px 5px 0px rgba(0, 0, 0, 0.3);
-      box-shadow: -4px 6px 5px 0px rgba(0, 0, 0, 0.3);
-      margin: 1%;
+      width: 49%;
+      margin: .5%;
+   
     }
      
   }

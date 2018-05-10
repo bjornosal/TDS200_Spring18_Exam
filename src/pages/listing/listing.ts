@@ -35,7 +35,7 @@ export class ListingPage {
     null,
     null,
     false,
-    null
+    []
   );
   private openedAsModal: boolean = false;
 

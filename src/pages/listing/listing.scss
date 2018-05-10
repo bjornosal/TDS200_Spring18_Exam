@@ -1,2 +1,56 @@
 page-listing {
+  .photo-container {
+      width: 100%;
+      height: 150px;
+      overflow: hidden;
+      
+  }
+
+  .listing-information {
+    ion-row {
+      min-height: 30px;
+      position: relative;
+
+      ion-col {
+        ion-label {
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          left: 7.5%;
+          font-size: 1.2em;
+          transform: translate(0, -50%);
+          width: 100%;
+        }
+        
+        .listing-main-information {
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          font-size: 1.2em;
+          transform: translate(0, -50%);
+          width: 100%;
+        }
+        .listing-sub-information {
+            margin: 0;
+            width: 100%;
+        }
+      
+      }
+
+      .listing-information-column-left {
+        background-color: map-get($colors, primary);
+        color: #fff;
+        border-top: 1px solid map-get($colors, dark);
+        border-right: 1px solidmap-get($colors, dark);
+      }
+
+      .listing-information-column-right {
+        border-top: 1px solid map-get($colors, dark);
+      }
+
+      .listing-information-column-bottom {
+        border-bottom: 1px solid map-get($colors, dark);
+      }
+    }
+  }
 }

@@ -25,15 +25,7 @@ import { AngularFireStorage } from "angularfire2/storage";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  private bookListing: any = new BookListing(
-    "",
-    "",
-    "",
-    null,
-    null,
-    false,
-    []
-  );
+  private bookListing: any = new BookListing("", "", "", null, null, false, []);
 
   private condition: Condition;
   private conditionNew: Condition = Condition.New;
@@ -80,8 +72,13 @@ export class SellBookPage {
       let uploadEvent = task.downloadURL();
 
       uploadEvent.subscribe(uploadImageUrl => {
+        if (uploadImageUrl === "") {
+          this.addBookListingToDatabase(uploadImageUrl);
+        } else {
+          this.addBookListingToDatabase("assets/imgs/fallback-photo.jpg");
+        }
         this.addBookListingToDatabase(uploadImageUrl);
-      this.navCtrl.parent.select(0);
+        this.navCtrl.parent.select(0);
       });
     } else {
       this.presentToast(this.doFieldValidation());
@@ -93,18 +90,21 @@ export class SellBookPage {
     this.previewImage = "";
   }
 
-  addBookListingToDatabase(imageUrl:string) {
-    this.af.collection<BookListing>("bookListings").add({
-      title: this.bookListing.title,
-      description: this.bookListing.description,
-      price: this.bookListing.price,
-      seller: this.af.app.auth().currentUser.uid,
-      photos: [imageUrl],
-      sold: false,
-      condition: this.condition
-    } as BookListing).then(res => {
-      this.clearSellBookPage();      
-    })
+  addBookListingToDatabase(imageUrl: string) {
+    this.af
+      .collection<BookListing>("bookListings")
+      .add({
+        title: this.bookListing.title,
+        description: this.bookListing.description,
+        price: this.bookListing.price,
+        seller: this.af.app.auth().currentUser.uid,
+        photos: [imageUrl],
+        sold: false,
+        condition: this.condition
+      } as BookListing)
+      .then(res => {
+        this.clearSellBookPage();
+      });
   }
 
   doFieldValidation(): string {
@@ -129,7 +129,7 @@ export class SellBookPage {
 
   getPhotos(): string[] {
     console.log(this.bookListing.photos);
-    
+
     return this.bookListing.photos === undefined ||
       this.bookListing.photos === null
       ? ["assets/imgs/fallback-photo.jpg"]

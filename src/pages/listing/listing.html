@@ -7,16 +7,39 @@
 </ion-header>
 
 
-<ion-content padding>
-  <ion-label>Description</ion-label>
-  <p>{{bookListing.description}}</p>
+<ion-content>
+  <div class="photo-container" text-center>
+    <img src={{bookListing.photos[0]}}/>
+  </div>
 
-  <ion-label>Condition</ion-label>
-  <p>{{bookListing.condition}}</p>
+  <div class="listing-information">
+    <ion-row>
+      <ion-col col-3 class="listing-information-column-left">
+        <ion-label>Title</ion-label>
+      </ion-col>
+      <ion-col class="listing-information-column-right">
+        <p class="listing-main-information">{{bookListing.title}}</p>
+      </ion-col>
+    </ion-row>
 
-  <ion-label>Price</ion-label>
-  <p> {{bookListing.price}}</p>
+    <ion-row>
+      <ion-col col-3 class="listing-information-column-left">
+        <ion-label>Condition</ion-label>
+      </ion-col>
+      <ion-col class="listing-information-column-right">
+        <p class="listing-main-information">{{bookListing.condition}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-3 class="listing-information-column-left listing-information-column-bottom">
+        <ion-label>Price</ion-label>
+      </ion-col>
+      <ion-col class="listing-information-column-right listing-information-column-bottom">
+        <p class="listing-main-information">{{bookListing.price}}</p>
+      </ion-col>
+    </ion-row>
 
+  </div>
 
   <user-profile-information [user]="seller" *ngIf="!isListingByCurrentUser()" (click)="goToSellerProfile()"></user-profile-information>
 
@@ -27,6 +50,28 @@
     </ion-item>
   </ion-list>
 
+
+  <div class="listing-information">
+    <ion-row>
+      <ion-col class="listing-information-column-left">
+        <ion-label>Description</ion-label>
+      </ion-col>
+
+    </ion-row>
+    <ion-row>
+      <ion-col class="listing-information-column-right">
+        <p class="listing-sub-information">{{bookListing.description}}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-3 class="listing-information-column-left listing-information-column-bottom">
+        <ion-label>Area</ion-label>
+      </ion-col>
+      <ion-col class="listing-information-column-right listing-information-column-bottom">
+        <p class="listing-sub-information">Osterhaus' Gate 13, 0183, Oslo</p>
+      </ion-col>
+    </ion-row>
+  </div>
 
 </ion-content>
 
