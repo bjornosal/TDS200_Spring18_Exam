@@ -20,7 +20,7 @@ import { LoginPageModule } from '../pages/login/login.module';
 import { AngularFireModule } from "angularfire2";
 import { AngularFirestoreModule } from "angularfire2/firestore";
 import { AngularFireAuthModule } from "angularfire2/auth";
-import { AngularFireStorage } from "angularfire2/storage";
+import { AngularFireStorageModule } from "angularfire2/storage";
 import firebase from './env'
 import { Camera } from "@ionic-native/camera";
 import { ListingPage } from '../pages/listing/listing';
@@ -59,6 +59,7 @@ import { SellerProfilePage } from '../pages/seller-profile/seller-profile';
     AngularFireModule.initializeApp(firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
+    AngularFireStorageModule,
     ComponentsModule,
     PipesModule
   ],

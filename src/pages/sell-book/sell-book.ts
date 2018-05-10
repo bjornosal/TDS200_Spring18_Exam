@@ -17,6 +17,7 @@ import { BuyFeedPage } from "../buy-feed/buy-feed";
 import { BookListing } from "../../models/BookListing";
 import { isUndefined } from "ionic-angular/util/util";
 import { Condition } from "../../models/enums/enums";
+import { AngularFireStorage } from "angularfire2/storage";
 
 @IonicPage()
 @Component({
@@ -24,12 +25,21 @@ import { Condition } from "../../models/enums/enums";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  private bookListing: any = new BookListing("", "", "", null, null, false, null);
+  private bookListing: any = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    []
+  );
 
   private condition: Condition;
   private conditionNew: Condition = Condition.New;
   private conditionUsed: Condition = Condition.Used;
   private conditionWellUsed: Condition = Condition["Well-Used"];
+  private previewImage: string = "";
 
   options: CameraOptions = {
     quality: 100,
@@ -43,6 +53,7 @@ export class SellBookPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore,
+    private afStorage: AngularFireStorage,
     private camera: Camera,
     private alertCtrl: AlertController,
     private viewCtrl: ViewController,
@@ -59,28 +70,41 @@ export class SellBookPage {
 
   postBookListing() {
     if (this.doFieldValidation() === "") {
-      this.addBookListingToDatabase();
-      this.clearSellBookPage();
+      let imageFileName = `${
+        this.af.app.auth().currentUser.email
+      }_${new Date().getTime()}.png`;
+
+      let task = this.afStorage
+        .ref(imageFileName)
+        .putString(this.previewImage, "base64", { contentType: "image/png" });
+      let uploadEvent = task.downloadURL();
+
+      uploadEvent.subscribe(uploadImageUrl => {
+        this.addBookListingToDatabase(uploadImageUrl);
       this.navCtrl.parent.select(0);
+      });
     } else {
       this.presentToast(this.doFieldValidation());
     }
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "", null, null, false, null);
+    this.bookListing = new BookListing("", "", "", null, null, false, []);
+    this.previewImage = "";
   }
 
-  addBookListingToDatabase() {
+  addBookListingToDatabase(imageUrl:string) {
     this.af.collection<BookListing>("bookListings").add({
       title: this.bookListing.title,
       description: this.bookListing.description,
       price: this.bookListing.price,
       seller: this.af.app.auth().currentUser.uid,
-      photos: this.getPhotos(),
+      photos: [imageUrl],
       sold: false,
       condition: this.condition
-    } as BookListing);
+    } as BookListing).then(res => {
+      this.clearSellBookPage();      
+    })
   }
 
   doFieldValidation(): string {
@@ -104,8 +128,10 @@ export class SellBookPage {
   }
 
   getPhotos(): string[] {
+    console.log(this.bookListing.photos);
+    
     return this.bookListing.photos === undefined ||
-      this.bookListing.photo == null
+      this.bookListing.photos === null
       ? ["assets/imgs/fallback-photo.jpg"]
       : this.bookListing.photos;
   }
@@ -113,9 +139,8 @@ export class SellBookPage {
   takePhoto() {
     this.camera.getPicture(this.options).then(
       imageData => {
-        // imageData is either a base64 encoded string or a file URI
-        // If it's base64:
         this.bookListing.photos.push("data:image/jpeg;base64," + imageData);
+        this.previewImage = imageData;
       },
       err => {
         this.displayErrorAlert(err);

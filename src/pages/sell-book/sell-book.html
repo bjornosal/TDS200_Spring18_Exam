@@ -17,6 +17,8 @@
     <button ion-button icon-only class="add-photo-button" (click)="takePhoto()">
       <ion-icon name="add"></ion-icon>
     </button>
+    <img *ngIf="previewImage.length > 0" [src]="'data:image/jpeg;base64,' + previewImage" />
+
   </div>
 
   <ion-item>
