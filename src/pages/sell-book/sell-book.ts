@@ -78,6 +78,7 @@ export class SellBookPage {
       price: this.bookListing.price,
       seller: this.af.app.auth().currentUser.uid,
       photos: this.getPhotos(),
+      sold: false,
       condition: this.condition
     } as BookListing);
   }

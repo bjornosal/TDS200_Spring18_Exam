@@ -1,5 +1,5 @@
 <ion-tabs>
   <ion-tab [root]="BookFeedPage" tabIcon="book" tabTitle="Books"></ion-tab>
   <ion-tab [root]="SellBookPage" tabIcon="camera" tabTitle="Sell"></ion-tab>
-  <ion-tab [root]="UserProfilePage" tabIcon="person" [tabBadge]="(unreadMessages | async)?.length" tabTitle="Profile"></ion-tab>
+  <ion-tab [root]="UserProfilePage" tabIcon="person" [tabBadge]="(unreadMessages | async)?.length" tabTitle="Profile" tabBadgeStyle="danger"></ion-tab>
 </ion-tabs>

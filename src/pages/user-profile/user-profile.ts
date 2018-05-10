@@ -150,8 +150,6 @@ export class UserProfilePage {
     });
   }
 
- 
-
   logoutUser() {
     this.af.app.auth().signOut();
     this.navCtrl.parent.select(0);

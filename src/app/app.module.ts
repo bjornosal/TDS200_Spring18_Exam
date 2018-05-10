@@ -35,6 +35,8 @@ import { MessageComponent } from '../components/message/message';
 import { ComponentsModule } from '../components/components.module';
 import { BookListingComponent } from '../components/book-listing/book-listing';
 import { PipesModule } from '../pipes/pipes.module';
+import { SellerProfilePageModule } from '../pages/seller-profile/seller-profile.module';
+import { SellerProfilePage } from '../pages/seller-profile/seller-profile';
 
 @NgModule({
   declarations: [
@@ -53,6 +55,7 @@ import { PipesModule } from '../pipes/pipes.module';
     MessagePageModule,
     EditListingPageModule,
     ChatPageModule,
+    SellerProfilePageModule,
     AngularFireModule.initializeApp(firebase),
     AngularFirestoreModule,
     AngularFireAuthModule,
@@ -69,7 +72,8 @@ import { PipesModule } from '../pipes/pipes.module';
     ListingPage,
     MessagePage,
     EditListingPage,
-    ChatPage
+    ChatPage,
+    SellerProfilePage
   ],
   providers: [
     StatusBar,

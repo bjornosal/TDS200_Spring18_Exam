@@ -1,0 +1,20 @@
+page-seller-profile {
+    .listingsContainer {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        align-content: stretch;
+    
+        .sellerListingsContainer {
+            width: 100%;
+            
+            img{
+                width: 15vw;
+                height: 15vw;
+                float: left;
+            }
+        }
+    }
+}

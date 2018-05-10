@@ -1,0 +1,23 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>User Profile</ion-title>
+
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+
+  <user-profile-information [user]="user"></user-profile-information>
+
+  <div class="listingsContainer">
+    <ion-label>Listings by user</ion-label>
+    <ion-list class="sellerListingsContainer">
+      <ion-item *ngFor="let listing of listings | async | reverse" (click)="goToListing(listing)">
+        <img src="{{listing.photos[0]}}" />
+        <p>Listing: {{listing.title}}</p>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>

@@ -18,48 +18,21 @@ export class TabsPage {
   UserProfilePage = UserProfilePage;
 
   private unreadMessages: Observable<MessageModel[]>;
-  private amountOfUnreadMessages: number = 0;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore
-  ) {
-
-   
-  }
+  ) {}
 
   ionViewWillEnter() {
-    this.af.app.auth().onAuthStateChanged(
-      (user) => {
-        if (user) {
-          console.log("##### LOGGED IN #####");
-
-          console.log(this.af.app.auth().currentUser.uid);
-          this.allUnreadMessages();
-        } else {
-          console.log("##### NOT LOGGED IN #####");
-        }
-      });
-    
-  }
-
-  checkForUserLogin() {
-    this.af.app.auth().onAuthStateChanged(function(user) {
+    this.af.app.auth().onAuthStateChanged(user => {
       if (user) {
-        // User is signed in.
-        console.log("##### LOGGED IN #####");
         this.allUnreadMessages();
       } else {
-        // No user is signed in.
-        console.log("##### NOT LOGGED IN #####");
-        if(this.unreadMessages != null)
-        this.unreadMessages.unsubscribe();
       }
     });
   }
-
-
 
   allUnreadMessages() {
     this.unreadMessages = this.af

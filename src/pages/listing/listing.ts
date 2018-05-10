@@ -18,6 +18,7 @@ import { Observable } from "rxjs/Observable";
 import { Conversation } from "../../models/Conversation";
 import { ChatPage } from "../chat/chat";
 import { User } from "../../models/User";
+import { SellerProfilePage } from "../seller-profile/seller-profile";
 
 @IonicPage()
 @Component({
@@ -234,5 +235,11 @@ export class ListingPage {
       .update({
         sold: true
       } as BookListing);
+  }
+
+  goToSellerProfile() {
+    this.navCtrl.push(SellerProfilePage, {
+      seller: this.bookListing.seller
+    });
   }
 }
