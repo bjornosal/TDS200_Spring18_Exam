@@ -16,6 +16,7 @@ import { Conversation } from "../../models/Conversation";
 import { BookListing } from "../../models/BookListing";
 import { User } from "../../models/User";
 import * as firebase from "firebase";
+import { Subscription } from "rxjs/Subscription";
 
 @IonicPage()
 @Component({
@@ -33,6 +34,7 @@ export class ChatPage {
   private conversation: Conversation;
   public messageText: string;
   private recipientId: string = "";
+  private messagesSubscription:Subscription; 
 
   private user: User = new User("", "", "");
   private recipient: User = new User("", "", "");
@@ -54,7 +56,11 @@ export class ChatPage {
     this.bookId = this.conversation.listing;
     this.senderId = this.conversation.sender;
     this.getBookFromDatabase(this.conversation.listing);
-    this.messages.subscribe();
+    this.messagesSubscription = this.messages.subscribe();
+  }
+
+  ionViewDidLeave() {
+    this.messagesSubscription.unsubscribe();
   }
 
   setAllMessagesCollection() {
@@ -70,7 +76,6 @@ export class ChatPage {
         let id = action.payload.doc.id;
 
         if (data.senderId !== this.af.app.auth().currentUser.uid) {
-  
           this.setMessageToRead(id);
         }
 
