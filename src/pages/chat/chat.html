@@ -11,8 +11,8 @@
   <ion-list>
     <!--TODO: add pipe for CSS???-->
 
-    <ng-container *ngFor="let message of messages | async | reverse">
-      <message  [class.message-by-current-user]="!isMessageSentByCurrentUser(message)" *ngIf="message != undefined" [messageText]="message.messageText">Test</message>
+    <ng-container *ngFor="let message of messages | async">
+      <message  [class.message-by-current-user]="isMessageSentByCurrentUser(message)" *ngIf="message != undefined" [messageText]="message.messageText">Test</message>
     </ng-container>
 
   </ion-list>

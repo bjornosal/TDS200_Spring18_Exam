@@ -1,10 +1,11 @@
-import { Component } from "@angular/core";
+import { Component, ViewChild } from "@angular/core";
 import {
   IonicPage,
   NavController,
   NavParams,
   ModalController,
-  ToastController
+  ToastController,
+  Content
 } from "ionic-angular";
 import { MessageModel } from "../../models/MessageModel";
 import {
@@ -24,6 +25,8 @@ import { Subscription } from "rxjs/Subscription";
   templateUrl: "chat.html"
 })
 export class ChatPage {
+  @ViewChild(Content) content: Content;
+
   private listing: BookListing = new BookListing("", "", "", null, null, null);
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
@@ -34,7 +37,7 @@ export class ChatPage {
   private conversation: Conversation;
   public messageText: string;
   private recipientId: string = "";
-  private messagesSubscription:Subscription; 
+  private messagesSubscription: Subscription;
 
   private user: User = new User("", "", "");
   private recipient: User = new User("", "", "");
@@ -57,6 +60,11 @@ export class ChatPage {
     this.senderId = this.conversation.sender;
     this.getBookFromDatabase(this.conversation.listing);
     this.messagesSubscription = this.messages.subscribe();
+  }
+
+  ionViewDidEnter() {
+    this.content.scrollToBottom();
+
   }
 
   ionViewDidLeave() {
@@ -116,10 +124,8 @@ export class ChatPage {
           if (
             this.af.app.auth().currentUser.uid === this.conversation.recipientId
           ) {
-            
             this.getRecipientFromDatabase(this.conversation.sender);
             this.recipientId = this.conversation.sender;
-            
           } else {
             this.getRecipientFromDatabase(this.conversation.recipientId);
             this.recipientId = this.conversation.recipientId;
@@ -144,7 +150,7 @@ export class ChatPage {
         read: false,
         created: firebase.firestore.FieldValue.serverTimestamp()
       } as MessageModel);
-      
+
       this.messageText = "";
     } else {
       let toast = this.toastCtrl.create({
@@ -181,7 +187,7 @@ export class ChatPage {
     this.navCtrl.pop();
   }
 
-  isMessageSentByCurrentUser(message:MessageModel):boolean {
+  isMessageSentByCurrentUser(message: MessageModel): boolean {
     return this.af.app.auth().currentUser.uid === message.senderId;
   }
 }

@@ -1,7 +1,9 @@
 page-chat {
   .message-by-current-user {
     .message-container {
-      background-color: green;
+      background-color: map-get($colors, primary);
+      float: right;
+      color: #fff;
     }
   }
 }

@@ -28,6 +28,8 @@ TODO: before delivery, create two dummy users with messages so that person check
 date in firebase
 <https://github.com/angular/angularfire2/issues/1205>
 
+https://stackoverflow.com/questions/20383622/width-equal-to-content
+
 https://forum.ionicframework.com/t/remove-subscriptions-when-leaving-page/73485
 https://blog.codecentric.de/en/2018/01/different-ways-unsubscribing-rxjs-observables-angular/
 
@@ -41,3 +43,5 @@ Reversing order of array
 <https://stackoverflow.com/questions/48659890/ionic-latest-add-item-not-display-in-the-list-top>
 
 <https://codepen.io/calendee/pen/wjugd>
+
+https://forum.ionicframework.com/t/ionic-scroll-bottom/45041/4
