@@ -8,10 +8,21 @@
     </ion-buttons>
   </ion-navbar>
 
-  <ion-range class="buyfeed-navbar-range" *ngIf="getFilterIsOpen()" dualKnobs="true" pin="true" min="0" max="2000" [(ngModel)]="priceRange" (ionChange)="setBookListingObservableOnCollection()">
-    <ion-label range-left>0</ion-label>
-    <ion-label range-right>2000</ion-label>
-  </ion-range>
+  <ng-container *ngIf="getFilterIsOpen()">
+      <ion-list class="buyfeed-navbar-filter">
+          <ion-list-header class="buyfeed-navbar-filter">
+            Price
+            <ion-badge item-end color="primary">{{priceRange.lower}}</ion-badge>
+            <ion-badge item-end color="primary">{{priceRange.upper}}</ion-badge>
+          </ion-list-header>
+          <ion-item class="buyfeed-navbar-filter">
+              <ion-range class="buyfeed-navbar-filter" dualKnobs="true" pin="true" min="0" max="2000" [(ngModel)]="priceRange" (ionChange)="setBookListingObservableOnCollection()">
+                  <ion-label range-left>0</ion-label>
+                  <ion-label range-right>2000</ion-label>
+                </ion-range>
+          </ion-item>
+        </ion-list>
+  </ng-container>
 
 </ion-header>
 

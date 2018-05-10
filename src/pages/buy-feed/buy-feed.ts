@@ -21,14 +21,13 @@ import { ListingPage } from "../listing/listing";
 export class BuyFeedPage {
   private allBookListingsCollection: AngularFirestoreCollection<BookListing>;
   private bookListings: Observable<BookListing[]>;
-  private filterIsOpen = false; 
+  private filterIsOpen = false;
 
   private priceRange = {
-    lower: 0, upper: 2000
+    lower: 0,
+    upper: 2000
   };
 
-  private filterPriceStart: number = 0;
-  private filterPriceEnd: number = 2000;
   private filterSearch: string = "";
 
   constructor(
@@ -80,8 +79,8 @@ export class BuyFeedPage {
         listing.title
           .toLocaleLowerCase()
           .includes(this.filterSearch.toLocaleLowerCase()) &&
-        this.filterPriceStart <= listing.price &&
-        listing.price <= this.filterPriceEnd
+        this.priceRange.lower <= listing.price &&
+        listing.price <= this.priceRange.upper
       ) {
         found = true;
       }
@@ -94,6 +93,12 @@ export class BuyFeedPage {
   }
 
   getFilterIsOpen() {
-    return this.filterIsOpen;    
+    return this.filterIsOpen;
+  }
+
+  onInputFieldChange() {
+    console.log(this.priceRange.lower);
+
+    console.log(this.priceRange.upper);
   }
 }

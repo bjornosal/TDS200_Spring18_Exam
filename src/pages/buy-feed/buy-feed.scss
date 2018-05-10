@@ -26,8 +26,13 @@ page-buy-feed {
      
   }
 
-  .buyfeed-navbar-range {
+  .buyfeed-navbar-filter {
     background-color: map-get($colors, light);
+    width: 100%;
+
+    p {
+      width:48%;
+    }
   }
 
 }
