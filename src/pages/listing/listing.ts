@@ -36,7 +36,7 @@ export class ListingPage {
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
-  private allConversations: Set<Conversation> = new Set<Conversation>();
+  private allConversations:Conversation[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -164,6 +164,7 @@ export class ListingPage {
         };
       });
     });
+    this.allConversations.sort(function(a:any, b:any){return b.updated - a.updated});        
   }
 
   addToConversation(conv: Conversation) {
@@ -175,12 +176,13 @@ export class ListingPage {
         (element.sender === conv.sender ||
           element.recipientId === conv.sender)
       ) {
+        element.updated = conv.updated;
         found = true;
       }
     });
 
     if (!found) {
-      this.allConversations.add(conv);
+      this.allConversations.push(conv);
     }
   }
 
@@ -192,7 +194,7 @@ export class ListingPage {
         fromPage: "contact"
       });
     } else {
-      if (this.allConversations.size === 0) {
+      if (this.allConversations.length === 0) {
         conversation = new Conversation(
           this.af.app.auth().currentUser.uid,
           this.bookListing.bookId,

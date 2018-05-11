@@ -72,7 +72,7 @@ export class BuyFeedPage {
   }
 
   checkIfListingPassesFilter(listing: BookListing): boolean {
-    let found: boolean = false;
+    let passes: boolean = false;
 
     if (this.filterSearch !== null) {
       if (
@@ -85,10 +85,10 @@ export class BuyFeedPage {
         this.priceRange.lower <= listing.price &&
         listing.price <= this.priceRange.upper
       ) {
-        found = true;
+        passes = true;
       }
     }
-    return found;
+    return passes;
   }
 
   openFilters() {
