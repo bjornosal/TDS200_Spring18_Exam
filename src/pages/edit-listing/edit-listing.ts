@@ -86,7 +86,8 @@ export class EditListingPage {
         sold: false,
         photos: [imageUrl],
         condition: this.bookListing.condition,
-        address: this.bookListing.address
+        address: this.bookListing.address,
+        isbn: this.bookListing.isbn
        } as BookListing)
       .then(res => {
         this.closeModal();

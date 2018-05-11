@@ -16,7 +16,7 @@
     <ion-row>
 
       <ion-col class="listing-information-column-right">
-        <p class="listing-main-information">{{bookListing.title}}</p>
+        <p class="listing-main-information book-title">{{bookListing.title}}</p>
       </ion-col>
     </ion-row>
 
@@ -35,13 +35,22 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col col-3 class="listing-information-column-left listing-information-column-bottom">
-        <ion-label>Area</ion-label>
+      <ion-col col-3 class="listing-information-column-left ">
+        <ion-label>IBSN</ion-label>
       </ion-col>
-      <ion-col class="listing-information-column-right listing-information-column-bottom">
-        <p class="listing-sub-information">{{bookListing.address}}</p>
+      <ion-col class="listing-information-column-right ">
+        <p class="listing-sub-information">{{bookListing.isbn}}</p>
       </ion-col>
     </ion-row>
+
+    <ion-row>
+        <ion-col col-3 class="listing-information-column-left listing-information-column-bottom">
+          <ion-label>Area</ion-label>
+        </ion-col>
+        <ion-col class="listing-information-column-right listing-information-column-bottom">
+          <p class="listing-sub-information">{{bookListing.address}}</p>
+        </ion-col>
+      </ion-row>
   </div>
 
   <user-profile-information [user]="seller" *ngIf="!isListingByCurrentUser()" (click)="goToSellerProfile()"></user-profile-information>
@@ -54,6 +63,7 @@
     </ion-row>
     <ion-row>
       <ion-col class="listing-information-column-right listing-information-column-bottom">
+        
         <p class="listing-sub-information">{{bookListing.description}}</p>
       </ion-col>
     </ion-row>
@@ -64,7 +74,7 @@
       <p>Conversations</p>
     </ion-list-header>
     <!--TODO: Issues with sorting-->
-    <ion-row *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
+    <ion-row class="conversation-row" *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
       <ion-col col-7 class="conversation-book-title">{{conversation.bookTitle}}</ion-col>
       <ion-col>{{conversation.senderName}}</ion-col>
     </ion-row>
