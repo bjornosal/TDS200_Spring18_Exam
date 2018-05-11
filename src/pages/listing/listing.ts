@@ -3,7 +3,8 @@ import {
   IonicPage,
   NavController,
   NavParams,
-  ModalController
+  ModalController,
+  ToastController
 } from "ionic-angular";
 import { BookListing } from "../../models/BookListing";
 import {
@@ -40,7 +41,8 @@ export class ListingPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private af: AngularFirestore,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,
+    private toastCtrl: ToastController
   ) {}
 
   ionViewWillEnter() {
@@ -204,18 +206,37 @@ export class ListingPage {
     }
   }
 
-  markBookAsSold() {
+  markBookAsSold(sold:boolean) {
     this.af
       .collection<BookListing>("bookListings")
       .doc(this.bookListing.bookId)
       .update({
-        sold: true
-      } as BookListing);
+        sold: sold
+      } as BookListing).then(res => {
+        if(sold) {
+          this.presentToast("Book was marked as sold.")
+          this.navCtrl.pop();
+        } else {
+          this.presentToast("Book was re-listed.")
+          this.navCtrl.pop();
+          
+        }
+      })
   }
 
   goToSellerProfile() {
     this.navCtrl.push(SellerProfilePage, {
       seller: this.bookListing.seller
     });
+  }
+
+  presentToast(message: string) {
+    let toast = this.toastCtrl.create({
+      message: message,
+      duration: 3000,
+      position: "top"
+    });
+
+    toast.present();
   }
 }

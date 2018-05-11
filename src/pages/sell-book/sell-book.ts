@@ -106,7 +106,8 @@ export class SellBookPage {
         photos: [imageUrl],
         sold: false,
         isbn: this.bookListing.isbn,
-        condition: this.condition
+        condition: this.condition,
+        address: this.bookListing.address
       } as BookListing)
       .then(res => {
         this.clearSellBookPage();

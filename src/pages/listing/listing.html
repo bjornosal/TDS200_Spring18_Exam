@@ -39,7 +39,7 @@
         <ion-label>Area</ion-label>
       </ion-col>
       <ion-col class="listing-information-column-right listing-information-column-bottom">
-        <p class="listing-sub-information" {{bookListing.address}} ></p>
+        <p class="listing-sub-information">{{bookListing.address}}</p>
       </ion-col>
     </ion-row>
   </div>
@@ -78,8 +78,8 @@
       <button ion-button block (click)="presentEditModal()" *ngIf="isListingByCurrentUser()">Edit Post</button>
     </ion-col>
     <ion-col>
-      <!--TODO: Change to SOLD!-->
-      <button ion-button block (click)="markBookAsSold()" *ngIf="isListingByCurrentUser()">Mark as Sold</button>
+      <button ion-button block (click)="markBookAsSold(true)" *ngIf="isListingByCurrentUser() &amp;&amp; bookListing.sold == false">Mark as Sold</button>
+      <button ion-button block (click)="markBookAsSold(false)" *ngIf="isListingByCurrentUser() &amp;&amp; bookListing.sold == true">Re-list</button>
     </ion-col>
   </ion-row>
 

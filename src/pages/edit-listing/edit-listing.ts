@@ -85,8 +85,9 @@ export class EditListingPage {
         seller: this.af.app.auth().currentUser.uid,
         sold: false,
         photos: [imageUrl],
-        condition: this.bookListing.condition
-      } as BookListing)
+        condition: this.bookListing.condition,
+        address: this.bookListing.address
+       } as BookListing)
       .then(res => {
         this.closeModal();
       });
