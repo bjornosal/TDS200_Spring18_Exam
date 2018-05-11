@@ -1,10 +1,20 @@
 page-login {
-  ion-content {
-    background: url("../../assets/imgs/login-screen.jpg") no-repeat center fixed;
-    background-size: cover;
-  }
-
-  .login-information-text {
-      color: #000;
-  }
+    ion-content {
+        background: url("../../assets/imgs/login-screen.jpg") no-repeat center fixed;
+        background-size: cover;
+        ion-card {
+            background-color: map-get($colors, transparent-white) !important;
+            ion-item {
+                background-color: transparent !important;
+                ion-input {
+                    background-color: #FFF;
+                    border-radius: 2.5%;
+                    margin-bottom: 2%;
+                }
+            }
+        }
+    }
+    .login-information-text {
+        color: #000;
+    }
 }
