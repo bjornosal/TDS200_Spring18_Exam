@@ -20,6 +20,7 @@ import { Conversation } from "../../models/Conversation";
 import { ChatPage } from "../chat/chat";
 import { User } from "../../models/User";
 import { SellerProfilePage } from "../seller-profile/seller-profile";
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -152,7 +153,8 @@ export class ListingPage {
           name,
           data.bookTitle,
           data.recipientId,
-          data.recipientName
+          data.recipientName,
+          data.created
         );
 
         this.addToConversation(conv);
@@ -197,7 +199,8 @@ export class ListingPage {
           this.user.name,
           this.bookListing.title,
           this.bookListing.seller,
-          this.seller.name
+          this.seller.name,
+          firebase.firestore.FieldValue.serverTimestamp()
         );
       }
       this.navCtrl.push(ChatPage, {

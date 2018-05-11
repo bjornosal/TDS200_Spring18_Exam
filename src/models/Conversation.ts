@@ -5,7 +5,8 @@ export class Conversation {
       public senderName: string,
       public bookTitle: string,
       public recipientId:string, 
-      public recipientName: string
+      public recipientName: string,
+      public updated:any
     ) {}
   }
   

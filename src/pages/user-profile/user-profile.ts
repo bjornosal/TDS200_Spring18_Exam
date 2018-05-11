@@ -103,7 +103,8 @@ export class UserProfilePage {
           name,
           data.bookTitle,
           data.recipientId,
-          data.recipientName
+          data.recipientName,
+          data.created
         );
 
         this.addToConversation(conv);
@@ -149,6 +150,7 @@ export class UserProfilePage {
         (element.sender === conv.sender ||
           element.recipientId === conv.sender)
       ) {
+        element.updated = conv.updated;
         found = true;
       }
     });
@@ -181,6 +183,8 @@ export class UserProfilePage {
   }
 
   goToConversation(conversation: Conversation) {
+    console.log(conversation.updated);
+    
     this.navCtrl.push(ChatPage, {
       conversation: conversation
     });
