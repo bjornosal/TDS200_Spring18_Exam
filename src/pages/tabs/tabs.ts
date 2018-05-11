@@ -25,7 +25,7 @@ export class TabsPage {
     private af: AngularFirestore
   ) {}
 
-  ionViewWillEnter() {
+  private ionViewWillEnter() {
     this.af.app.auth().onAuthStateChanged(user => {
       if (user) {
         this.allUnreadMessages();
@@ -34,7 +34,7 @@ export class TabsPage {
     });
   }
 
-  allUnreadMessages() {
+  private allUnreadMessages() {
     this.unreadMessages = this.af
       .collection<MessageModel>("messages", ref => {
         return ref

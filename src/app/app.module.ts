@@ -24,8 +24,6 @@ import { AngularFireStorageModule } from "angularfire2/storage";
 import { firebase_auth } from "./env";
 import { ListingPage } from "../pages/listing/listing";
 import { ListingPageModule } from "../pages/listing/listing.module";
-import { MessagePageModule } from "../pages/message/message.module";
-import { MessagePage } from "../pages/message/message";
 import { EditListingPage } from "../pages/edit-listing/edit-listing";
 import { EditListingPageModule } from "../pages/edit-listing/edit-listing.module";
 import { ChatPage } from "../pages/chat/chat";
@@ -53,7 +51,6 @@ import { BookProvider } from '../providers/book/book';
     RegisterPageModule,
     LoginPageModule,
     ListingPageModule,
-    MessagePageModule,
     EditListingPageModule,
     ChatPageModule,
     SellerProfilePageModule,
@@ -73,7 +70,6 @@ import { BookProvider } from '../providers/book/book';
     BuyFeedPage,
     UserProfilePage,
     ListingPage,
-    MessagePage,
     EditListingPage,
     ChatPage,
     SellerProfilePage

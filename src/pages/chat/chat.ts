@@ -50,7 +50,7 @@ export class ChatPage {
     private toastCtrl: ToastController
   ) {}
 
-  ionViewWillEnter() {
+  private ionViewWillEnter() {
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
     this.getCurrentUserFromDatabase();
@@ -62,22 +62,22 @@ export class ChatPage {
     this.messagesSubscription = this.messages.subscribe();
   }
 
-  ionViewDidEnter() {
+  private ionViewDidEnter() {
     this.content.scrollToBottom();
 
   }
 
-  ionViewDidLeave() {
+  private ionViewDidLeave() {
     this.messagesSubscription.unsubscribe();
   }
 
-  setAllMessagesCollection() {
+  private setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref.orderBy("created");
     });
   }
 
-  setAllMessageObservableOnCollection() {
+  private setAllMessageObservableOnCollection() {
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
@@ -101,7 +101,7 @@ export class ChatPage {
     });
   }
 
-  setMessageToRead(messageId: string) {
+  private setMessageToRead(messageId: string) {
     this.af
       .collection<MessageModel>("messages")
       .doc(messageId)
@@ -110,7 +110,7 @@ export class ChatPage {
       } as MessageModel);
   }
 
-  getBookFromDatabase(bookId: string) {
+  private getBookFromDatabase(bookId: string) {
     this.af
       .collection<BookListing>("bookListings")
       .doc(bookId)
@@ -137,7 +137,7 @@ export class ChatPage {
       });
   }
 
-  sendMessage() {
+  private sendMessage() {
     if (this.messageText !== "") {
       this.af.collection<MessageModel>("messages").add({
         messageText: this.messageText,
@@ -163,7 +163,7 @@ export class ChatPage {
     }
   }
 
-  getCurrentUserFromDatabase() {
+  private getCurrentUserFromDatabase() {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -173,7 +173,7 @@ export class ChatPage {
       });
   }
 
-  getRecipientFromDatabase(userId: string) {
+  private getRecipientFromDatabase(userId: string) {
     this.af
       .collection<User>("users")
       .doc(userId)
@@ -183,11 +183,11 @@ export class ChatPage {
       });
   }
 
-  closeModal() {
+  private closeModal() {
     this.navCtrl.pop();
   }
 
-  isMessageSentByCurrentUser(message: MessageModel): boolean {
+  private isMessageSentByCurrentUser(message: MessageModel): boolean {
     return this.af.app.auth().currentUser.uid === message.senderId;
   }
 }

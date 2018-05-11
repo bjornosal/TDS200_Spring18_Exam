@@ -23,7 +23,7 @@ export class RegisterPage {
 
   private previewImage: string = "";
 
-  options: CameraOptions = {
+  private options: CameraOptions = {
     quality: 100,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
@@ -43,7 +43,7 @@ export class RegisterPage {
     private alertCtrl: AlertController
   ) {}
 
-  registerUserWithEmailAndPassword() {
+  private registerUserWithEmailAndPassword() {
     if (this.isUsernameFilled() && this.areEmailsEqual()) {
       this.af.app
         .auth()
@@ -94,7 +94,7 @@ export class RegisterPage {
     }
   }
 
-  getFieldValidationResult(): string {
+  private getFieldValidationResult(): string {
     let result: string = "";
 
     if (!this.isUsernameFilled())
@@ -104,19 +104,19 @@ export class RegisterPage {
     return result;
   }
 
-  isUsernameFilled(): boolean {
+  private isUsernameFilled(): boolean {
     return this.user.name.length > 0;
   }
 
-  isPasswordFilled(): boolean {
+  private isPasswordFilled(): boolean {
     return this.password.length >= 6;
   }
 
-  areEmailsEqual(): boolean {
+  private areEmailsEqual(): boolean {
     return this.user.email.toLowerCase === this.confirmedEmail.toLowerCase;
   }
 
-  addExtraUserInformationToFirebase(name: string, photoURL: string) {
+  private addExtraUserInformationToFirebase(name: string, photoURL: string) {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -127,7 +127,7 @@ export class RegisterPage {
       } as User);
   }
 
-  presentToast(message: string) {
+  private presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -139,12 +139,12 @@ export class RegisterPage {
 
   //TODO: test this closing
 
-  closeModal() {
+  private closeModal() {
     this.navCtrl.remove(1);
     this.navCtrl.pop();
   }
 
-  takePhoto() {
+  private takePhoto() {
     this.camera.getPicture(this.options).then(
       imageData => {
         this.previewImage = imageData;
@@ -155,7 +155,7 @@ export class RegisterPage {
     );
   }
 
-  displayErrorAlert(err) {
+  private displayErrorAlert(err) {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -164,7 +164,7 @@ export class RegisterPage {
     alert.present();
   }
 
-  goBackToLogin() {
+  private goBackToLogin() {
     this.navCtrl.pop();
   }
 }

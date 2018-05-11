@@ -7,17 +7,13 @@ import { Component, Input } from '@angular/core';
 })
 export class BookListingComponent {
   
-  @Input()
-  private listingImage:string; 
+  @Input() private listingImage:string; 
 
-  @Input()
-  private bookListingTitle:string;
+  @Input() private bookListingTitle:string;
 
-  @Input()
-  private bookListingDescription:string;
+  @Input() private bookListingDescription:string;
   
-  @Input()
-  private bookListingPrice:string;
+  @Input() private bookListingPrice:string;
   
   constructor() {
   }

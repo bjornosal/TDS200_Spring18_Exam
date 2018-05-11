@@ -39,7 +39,7 @@ export class BuyFeedPage {
     this.setBookListingObservableOnCollection();
   }
 
-  setAllBookListingsCollection() {
+  private setAllBookListingsCollection() {
     this.allBookListingsCollection = this.af.collection<BookListing>("bookListings",
       ref => {
         return ref.where("sold", "==", false).orderBy("created");
@@ -47,7 +47,7 @@ export class BuyFeedPage {
     );
   }
 
-  setBookListingObservableOnCollection() {
+  private setBookListingObservableOnCollection() {
     this.bookListings = this.allBookListingsCollection
       .snapshotChanges()
       .map(actions => {
@@ -63,14 +63,14 @@ export class BuyFeedPage {
       });
   }
 
-  goToListing(listing: BookListing) {
+  private goToListing(listing: BookListing) {
     this.filterIsOpen = false;
     this.navCtrl.push(ListingPage, {
       listing: listing
     });
   }
 
-  checkIfListingPassesFilter(listing: BookListing): boolean {
+  private checkIfListingPassesFilter(listing: BookListing): boolean {
     let passes: boolean = false;
 
     if (this.filterSearch !== null) {
@@ -90,17 +90,11 @@ export class BuyFeedPage {
     return passes;
   }
 
-  openFilters() {
+  private openFilters() {
     this.filterIsOpen = !this.filterIsOpen;
   }
 
-  getFilterIsOpen() {
+  private getFilterIsOpen() {
     return this.filterIsOpen;
-  }
-
-  onInputFieldChange() {
-    console.log(this.priceRange.lower);
-
-    console.log(this.priceRange.upper);
   }
 }

@@ -38,13 +38,13 @@ export class LoginPage {
    
   }
 
-  goToRegisterPage() {
+  private goToRegisterPage() {
     this.navCtrl.push(RegisterPage, {
       fromPage: this.fromPage
     });
   }
 
-  loginUserWithEmailAndPassword() {
+  private loginUserWithEmailAndPassword() {
     if (this.doFieldValidation() === "") {
       this.af.app
         .auth()
@@ -64,7 +64,7 @@ export class LoginPage {
     }
   }
 
-  doFieldValidation(): string {
+  private doFieldValidation(): string {
     let result: string = "";
 
     if (this.user.email === "" || this.user.email === undefined)
@@ -75,7 +75,7 @@ export class LoginPage {
     return result;
   }
 
-  presentToast(message: string) {
+  private presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -85,7 +85,7 @@ export class LoginPage {
     toast.present();
   }
 
-  closeModal() {
+  private closeModal() {
     this.navCtrl.pop();
   }
 

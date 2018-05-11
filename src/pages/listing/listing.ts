@@ -11,7 +11,6 @@ import {
   AngularFirestore,
   AngularFirestoreCollection
 } from "angularfire2/firestore";
-import { MessagePage } from "../message/message";
 import { MessageModel } from "../../models/MessageModel";
 import { LoginPage } from "../login/login";
 import { EditListingPage } from "../edit-listing/edit-listing";
@@ -46,7 +45,7 @@ export class ListingPage {
     private toastCtrl: ToastController
   ) {}
 
-  ionViewWillEnter() {
+  private ionViewWillEnter() {
     if (this.navParams.get("modal") == true) {
       this.openedAsModal = this.navParams.get("modal");
     }
@@ -57,7 +56,7 @@ export class ListingPage {
     }
   }
 
-  getSellerFromDatabase() {
+  private getSellerFromDatabase() {
     this.af
       .collection<User>("users")
       .doc(this.bookListing.seller)
@@ -67,7 +66,7 @@ export class ListingPage {
       });
   }
 
-  getCurrentUserFromDatabase() {
+  private getCurrentUserFromDatabase() {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -82,22 +81,7 @@ export class ListingPage {
       });
   }
 
-  presentMessageModal() {
-    let messageModal = null;
-
-    if (this.isCurrentUserLoggedIn()) {
-      messageModal = this.modalCtrl.create(MessagePage, {
-        listing: this.navParams.get("listing")
-      });
-    } else {
-      messageModal = this.modalCtrl.create(LoginPage, {
-        fromPage: "contact"
-      });
-    }
-    messageModal.present();
-  }
-
-  presentEditModal() {
+  private presentEditModal() {
     this.modalCtrl
       .create(EditListingPage, {
         listing: this.navParams.get("listing")
@@ -109,7 +93,7 @@ export class ListingPage {
     return this.af.app.auth().currentUser != null;
   }
 
-  isListingByCurrentUser(): boolean {
+  private isListingByCurrentUser(): boolean {
     if (this.af.app.auth().currentUser != null) {
       return this.bookListing.seller == this.af.app.auth().currentUser.uid;
     } else {
@@ -117,15 +101,15 @@ export class ListingPage {
     }
   }
 
-  isOpenedByModal(): boolean {
+  private isOpenedByModal(): boolean {
     return this.openedAsModal;
   }
 
-  closeModal() {
+  private closeModal() {
     this.navCtrl.pop();
   }
 
-  setAllMessagesCollection() {
+  private setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref
         .where("bookId", "==", this.bookListing.bookId)
@@ -133,7 +117,7 @@ export class ListingPage {
     });
   }
 
-  setAllMessageObservableOnCollection() {
+  private setAllMessageObservableOnCollection() {
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
@@ -155,7 +139,10 @@ export class ListingPage {
           data.recipientName,
           data.created
         );
-
+        if (
+          conv.sender === this.af.app.auth().currentUser.uid ||
+          conv.recipientId === this.af.app.auth().currentUser.uid
+        )
         this.addToConversation(conv);
         return {
           id,
@@ -166,7 +153,7 @@ export class ListingPage {
     this.allConversations.sort(function(a:any, b:any){return b.updated - a.updated});        
   }
 
-  addToConversation(conv: Conversation) {
+  private addToConversation(conv: Conversation) {
     let found = false;
     this.allConversations.forEach(element => {
       //TODO: take into method
@@ -185,7 +172,7 @@ export class ListingPage {
     }
   }
 
-  goToConversation(incomingConversation?: Conversation) {
+  private goToConversation(incomingConversation?: Conversation) {
     let conversation: Conversation = incomingConversation;
 
     if (this.af.app.auth().currentUser == null) {
@@ -210,7 +197,7 @@ export class ListingPage {
     }
   }
 
-  markBookAsSold(sold:boolean) {
+  private markBookAsSold(sold:boolean) {
     this.af
       .collection<BookListing>("bookListings")
       .doc(this.bookListing.bookId)
@@ -228,7 +215,7 @@ export class ListingPage {
       })
   }
 
-  goToSellerProfile() {
+  private goToSellerProfile() {
     this.navCtrl.push(SellerProfilePage, {
       seller: this.bookListing.seller
     });

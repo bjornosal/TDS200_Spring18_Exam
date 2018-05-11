@@ -36,7 +36,7 @@ export class SellBookPage {
   private conditionWellUsed: Condition = Condition["Well-Used"];
   private previewImage: string = "";
 
-  options: CameraOptions = {
+  private options: CameraOptions = {
     quality: 100,
     destinationType: this.camera.DestinationType.DATA_URL,
     encodingType: this.camera.EncodingType.JPEG,
@@ -58,7 +58,7 @@ export class SellBookPage {
     private bookProvider: BookProvider
   ) {}
 
-  ionViewWillEnter() {
+  private ionViewWillEnter() {
     if (!this.af.app.auth().currentUser) {
       this.navCtrl.push(LoginPage, {
         fromPage: "SellBookPage"
@@ -66,7 +66,7 @@ export class SellBookPage {
     }
   }
 
-  postBookListing() {
+  private postBookListing() {
     if (this.doFieldValidation() === "") {
       let imageFileName = `${
         this.af.app.auth().currentUser.email
@@ -91,12 +91,12 @@ export class SellBookPage {
     }
   }
 
-  clearSellBookPage() {
+  private clearSellBookPage() {
     this.bookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
     this.previewImage = "";
   }
 
-  addBookListingToDatabase(imageUrl: string) {
+  private addBookListingToDatabase(imageUrl: string) {
     this.af
       .collection<BookListing>("bookListings")
       .add({
@@ -116,9 +116,8 @@ export class SellBookPage {
       });
   }
 
-  doFieldValidation(): string {
+  private doFieldValidation(): string {
     let result: string = "";
-    //TODO: Consider adding an alertCtrl
     if (this.bookListing.title === "")
       result = result.concat("Title field can not be empty. ");
     if (this.bookListing.description === "")
@@ -134,14 +133,14 @@ export class SellBookPage {
     return result;
   }
 
-  logoutUser() {
+  private logoutUser() {
     this.af.app.auth().signOut();
     this.clearSellBookPage();
     this.navCtrl.parent.select(0);
   }
 
 
-  takePhoto() {
+  private takePhoto() {
     this.camera.getPicture(this.options).then(
       imageData => {
         this.bookListing.photos.push("data:image/jpeg;base64," + imageData);
@@ -153,7 +152,7 @@ export class SellBookPage {
     );
   }
 
-  displayErrorAlert(err) {
+  private displayErrorAlert(err) {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -162,7 +161,7 @@ export class SellBookPage {
     alert.present();
   }
 
-  presentToast(message: string) {
+  private presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -171,7 +170,7 @@ export class SellBookPage {
     toast.present();
   }
 
-  getLocation() {
+  private getLocation() {
     this.geolocation
       .getCurrentPosition()
       .then((res: any) => {
@@ -186,7 +185,7 @@ export class SellBookPage {
       });
   }
 
-  searchForBookUsingIsbn() {
+  private searchForBookUsingIsbn() {
     this.bookProvider
       .getNameBasedOnIsbn(this.bookListing.isbn)
       .then((books: any) => {

@@ -27,7 +27,7 @@ export class SellerProfilePage {
     this.getSellerFromDatabase(this.navParams.get("seller"));
   }
 
-  getAllListingsByUser(seller: string) {
+  private getAllListingsByUser(seller: string) {
     this.allListings = this.af.collection<BookListing>("bookListings", ref => {
       return ref.where("seller", "==", seller);
     });
@@ -46,7 +46,7 @@ export class SellerProfilePage {
     });
   }
 
-  getSellerFromDatabase(seller: string) {
+  private getSellerFromDatabase(seller: string) {
     this.af
       .collection<User>("users")
       .doc(seller)
@@ -59,7 +59,7 @@ export class SellerProfilePage {
       });
   }
 
-  goToListing(listing: BookListing) {
+  private goToListing(listing: BookListing) {
     this.navCtrl.push(ListingPage, {
       listing: listing
     });

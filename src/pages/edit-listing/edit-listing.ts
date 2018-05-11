@@ -51,7 +51,7 @@ export class EditListingPage {
     this.bookListing = navParams.get("listing");
   }
 
-  postBookListing() {
+  private postBookListing() {
     if (this.doFieldValidation() === "") {
       let imageFileName = `${
         this.af.app.auth().currentUser.email
@@ -74,7 +74,7 @@ export class EditListingPage {
     }
   }
 
-  editBookListingInDatabase(imageUrl: string) {
+  private editBookListingInDatabase(imageUrl: string) {
     this.af
       .collection<BookListing>("bookListings")
       .doc(this.bookListing.bookId)
@@ -95,7 +95,7 @@ export class EditListingPage {
       });
   }
 
-  doFieldValidation(): string {
+  private doFieldValidation(): string {
     let result: string = "";
     //TODO: Consider adding an alertCtrl
     if (this.bookListing.title === "")
@@ -113,7 +113,7 @@ export class EditListingPage {
     return result;
   }
 
-  takePhoto() {
+  private takePhoto() {
     this.camera.getPicture(this.options).then(
       imageData => {
         this.bookListing.photos.push("data:image/jpeg;base64," + imageData);
@@ -125,7 +125,7 @@ export class EditListingPage {
     );
   }
 
-  displayErrorAlert(err) {
+  private displayErrorAlert(err) {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -134,7 +134,7 @@ export class EditListingPage {
     alert.present();
   }
 
-  presentToast(message: string) {
+  private presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -144,11 +144,11 @@ export class EditListingPage {
     toast.present();
   }
 
-  closeModal() {
+  private closeModal() {
     this.navCtrl.pop();
   }
 
-  getLocation() {
+  private getLocation() {
     this.geolocation
       .getCurrentPosition()
       .then((res: any) => {
@@ -163,7 +163,7 @@ export class EditListingPage {
       });
   }
 
-  searchForBookUsingIsbn() {
+  private searchForBookUsingIsbn() {
     this.bookProvider
       .getNameBasedOnIsbn(this.bookListing.isbn)
       .then((books: any) => {

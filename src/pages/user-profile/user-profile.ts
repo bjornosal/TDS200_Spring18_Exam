@@ -25,15 +25,26 @@ import { ChatPage } from "../chat/chat";
 })
 export class UserProfilePage {
   private user: User = new User("", "", "");
-  private listing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
+  private listing: BookListing = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    "",
+    null,
+    "",
+    []
+  );
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
   private allListings: AngularFirestoreCollection<BookListing>;
   private listings: Observable<BookListing[]>;
-  
-  private allConversations: Conversation[] = []
+
+  private allConversations: Conversation[] = [];
 
   private displayMessages: boolean = true;
 
@@ -44,7 +55,7 @@ export class UserProfilePage {
     private modalCtrl: ModalController
   ) {}
 
-  ionViewWillEnter() {
+  private ionViewWillEnter() {
     if (!this.af.app.auth().currentUser) {
       this.navCtrl.push(LoginPage, {
         fromPage: "UserProfilePage"
@@ -54,7 +65,7 @@ export class UserProfilePage {
     }
   }
 
-  getCurrentUserFromDatabase() {
+  private getCurrentUserFromDatabase() {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -71,7 +82,7 @@ export class UserProfilePage {
       });
   }
 
-  getBookFromDatabase(bookId: string) {
+  private getBookFromDatabase(bookId: string) {
     this.af
       .collection<BookListing>("bookListings")
       .doc(bookId)
@@ -81,13 +92,14 @@ export class UserProfilePage {
       });
   }
 
-  setAllMessagesCollection() {
+  private setAllMessagesCollection() {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref.orderBy("created");
     });
   }
 
-  setAllMessageObservableOnCollection() {
+  private setAllMessageObservableOnCollection() {
+    this.allConversations = [];
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
@@ -106,24 +118,29 @@ export class UserProfilePage {
           data.recipientName,
           data.created
         );
-
-        this.addToConversation(conv);
+        if (
+          conv.sender === this.af.app.auth().currentUser.uid ||
+          conv.recipientId === this.af.app.auth().currentUser.uid
+        )
+          this.addToConversation(conv);
         return {
           id,
           ...data
         };
       });
     });
-    this.allConversations.sort(function(a:any, b:any){return b.updated - a.updated});    
+    this.allConversations.sort(function(a: any, b: any) {
+      return b.updated - a.updated;
+    });
   }
 
-  getAllListingsByUser() {
+  private getAllListingsByUser() {
     this.allListings = this.af.collection<BookListing>("bookListings", ref => {
       return ref.where("seller", "==", this.af.app.auth().currentUser.uid);
     });
   }
 
-  getObservableOnAllListings() {
+  private getObservableOnAllListings() {
     this.listings = this.allListings.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as BookListing;
@@ -138,18 +155,18 @@ export class UserProfilePage {
     });
   }
 
-  logoutUser() {
+  private logoutUser() {
     this.af.app.auth().signOut();
     this.navCtrl.parent.select(0);
   }
 
-  addToConversation(conv: Conversation) {
+  private addToConversation(conv: Conversation) {
     let found = false;
+
     this.allConversations.forEach(element => {
       if (
         element.listing === conv.listing &&
-        (element.sender === conv.sender ||
-          element.recipientId === conv.sender)
+        (element.sender === conv.sender || element.recipientId === conv.sender)
       ) {
         element.updated = conv.updated;
         found = true;
@@ -161,20 +178,20 @@ export class UserProfilePage {
     }
   }
 
-  displayMessagesContainer(): boolean {
+  private displayMessagesContainer(): boolean {
     return this.displayMessages;
   }
 
-  openListingsContainer() {
+  private openListingsContainer() {
     this.displayMessages = false;
-    this.getObservableOnAllListings();    
+    this.getObservableOnAllListings();
   }
 
-  openMessagesContainer() {
+  private openMessagesContainer() {
     this.displayMessages = true;
   }
 
-  presentListingModal(listing: BookListing) {
+  private presentListingModal(listing: BookListing) {
     this.modalCtrl
       .create(ListingPage, {
         listing: listing,
@@ -183,7 +200,7 @@ export class UserProfilePage {
       .present();
   }
 
-  goToConversation(conversation: Conversation) {
+  private goToConversation(conversation: Conversation) {
     this.navCtrl.push(ChatPage, {
       conversation: conversation
     });
