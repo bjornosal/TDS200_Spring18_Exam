@@ -30,7 +30,7 @@ import * as firebase from 'firebase';
 export class ListingPage {
   private seller: User = new User("", "", null);
   private user: User = new User("", "", null);
-  private bookListing: BookListing = new BookListing("", "", "", null,null, null, null, "",[]);
+  private bookListing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
   private openedAsModal: boolean = false;
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
@@ -146,7 +146,6 @@ export class ListingPage {
         if (data.senderId === this.af.app.auth().currentUser.uid) {
           name = data.recipientName;
         }
-        //TODO: update chats created at
         let conv: Conversation = new Conversation(
           data.senderId,
           data.bookId,

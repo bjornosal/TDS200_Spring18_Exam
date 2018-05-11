@@ -13,7 +13,7 @@ import * as firebase from 'firebase';
   templateUrl: "message.html"
 })
 export class MessagePage {
-  private bookListing: BookListing = new BookListing("", "", "", null,null, null, null, "",[]);
+  private bookListing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
 
   public messageText: string;
   private user: User = new User("", "", "");

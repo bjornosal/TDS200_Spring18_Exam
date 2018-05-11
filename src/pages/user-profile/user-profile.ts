@@ -25,7 +25,7 @@ import { ChatPage } from "../chat/chat";
 })
 export class UserProfilePage {
   private user: User = new User("", "", "");
-  private listing: BookListing = new BookListing("", "", "", null,null, null, null, "",[]);
+  private listing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;

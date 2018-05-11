@@ -40,10 +40,9 @@ export class BuyFeedPage {
   }
 
   setAllBookListingsCollection() {
-    this.allBookListingsCollection = this.af.collection<BookListing>(
-      "bookListings",
+    this.allBookListingsCollection = this.af.collection<BookListing>("bookListings",
       ref => {
-        return ref.where("sold", "==", false);
+        return ref.where("sold", "==", false).orderBy("created");
       }
     );
   }

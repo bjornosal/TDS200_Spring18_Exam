@@ -10,6 +10,7 @@ export class BookListing {
     public condition: Condition,
     public price: number,
     public sold: boolean,
+    public created: any,
     public isbn?: string,
     public address?: string,
     public photos?: string[]

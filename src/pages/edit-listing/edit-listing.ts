@@ -14,14 +14,14 @@ import { AngularFireStorage } from "angularfire2/storage";
 import { Geolocation } from "@ionic-native/geolocation";
 import { PlacesProvider } from "../../providers/places/places";
 import { BookProvider } from "../../providers/book/book";
-
+import * as firebase from 'firebase';
 @IonicPage()
 @Component({
   selector: "page-edit-listing",
   templateUrl: "edit-listing.html"
 })
 export class EditListingPage {
-  bookListing: BookListing = new BookListing("", "", "", null,null, null, null, "",[]);
+  bookListing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
 
   private conditionNew: Condition = Condition.New;
   private conditionUsed: Condition = Condition.Used;
@@ -87,8 +87,9 @@ export class EditListingPage {
         photos: [imageUrl],
         condition: this.bookListing.condition,
         address: this.bookListing.address,
-        isbn: this.bookListing.isbn
-       } as BookListing)
+        isbn: this.bookListing.isbn,
+        created: firebase.firestore.FieldValue.serverTimestamp()
+      } as BookListing)
       .then(res => {
         this.closeModal();
       });

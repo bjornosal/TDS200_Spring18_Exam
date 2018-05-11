@@ -20,6 +20,7 @@ import { AngularFireStorage } from "angularfire2/storage";
 import { Geolocation } from "@ionic-native/geolocation";
 import { PlacesProvider } from "../../providers/places/places";
 import { BookProvider } from "../../providers/book/book";
+import * as firebase from "firebase";
 
 @IonicPage()
 @Component({
@@ -27,7 +28,7 @@ import { BookProvider } from "../../providers/book/book";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  private bookListing: any = new BookListing("", "", "", null,null, null, null, "",[]);
+  private bookListing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
 
   private condition: Condition;
   private conditionNew: Condition = Condition.New;
@@ -91,7 +92,7 @@ export class SellBookPage {
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "", null,null, null, null, "",[]);
+    this.bookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
     this.previewImage = "";
   }
 
@@ -107,7 +108,8 @@ export class SellBookPage {
         sold: false,
         isbn: this.bookListing.isbn,
         condition: this.condition,
-        address: this.bookListing.address
+        address: this.bookListing.address,
+        created: firebase.firestore.FieldValue.serverTimestamp()
       } as BookListing)
       .then(res => {
         this.clearSellBookPage();
@@ -121,7 +123,7 @@ export class SellBookPage {
       result = result.concat("Title field can not be empty. ");
     if (this.bookListing.description === "")
       result = result.concat("Description field can not be empty. ");
-    if (this.bookListing.price === undefined || this.bookListing.price === "")
+    if (this.bookListing.price === undefined || this.bookListing.price === null)
       result = result.concat("Price field can not be empty. ");
     if (this.bookListing.price > 2000)
       result = result.concat(
