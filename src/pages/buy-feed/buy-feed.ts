@@ -76,9 +76,12 @@ export class BuyFeedPage {
 
     if (this.filterSearch !== null) {
       if (
-        listing.title
+        (listing.title
           .toLocaleLowerCase()
-          .includes(this.filterSearch.toLocaleLowerCase()) &&
+          .includes(this.filterSearch.toLocaleLowerCase()) ||
+          listing.isbn
+            .toLocaleLowerCase()
+            .includes(this.filterSearch.toLocaleLowerCase())) &&
         this.priceRange.lower <= listing.price &&
         listing.price <= this.priceRange.upper
       ) {
