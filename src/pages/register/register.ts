@@ -163,4 +163,8 @@ export class RegisterPage {
     });
     alert.present();
   }
+
+  goBackToLogin() {
+    this.navCtrl.pop();
+  }
 }

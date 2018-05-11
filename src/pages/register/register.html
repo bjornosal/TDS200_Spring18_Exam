@@ -1,5 +1,4 @@
 <ion-content padding>
-
   <ion-card>
 
     <ion-item>
@@ -13,7 +12,7 @@
       <img *ngIf="previewImage.length > 0" [src]="'data:image/jpeg;base64,' + previewImage" />
       <img *ngIf="previewImage.length == 0" src="assets/imgs/fallback-profile-photo.jpg" />
     </div>
-    
+
     <ion-item>
       <ion-input type="text" [(ngModel)]="user.name" placeholder="Name"></ion-input>
     </ion-item>
@@ -33,6 +32,7 @@
       <button ion-button block (click)="registerUserWithEmailAndPassword()">
         Register account
       </button>
+      <button ion-button block (click)="goBackToLogin()">Cancel</button>
     </ion-item>
 
   </ion-card>

@@ -2,9 +2,9 @@ page-register {
     ion-content {
         background: url("../../assets/imgs/login-screen.jpg") no-repeat center fixed;
         background-size: cover;
-      }
-
-      .profile-photo-container {
+    }
+    
+    .profile-photo-container {
         position: relative;
         width: 200px;
         height: 200px;
@@ -14,21 +14,22 @@ page-register {
         overflow: hidden;
         background-color: map-get($colors, transparent-grey);
         border: 4px dashed map-get($colors, primary);
+       
         img {
-          width: 100%;
-          height: 250px;
+            width: 100%;
+            height: 250px;
         }
+
         .add-photo-button {
-          position: absolute;
-          width: 100%;
-          height: 100%;
-          left: 0;
-          background-color: transparent;
-    
-          ion-icon {
-            color: map-get($colors, primary);
-            font-size: 150px;
-          }
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            left: 0;
+            background-color: transparent;
+            ion-icon {
+                color: map-get($colors, transparent-primary);
+                font-size: 150px;
+            }
         }
     }
 }
