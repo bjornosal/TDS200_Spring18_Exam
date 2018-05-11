@@ -33,7 +33,7 @@ export class UserProfilePage {
   private allListings: AngularFirestoreCollection<BookListing>;
   private listings: Observable<BookListing[]>;
   
-  private allConversations: Set<Conversation> = new Set<Conversation>();
+  private allConversations: Conversation[] = []
 
   private displayMessages: boolean = true;
 
@@ -114,6 +114,7 @@ export class UserProfilePage {
         };
       });
     });
+    this.allConversations.sort(function(a:any, b:any){return b.updated - a.updated});    
   }
 
   getAllListingsByUser() {
@@ -156,7 +157,7 @@ export class UserProfilePage {
     });
 
     if (!found) {
-      this.allConversations.add(conv);
+      this.allConversations.push(conv);
     }
   }
 
@@ -183,8 +184,6 @@ export class UserProfilePage {
   }
 
   goToConversation(conversation: Conversation) {
-    console.log(conversation.updated);
-    
     this.navCtrl.push(ChatPage, {
       conversation: conversation
     });
