@@ -219,7 +219,7 @@ export class ListingPage {
         } else {
           this.presentToast("Book was re-listed.")
           this.navCtrl.pop();
-            
+
         }
       })
   }

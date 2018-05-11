@@ -119,8 +119,6 @@ export class UserProfilePage {
     this.allListings = this.af.collection<BookListing>("bookListings", ref => {
       return ref.where("seller", "==", this.af.app.auth().currentUser.uid);
     });
-
-  
   }
 
   getObservableOnAllListings() {

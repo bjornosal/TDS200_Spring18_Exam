@@ -75,7 +75,6 @@
     </ion-list-header>
     <!--TODO: Issues with sorting-->
     <ion-row class="conversation-row" *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
-      <ion-col col-7 class="conversation-book-title">{{conversation.bookTitle}}</ion-col>
       <ion-col>{{conversation.senderName}}</ion-col>
     </ion-row>
   </ion-list>

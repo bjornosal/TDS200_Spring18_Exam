@@ -45,5 +45,7 @@ page-listing {
     }
     .conversation-row {
         border-bottom: 2px solid map-get($colors, transparent-white);
+        font-size: 17px;
+        padding: 2%;
     }
 }
