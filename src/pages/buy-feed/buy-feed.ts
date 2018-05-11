@@ -38,7 +38,10 @@ export class BuyFeedPage {
     this.setAllBookListingsCollection();
     this.setBookListingObservableOnCollection();
   }
-
+  /**
+   * Gets an AngularFireStoreCollection on the booklistings collection
+   * @returns void
+   */
   private setAllBookListingsCollection():void {
     this.allBookListingsCollection = this.af.collection<BookListing>("bookListings",
       ref => {
@@ -46,7 +49,10 @@ export class BuyFeedPage {
       }
     );
   }
-
+  /**
+   * Sets an observable on the booklistings AngularFireStoreCollection
+   * @returns void
+   */
   private setBookListingObservableOnCollection():void {
     this.bookListings = this.allBookListingsCollection
       .snapshotChanges()
@@ -62,14 +68,22 @@ export class BuyFeedPage {
         });
       });
   }
-
+  /**
+   * Navigates to a given listing
+   * @param  {BookListing} listing
+   * @returns void
+   */
   private goToListing(listing: BookListing):void {
     this.filterIsOpen = false;
     this.navCtrl.push(ListingPage, {
       listing: listing
     });
   }
-
+  /**
+   * Checks if a listing passes given filter
+   * @param  {BookListing} listing to check
+   * @returns boolean if passes
+   */
   private checkIfListingPassesFilter(listing: BookListing): boolean {
     let passes: boolean = false;
 

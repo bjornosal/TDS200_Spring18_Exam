@@ -27,7 +27,18 @@ import { Subscription } from "rxjs/Subscription";
 export class ChatPage {
   @ViewChild(Content) content: Content;
 
-  private listing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
+  private listing: BookListing = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    "",
+    null,
+    "",
+    []
+  );
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
@@ -50,7 +61,14 @@ export class ChatPage {
     private toastCtrl: ToastController
   ) {}
 
-  private ionViewWillEnter() {
+  /**
+   * Life Cycle method when entering page
+   * Will open up an AngularFireCollection and initialize observable on it.
+   * Will get necessary information and subscribe to the messages observable.
+   * This so that it can be unsubscribed later.
+   * @returns void
+   */
+  private ionViewWillEnter(): void {
     this.setAllMessagesCollection();
     this.setAllMessageObservableOnCollection();
     this.getCurrentUserFromDatabase();
@@ -61,23 +79,33 @@ export class ChatPage {
     this.getBookFromDatabase(this.conversation.listing);
     this.messagesSubscription = this.messages.subscribe();
   }
-
-  private ionViewDidEnter() {
+  /**
+   * Lifecycle method when page has been entered
+   * Scrolls to the bottom, where the newest message is.
+   * @returns void
+   */
+  private ionViewDidEnter(): void {
     this.content.scrollToBottom();
-
   }
-
-  private ionViewDidLeave() {
+  /**
+   * Lifecycle method when user has left.
+   * Unsubscribes to the messages to they won't be read if user leaves.
+   * @returns void
+   */
+  private ionViewDidLeave(): void {
     this.messagesSubscription.unsubscribe();
   }
-
-  private setAllMessagesCollection() {
+  /**
+   * Sets an AngularFireCollection.
+   * @returns void
+   */
+  private setAllMessagesCollection(): void {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref.orderBy("created");
     });
   }
 
-  private setAllMessageObservableOnCollection() {
+  private setAllMessageObservableOnCollection(): void {
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
@@ -100,8 +128,12 @@ export class ChatPage {
       });
     });
   }
-
-  private setMessageToRead(messageId: string) {
+  /**
+   * Sets message to read
+   * @param  {string} messageId message to set to read
+   * @returns void
+   */
+  private setMessageToRead(messageId: string): void {
     this.af
       .collection<MessageModel>("messages")
       .doc(messageId)
@@ -109,8 +141,12 @@ export class ChatPage {
         read: true
       } as MessageModel);
   }
-
-  private getBookFromDatabase(bookId: string) {
+  /**
+   * Gets a  given book from the database
+   * @param  {string} bookId to get
+   * @returns void
+   */
+  private getBookFromDatabase(bookId: string): void {
     this.af
       .collection<BookListing>("bookListings")
       .doc(bookId)
@@ -136,8 +172,12 @@ export class ChatPage {
         }
       });
   }
-
-  private sendMessage() {
+  /**
+   * Sends a message (Adds it to firebase database)
+   * Presents a toast if the user has not written any message.
+   * @returns void
+   */
+  private sendMessage(): void {
     if (this.messageText !== "") {
       this.af.collection<MessageModel>("messages").add({
         messageText: this.messageText,
@@ -163,7 +203,12 @@ export class ChatPage {
     }
   }
 
-  private getCurrentUserFromDatabase():void {
+  
+  /**
+   * Sets the user object to the current user from the database
+   * @returns void
+   */
+  private getCurrentUserFromDatabase(): void {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -172,8 +217,12 @@ export class ChatPage {
         this.user = doc.data() as User;
       });
   }
-
-  private getRecipientFromDatabase(userId: string):void {
+  /** 
+   * Sets the recipient object to the user with the given id.
+   * @param  {string} userId to get
+   * @returns void
+   */
+  private getRecipientFromDatabase(userId: string): void {
     this.af
       .collection<User>("users")
       .doc(userId)
@@ -182,11 +231,18 @@ export class ChatPage {
         this.recipient = doc.data() as User;
       });
   }
-
-  private closeModal():void {
+  /**
+   * Closes modal
+   * @returns void
+   */
+  private closeModal(): void {
     this.navCtrl.pop();
   }
-
+  /**
+   * Checks if the message is sent by the current user. 
+   * @param  {MessageModel} message to check
+   * @returns boolean if the sender id is the current user's.
+   */
   private isMessageSentByCurrentUser(message: MessageModel): boolean {
     return this.af.app.auth().currentUser.uid === message.senderId;
   }

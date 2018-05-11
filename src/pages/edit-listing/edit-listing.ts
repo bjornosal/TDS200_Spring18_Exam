@@ -50,7 +50,10 @@ export class EditListingPage {
   ) {
     this.bookListing = navParams.get("listing");
   }
-
+  /**
+   * Posts a book listing
+   * @returns void
+   */
   private postBookListing():void {
     if (this.doFieldValidation() === "") {
       let imageFileName = `${
@@ -73,7 +76,10 @@ export class EditListingPage {
       this.presentToast(this.doFieldValidation());
     }
   }
-
+  /**
+   * Edits the book listing in firebase with the new information.
+   * @param  {string} imageUrl will be new if user has taken a new photo
+   */
   private editBookListingInDatabase(imageUrl: string) {
     this.af
       .collection<BookListing>("bookListings")
@@ -94,7 +100,10 @@ export class EditListingPage {
         this.closeModal();
       });
   }
-
+  /**
+   * Checks all fields to check if user has forgotten anything.
+   * @returns string to print as modal.
+   */
   private doFieldValidation(): string {
     let result: string = "";
     //TODO: Consider adding an alertCtrl
@@ -112,7 +121,10 @@ export class EditListingPage {
       result = result.concat("Condition needs to be set. ");
     return result;
   }
-
+  /**
+   * Takes a photo
+   * @returns void
+   */
   private takePhoto():void {
     this.camera.getPicture(this.options).then(
       imageData => {
@@ -125,7 +137,12 @@ export class EditListingPage {
     );
   }
 
-  private displayErrorAlert(err):void {
+  /**
+   * Displays an alert with given error message.
+   * @param  {string} err to set as title
+   * @returns void
+   */
+  private displayErrorAlert(err:string):void {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -133,7 +150,11 @@ export class EditListingPage {
     });
     alert.present();
   }
-
+  /**
+   * Presents a toast to the user
+   * @param  {string} message to present
+   * @returns void
+   */
   private presentToast(message: string):void {
     let toast = this.toastCtrl.create({
       message: message,
@@ -143,11 +164,16 @@ export class EditListingPage {
 
     toast.present();
   }
-
+  /**
+   * Closes the modal
+   */
   private closeModal():void {
     this.navCtrl.pop();
   }
-
+  /**
+   * Gets the user's location through the PlaceProvider
+   * @returns void
+   */
   private getLocation():void {
     this.geolocation
       .getCurrentPosition()
@@ -162,7 +188,10 @@ export class EditListingPage {
         console.log("error: " + err);
       });
   }
-
+  /**
+   * Makes a http request through the book provider to get the title of a book.
+   * @returns void
+   */
   private searchForBookUsingIsbn():void {
     this.bookProvider
       .getNameBasedOnIsbn(this.bookListing.isbn)
