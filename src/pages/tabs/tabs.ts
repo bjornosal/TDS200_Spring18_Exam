@@ -34,7 +34,7 @@ export class TabsPage {
     });
   }
 
-  private allUnreadMessages() {
+  private allUnreadMessages(): void {
     this.unreadMessages = this.af
       .collection<MessageModel>("messages", ref => {
         return ref

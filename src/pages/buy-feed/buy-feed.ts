@@ -39,7 +39,7 @@ export class BuyFeedPage {
     this.setBookListingObservableOnCollection();
   }
 
-  private setAllBookListingsCollection() {
+  private setAllBookListingsCollection():void {
     this.allBookListingsCollection = this.af.collection<BookListing>("bookListings",
       ref => {
         return ref.where("sold", "==", false).orderBy("created");
@@ -47,7 +47,7 @@ export class BuyFeedPage {
     );
   }
 
-  private setBookListingObservableOnCollection() {
+  private setBookListingObservableOnCollection():void {
     this.bookListings = this.allBookListingsCollection
       .snapshotChanges()
       .map(actions => {
@@ -63,7 +63,7 @@ export class BuyFeedPage {
       });
   }
 
-  private goToListing(listing: BookListing) {
+  private goToListing(listing: BookListing):void {
     this.filterIsOpen = false;
     this.navCtrl.push(ListingPage, {
       listing: listing
@@ -90,11 +90,11 @@ export class BuyFeedPage {
     return passes;
   }
 
-  private openFilters() {
+  private openFilters():void {
     this.filterIsOpen = !this.filterIsOpen;
   }
 
-  private getFilterIsOpen() {
+  private getFilterIsOpen():boolean {
     return this.filterIsOpen;
   }
 }

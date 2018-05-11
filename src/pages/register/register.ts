@@ -43,13 +43,12 @@ export class RegisterPage {
     private alertCtrl: AlertController
   ) {}
 
-  private registerUserWithEmailAndPassword() {
+  private registerUserWithEmailAndPassword(): void {
     if (this.isUsernameFilled() && this.areEmailsEqual()) {
       this.af.app
         .auth()
         .createUserWithEmailAndPassword(this.user.email, this.password)
         .then(res => {
-
           let imageFileName = `${
             this.af.app.auth().currentUser.email
           }_${new Date().getTime()}.png`;
@@ -116,7 +115,10 @@ export class RegisterPage {
     return this.user.email.toLowerCase === this.confirmedEmail.toLowerCase;
   }
 
-  private addExtraUserInformationToFirebase(name: string, photoURL: string) {
+  private addExtraUserInformationToFirebase(
+    name: string,
+    photoURL: string
+  ): void {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -127,7 +129,7 @@ export class RegisterPage {
       } as User);
   }
 
-  private presentToast(message: string) {
+  private presentToast(message: string): void {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -144,7 +146,7 @@ export class RegisterPage {
     this.navCtrl.pop();
   }
 
-  private takePhoto() {
+  private takePhoto(): void {
     this.camera.getPicture(this.options).then(
       imageData => {
         this.previewImage = imageData;
@@ -155,7 +157,7 @@ export class RegisterPage {
     );
   }
 
-  private displayErrorAlert(err) {
+  private displayErrorAlert(err): void {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -164,7 +166,7 @@ export class RegisterPage {
     alert.present();
   }
 
-  private goBackToLogin() {
+  private goBackToLogin(): void {
     this.navCtrl.pop();
   }
 }

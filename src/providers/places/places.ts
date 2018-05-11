@@ -11,7 +11,7 @@ export class PlacesProvider {
    * @param lat latitude
    * @param lng longitude
    */
-  getAddressBasedOnLatLng(lat: number, lng: number) {
+  getAddressBasedOnLatLng(lat: number, lng: number): Promise<{}>{
     return new Promise((resolve, reject) => {
       this.http
         .get(

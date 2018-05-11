@@ -19,7 +19,7 @@ import { Conversation } from "../../models/Conversation";
 import { ChatPage } from "../chat/chat";
 import { User } from "../../models/User";
 import { SellerProfilePage } from "../seller-profile/seller-profile";
-import * as firebase from 'firebase';
+import * as firebase from "firebase";
 
 @IonicPage()
 @Component({
@@ -29,13 +29,24 @@ import * as firebase from 'firebase';
 export class ListingPage {
   private seller: User = new User("", "", null);
   private user: User = new User("", "", null);
-  private bookListing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
+  private bookListing: BookListing = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    "",
+    null,
+    "",
+    []
+  );
   private openedAsModal: boolean = false;
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;
 
-  private allConversations:Conversation[] = [];
+  private allConversations: Conversation[] = [];
 
   constructor(
     public navCtrl: NavController,
@@ -56,7 +67,7 @@ export class ListingPage {
     }
   }
 
-  private getSellerFromDatabase() {
+  private getSellerFromDatabase(): void {
     this.af
       .collection<User>("users")
       .doc(this.bookListing.seller)
@@ -105,11 +116,11 @@ export class ListingPage {
     return this.openedAsModal;
   }
 
-  private closeModal() {
+  private closeModal(): void {
     this.navCtrl.pop();
   }
 
-  private setAllMessagesCollection() {
+  private setAllMessagesCollection(): void {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref
         .where("bookId", "==", this.bookListing.bookId)
@@ -117,7 +128,7 @@ export class ListingPage {
     });
   }
 
-  private setAllMessageObservableOnCollection() {
+  private setAllMessageObservableOnCollection(): void {
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as MessageModel;
@@ -143,24 +154,24 @@ export class ListingPage {
           conv.sender === this.af.app.auth().currentUser.uid ||
           conv.recipientId === this.af.app.auth().currentUser.uid
         )
-        this.addToConversation(conv);
+          this.addToConversation(conv);
         return {
           id,
           ...data
         };
       });
     });
-    this.allConversations.sort(function(a:any, b:any){return b.updated - a.updated});        
+    this.allConversations.sort(function(a: any, b: any) {
+      return b.updated - a.updated;
+    });
   }
 
-  private addToConversation(conv: Conversation) {
+  private addToConversation(conv: Conversation): void {
     let found = false;
     this.allConversations.forEach(element => {
-      //TODO: take into method
       if (
         element.listing === conv.listing &&
-        (element.sender === conv.sender ||
-          element.recipientId === conv.sender)
+        (element.sender === conv.sender || element.recipientId === conv.sender)
       ) {
         element.updated = conv.updated;
         found = true;
@@ -172,7 +183,7 @@ export class ListingPage {
     }
   }
 
-  private goToConversation(incomingConversation?: Conversation) {
+  private goToConversation(incomingConversation?: Conversation): void {
     let conversation: Conversation = incomingConversation;
 
     if (this.af.app.auth().currentUser == null) {
@@ -197,31 +208,31 @@ export class ListingPage {
     }
   }
 
-  private markBookAsSold(sold:boolean) {
+  private markBookAsSold(sold: boolean): void {
     this.af
       .collection<BookListing>("bookListings")
       .doc(this.bookListing.bookId)
       .update({
         sold: sold
-      } as BookListing).then(res => {
-        if(sold) {
-          this.presentToast("Book was marked as sold.")
+      } as BookListing)
+      .then(res => {
+        if (sold) {
+          this.presentToast("Book was marked as sold.");
           this.navCtrl.pop();
         } else {
-          this.presentToast("Book was re-listed.")
+          this.presentToast("Book was re-listed.");
           this.navCtrl.pop();
-
         }
-      })
+      });
   }
 
-  private goToSellerProfile() {
+  private goToSellerProfile(): void {
     this.navCtrl.push(SellerProfilePage, {
       seller: this.bookListing.seller
     });
   }
 
-  presentToast(message: string) {
+  private presentToast(message: string): void {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,

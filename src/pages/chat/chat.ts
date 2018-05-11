@@ -163,7 +163,7 @@ export class ChatPage {
     }
   }
 
-  private getCurrentUserFromDatabase() {
+  private getCurrentUserFromDatabase():void {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -173,7 +173,7 @@ export class ChatPage {
       });
   }
 
-  private getRecipientFromDatabase(userId: string) {
+  private getRecipientFromDatabase(userId: string):void {
     this.af
       .collection<User>("users")
       .doc(userId)
@@ -183,7 +183,7 @@ export class ChatPage {
       });
   }
 
-  private closeModal() {
+  private closeModal():void {
     this.navCtrl.pop();
   }
 

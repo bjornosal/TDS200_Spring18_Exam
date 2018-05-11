@@ -38,13 +38,13 @@ export class LoginPage {
    
   }
 
-  private goToRegisterPage() {
+  private goToRegisterPage():void {
     this.navCtrl.push(RegisterPage, {
       fromPage: this.fromPage
     });
   }
 
-  private loginUserWithEmailAndPassword() {
+  private loginUserWithEmailAndPassword():void {
     if (this.doFieldValidation() === "") {
       this.af.app
         .auth()
@@ -75,7 +75,7 @@ export class LoginPage {
     return result;
   }
 
-  private presentToast(message: string) {
+  private presentToast(message: string):void {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,

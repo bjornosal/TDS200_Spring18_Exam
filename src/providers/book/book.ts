@@ -6,7 +6,7 @@ import { apiKey } from "./../../app/env";
 export class BookProvider {
   constructor(public http: HttpClient) {}
 
-  getNameBasedOnIsbn(isbn: string) {
+  getNameBasedOnIsbn(isbn: string): Promise<{}> {
     return new Promise((resolve, reject) => {
       this.http
         .get(

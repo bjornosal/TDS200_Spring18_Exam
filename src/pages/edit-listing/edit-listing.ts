@@ -51,7 +51,7 @@ export class EditListingPage {
     this.bookListing = navParams.get("listing");
   }
 
-  private postBookListing() {
+  private postBookListing():void {
     if (this.doFieldValidation() === "") {
       let imageFileName = `${
         this.af.app.auth().currentUser.email
@@ -113,7 +113,7 @@ export class EditListingPage {
     return result;
   }
 
-  private takePhoto() {
+  private takePhoto():void {
     this.camera.getPicture(this.options).then(
       imageData => {
         this.bookListing.photos.push("data:image/jpeg;base64," + imageData);
@@ -125,7 +125,7 @@ export class EditListingPage {
     );
   }
 
-  private displayErrorAlert(err) {
+  private displayErrorAlert(err):void {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -134,7 +134,7 @@ export class EditListingPage {
     alert.present();
   }
 
-  private presentToast(message: string) {
+  private presentToast(message: string):void {
     let toast = this.toastCtrl.create({
       message: message,
       duration: 3000,
@@ -144,11 +144,11 @@ export class EditListingPage {
     toast.present();
   }
 
-  private closeModal() {
+  private closeModal():void {
     this.navCtrl.pop();
   }
 
-  private getLocation() {
+  private getLocation():void {
     this.geolocation
       .getCurrentPosition()
       .then((res: any) => {
@@ -163,7 +163,7 @@ export class EditListingPage {
       });
   }
 
-  private searchForBookUsingIsbn() {
+  private searchForBookUsingIsbn():void {
     this.bookProvider
       .getNameBasedOnIsbn(this.bookListing.isbn)
       .then((books: any) => {

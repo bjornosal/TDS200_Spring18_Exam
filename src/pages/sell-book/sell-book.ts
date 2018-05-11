@@ -66,7 +66,7 @@ export class SellBookPage {
     }
   }
 
-  private postBookListing() {
+  private postBookListing():void {
     if (this.doFieldValidation() === "") {
       let imageFileName = `${
         this.af.app.auth().currentUser.email
@@ -91,12 +91,12 @@ export class SellBookPage {
     }
   }
 
-  private clearSellBookPage() {
+  private clearSellBookPage():void {
     this.bookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
     this.previewImage = "";
   }
 
-  private addBookListingToDatabase(imageUrl: string) {
+  private addBookListingToDatabase(imageUrl: string):void {
     this.af
       .collection<BookListing>("bookListings")
       .add({
@@ -140,7 +140,7 @@ export class SellBookPage {
   }
 
 
-  private takePhoto() {
+  private takePhoto():void {
     this.camera.getPicture(this.options).then(
       imageData => {
         this.bookListing.photos.push("data:image/jpeg;base64," + imageData);
@@ -152,7 +152,7 @@ export class SellBookPage {
     );
   }
 
-  private displayErrorAlert(err) {
+  private displayErrorAlert(err):void {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -170,7 +170,7 @@ export class SellBookPage {
     toast.present();
   }
 
-  private getLocation() {
+  private getLocation():void {
     this.geolocation
       .getCurrentPosition()
       .then((res: any) => {
@@ -185,7 +185,7 @@ export class SellBookPage {
       });
   }
 
-  private searchForBookUsingIsbn() {
+  private searchForBookUsingIsbn():void {
     this.bookProvider
       .getNameBasedOnIsbn(this.bookListing.isbn)
       .then((books: any) => {

@@ -65,7 +65,7 @@ export class UserProfilePage {
     }
   }
 
-  private getCurrentUserFromDatabase() {
+  private getCurrentUserFromDatabase(): void {
     this.af
       .collection<User>("users")
       .doc(this.af.app.auth().currentUser.uid)
@@ -82,7 +82,7 @@ export class UserProfilePage {
       });
   }
 
-  private getBookFromDatabase(bookId: string) {
+  private getBookFromDatabase(bookId: string): void {
     this.af
       .collection<BookListing>("bookListings")
       .doc(bookId)
@@ -92,13 +92,13 @@ export class UserProfilePage {
       });
   }
 
-  private setAllMessagesCollection() {
+  private setAllMessagesCollection(): void {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref.orderBy("created");
     });
   }
 
-  private setAllMessageObservableOnCollection() {
+  private setAllMessageObservableOnCollection(): void {
     this.allConversations = [];
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
@@ -134,13 +134,13 @@ export class UserProfilePage {
     });
   }
 
-  private getAllListingsByUser() {
+  private getAllListingsByUser(): void {
     this.allListings = this.af.collection<BookListing>("bookListings", ref => {
       return ref.where("seller", "==", this.af.app.auth().currentUser.uid);
     });
   }
 
-  private getObservableOnAllListings() {
+  private getObservableOnAllListings(): void {
     this.listings = this.allListings.snapshotChanges().map(actions => {
       return actions.map(action => {
         let data = action.payload.doc.data() as BookListing;
@@ -155,12 +155,12 @@ export class UserProfilePage {
     });
   }
 
-  private logoutUser() {
+  private logoutUser(): void {
     this.af.app.auth().signOut();
     this.navCtrl.parent.select(0);
   }
 
-  private addToConversation(conv: Conversation) {
+  private addToConversation(conv: Conversation): void {
     let found = false;
 
     this.allConversations.forEach(element => {
@@ -182,16 +182,16 @@ export class UserProfilePage {
     return this.displayMessages;
   }
 
-  private openListingsContainer() {
+  private openListingsContainer(): void {
     this.displayMessages = false;
     this.getObservableOnAllListings();
   }
 
-  private openMessagesContainer() {
+  private openMessagesContainer(): void {
     this.displayMessages = true;
   }
 
-  private presentListingModal(listing: BookListing) {
+  private presentListingModal(listing: BookListing): void {
     this.modalCtrl
       .create(ListingPage, {
         listing: listing,
@@ -200,7 +200,7 @@ export class UserProfilePage {
       .present();
   }
 
-  private goToConversation(conversation: Conversation) {
+  private goToConversation(conversation: Conversation): void {
     this.navCtrl.push(ChatPage, {
       conversation: conversation
     });
