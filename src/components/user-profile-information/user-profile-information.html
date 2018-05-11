@@ -2,15 +2,15 @@
 
     <ion-row>
       <ion-col col-auto>
-        <img class="profilePhoto" src={{user.photoURL}}>
+        <img class="profile-photo" src={{user.photoURL}}>
       </ion-col>
 
       <ion-col>
-        <ion-row>
-          <p class="userName">Name: {{user.name}}</p>
+        <ion-row class="profile-user-name-row">
+          <p class="profile-user-name">{{user.name}}</p>
         </ion-row>
         <ion-row>
-          <p class="userEmail">E-mail: {{user.email}}</p>
+          <p class="profile-user-email">E-mail: {{user.email}}</p>
         </ion-row>
       </ion-col>
     </ion-row>

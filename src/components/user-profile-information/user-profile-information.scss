@@ -1,16 +1,17 @@
 user-profile-information {
     .userInformationContainer {
-        border-bottom: 2px solid #000;
         padding: 0px !important; 
-
-        .imageColumn {
-            width: 10px;
-        }
-        .profilePhoto {
+        
+        .profile-photo {
             width: 25vw;
             height: 25vw;
             border-radius: 100%;
-            border: 2px solid #000;
+            border: 2px solid map-get($colors, transparent-primary);
+        }
+        .profile-user-name {
+            font-size: 30px;
+            margin:0;
+            margin-top:3%;
         }
     }
 }
