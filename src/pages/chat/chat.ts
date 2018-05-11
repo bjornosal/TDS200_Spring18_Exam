@@ -18,6 +18,7 @@ import { BookListing } from "../../models/BookListing";
 import { User } from "../../models/User";
 import * as firebase from "firebase";
 import { Subscription } from "rxjs/Subscription";
+import { LoginPage } from "../login/login";
 
 @IonicPage()
 @Component({
@@ -79,6 +80,7 @@ export class ChatPage {
     this.getBookFromDatabase(this.conversation.listing);
     this.messagesSubscription = this.messages.subscribe();
   }
+
   /**
    * Lifecycle method when page has been entered
    * Scrolls to the bottom, where the newest message is.
@@ -87,6 +89,7 @@ export class ChatPage {
   private ionViewDidEnter(): void {
     this.content.scrollToBottom();
   }
+
   /**
    * Lifecycle method when user has left.
    * Unsubscribes to the messages to they won't be read if user leaves.
@@ -94,6 +97,7 @@ export class ChatPage {
    */
   private ionViewDidLeave(): void {
     this.messagesSubscription.unsubscribe();
+
   }
   /**
    * Sets an AngularFireCollection.
@@ -203,7 +207,6 @@ export class ChatPage {
     }
   }
 
-  
   /**
    * Sets the user object to the current user from the database
    * @returns void
@@ -217,7 +220,7 @@ export class ChatPage {
         this.user = doc.data() as User;
       });
   }
-  /** 
+  /**
    * Sets the recipient object to the user with the given id.
    * @param  {string} userId to get
    * @returns void
@@ -239,7 +242,7 @@ export class ChatPage {
     this.navCtrl.pop();
   }
   /**
-   * Checks if the message is sent by the current user. 
+   * Checks if the message is sent by the current user.
    * @param  {MessageModel} message to check
    * @returns boolean if the sender id is the current user's.
    */
