@@ -3,22 +3,19 @@ import { Injectable } from "@angular/core";
 import { apiKey } from "./../../app/env";
 
 @Injectable()
-export class PlacesProvider {
+export class BookProvider {
   constructor(public http: HttpClient) {}
 
-  /**
-   * Code from course
-   * @param lat latitude
-   * @param lng longitude
-   */
-  getAddressBasedOnLatLng(lat: number, lng: number) {
+  getNameBasedOnIsbn(isbn: string) {
     return new Promise((resolve, reject) => {
       this.http
         .get(
-          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&sensor=true&key=${apiKey}`
+          `https://www.googleapis.com/books/v1/volumes?q=isbn:${isbn}&key=${apiKey}`
         )
         .subscribe(
           response => {
+            console.log(response);
+            
             resolve(response);
           },
           error => {

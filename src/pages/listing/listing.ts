@@ -28,16 +28,7 @@ import { SellerProfilePage } from "../seller-profile/seller-profile";
 export class ListingPage {
   private seller: User = new User("", "", null);
   private user: User = new User("", "", null);
-  private bookListing: BookListing = new BookListing(
-    "",
-    "",
-    "",
-    null,
-    null,
-    false,
-    "",
-    []
-  );
+  private bookListing: BookListing = new BookListing("", "", "", null,null, null, null, "",[]);
   private openedAsModal: boolean = false;
 
   private allMessages: AngularFirestoreCollection<MessageModel>;

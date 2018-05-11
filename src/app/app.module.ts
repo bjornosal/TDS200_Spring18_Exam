@@ -40,6 +40,7 @@ import { Camera } from "@ionic-native/camera";
 import { Geolocation } from "@ionic-native/geolocation";
 import { PlacesProvider } from "../providers/places/places";
 import { HttpClientModule } from '@angular/common/http';
+import { BookProvider } from '../providers/book/book';
 
 @NgModule({
   declarations: [MyApp, TabsPage],
@@ -83,7 +84,8 @@ import { HttpClientModule } from '@angular/common/http';
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     Camera,
     Geolocation,
-    PlacesProvider
+    PlacesProvider,
+    BookProvider
   ]
 })
 export class AppModule {}

@@ -13,6 +13,7 @@ import { AngularFirestore } from "angularfire2/firestore";
 import { AngularFireStorage } from "angularfire2/storage";
 import { Geolocation } from "@ionic-native/geolocation";
 import { PlacesProvider } from "../../providers/places/places";
+import { BookProvider } from "../../providers/book/book";
 
 @IonicPage()
 @Component({
@@ -20,7 +21,7 @@ import { PlacesProvider } from "../../providers/places/places";
   templateUrl: "edit-listing.html"
 })
 export class EditListingPage {
-  bookListing: any = new BookListing("", "", "", null, null, false, null);
+  bookListing: BookListing = new BookListing("", "", "", null,null, null, null, "",[]);
 
   private conditionNew: Condition = Condition.New;
   private conditionUsed: Condition = Condition.Used;
@@ -44,7 +45,8 @@ export class EditListingPage {
     private toastCtrl: ToastController,
     private afStorage: AngularFireStorage,
     private geolocation: Geolocation,
-    private placesProvider: PlacesProvider
+    private placesProvider: PlacesProvider,
+    private bookProvider: BookProvider
   ) {
     this.bookListing = navParams.get("listing");
   }
@@ -97,7 +99,7 @@ export class EditListingPage {
       result = result.concat("Title field can not be empty. ");
     if (this.bookListing.description === "")
       result = result.concat("Description field can not be empty. ");
-    if (this.bookListing.price === undefined || this.bookListing.price === "")
+    if (this.bookListing.price === undefined || this.bookListing.price === null)
       result = result.concat("Price field can not be empty. ");
     if (this.bookListing.price > 2000)
       result = result.concat(
@@ -108,12 +110,6 @@ export class EditListingPage {
     return result;
   }
 
-  getPhotos(): string[] {
-    return this.bookListing.photos === undefined ||
-      this.bookListing.photo == null
-      ? ["assets/imgs/fallback-photo.jpg"]
-      : this.bookListing.photos;
-  }
   takePhoto() {
     this.camera.getPicture(this.options).then(
       imageData => {
@@ -161,6 +157,20 @@ export class EditListingPage {
       })
       .catch(err => {
         console.log("error: " + err);
+      });
+  }
+
+  searchForBookUsingIsbn() {
+    this.bookProvider
+      .getNameBasedOnIsbn(this.bookListing.isbn)
+      .then((books: any) => {
+        if (books.totalItems == 0) {
+          this.presentToast("No books with that ISBN");
+        }
+        if (books.totalItems == 1) {
+          console.log(books.items[0].volumeInfo.title);
+          this.bookListing.title = books.items[0].volumeInfo.title;
+        }
       });
   }
 }

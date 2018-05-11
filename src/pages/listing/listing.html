@@ -39,21 +39,12 @@
         <ion-label>Area</ion-label>
       </ion-col>
       <ion-col class="listing-information-column-right listing-information-column-bottom">
-        <p class="listing-sub-information">Osterhaus' Gate 13, 0183, Oslo</p>
+        <p class="listing-sub-information" {{bookListing.address}} ></p>
       </ion-col>
     </ion-row>
   </div>
 
   <user-profile-information [user]="seller" *ngIf="!isListingByCurrentUser()" (click)="goToSellerProfile()"></user-profile-information>
-
-  <ion-list class="messagesContainer" *ngIf="(allConversations.length > 0)">
-    <ion-item *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
-      <p>Sender: {{conversation.senderName}}</p>
-      <p>Title: {{conversation.bookTitle}}</p>
-    </ion-item>
-  </ion-list>
-
-
   <div class="listing-information">
     <ion-row>
       <ion-col class="listing-information-column-left">
@@ -62,12 +53,22 @@
 
     </ion-row>
     <ion-row>
-      <ion-col class="listing-information-column-right">
+      <ion-col class="listing-information-column-right listing-information-column-bottom">
         <p class="listing-sub-information">{{bookListing.description}}</p>
       </ion-col>
     </ion-row>
-
   </div>
+
+  <ion-list class="messagesContainer" *ngIf="(allConversations.size > 0)">
+    <ion-list-header>
+      <p>Conversations</p>
+    </ion-list-header>
+    <!--TODO: Issues with sorting-->
+    <ion-row *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
+      <ion-col col-7 class="conversation-book-title">{{conversation.bookTitle}}</ion-col>
+      <ion-col>{{conversation.senderName}}</ion-col>
+    </ion-row>
+  </ion-list>
 
 </ion-content>
 

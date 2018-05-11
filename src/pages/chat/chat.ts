@@ -27,7 +27,7 @@ import { Subscription } from "rxjs/Subscription";
 export class ChatPage {
   @ViewChild(Content) content: Content;
 
-  private listing: BookListing = new BookListing("", "", "", null, null, null);
+  private listing: BookListing = new BookListing("", "", "", null,null, null, null, "",[]);
 
   private allMessages: AngularFirestoreCollection<MessageModel>;
   private messages: Observable<MessageModel[]>;

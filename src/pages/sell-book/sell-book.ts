@@ -19,6 +19,7 @@ import { Condition } from "../../models/enums/enums";
 import { AngularFireStorage } from "angularfire2/storage";
 import { Geolocation } from "@ionic-native/geolocation";
 import { PlacesProvider } from "../../providers/places/places";
+import { BookProvider } from "../../providers/book/book";
 
 @IonicPage()
 @Component({
@@ -26,16 +27,7 @@ import { PlacesProvider } from "../../providers/places/places";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  private bookListing: any = new BookListing(
-    "",
-    "",
-    "",
-    null,
-    null,
-    false,
-    "",
-    []
-  );
+  private bookListing: any = new BookListing("", "", "", null,null, null, null, "",[]);
 
   private condition: Condition;
   private conditionNew: Condition = Condition.New;
@@ -61,7 +53,8 @@ export class SellBookPage {
     private viewCtrl: ViewController,
     private toastCtrl: ToastController,
     private geolocation: Geolocation,
-    private placesProvider: PlacesProvider
+    private placesProvider: PlacesProvider,
+    private bookProvider: BookProvider
   ) {}
 
   ionViewWillEnter() {
@@ -98,7 +91,7 @@ export class SellBookPage {
   }
 
   clearSellBookPage() {
-    this.bookListing = new BookListing("", "", "", null, null, false, "", []);
+    this.bookListing = new BookListing("", "", "", null,null, null, null, "",[]);
     this.previewImage = "";
   }
 
@@ -112,6 +105,7 @@ export class SellBookPage {
         seller: this.af.app.auth().currentUser.uid,
         photos: [imageUrl],
         sold: false,
+        isbn: this.bookListing.isbn,
         condition: this.condition
       } as BookListing)
       .then(res => {
@@ -129,7 +123,9 @@ export class SellBookPage {
     if (this.bookListing.price === undefined || this.bookListing.price === "")
       result = result.concat("Price field can not be empty. ");
     if (this.bookListing.price > 2000)
-      result = result.concat("Price can not be above 2000. It's used books, not pure gold.");
+      result = result.concat(
+        "Price can not be above 2000. It's used books, not pure gold."
+      );
     if (this.condition === undefined)
       result = result.concat("Condition needs to be set. ");
     return result;
@@ -141,14 +137,6 @@ export class SellBookPage {
     this.navCtrl.parent.select(0);
   }
 
-  getPhotos(): string[] {
-    console.log(this.bookListing.photos);
-
-    return this.bookListing.photos === undefined ||
-      this.bookListing.photos === null
-      ? ["assets/imgs/fallback-photo.jpg"]
-      : this.bookListing.photos;
-  }
 
   takePhoto() {
     this.camera.getPicture(this.options).then(
@@ -177,7 +165,6 @@ export class SellBookPage {
       duration: 3000,
       position: "top"
     });
-
     toast.present();
   }
 
@@ -193,6 +180,20 @@ export class SellBookPage {
       })
       .catch(err => {
         console.log("error: " + err);
+      });
+  }
+
+  searchForBookUsingIsbn() {
+    this.bookProvider
+      .getNameBasedOnIsbn(this.bookListing.isbn)
+      .then((books: any) => {
+        if (books.totalItems == 0) {
+          this.presentToast("No books with that ISBN");
+        }
+        if (books.totalItems == 1) {
+          console.log(books.items[0].volumeInfo.title);
+          this.bookListing.title = books.items[0].volumeInfo.title;
+        }
       });
   }
 }
