@@ -24,7 +24,10 @@ export class TabsPage {
     public navParams: NavParams,
     private af: AngularFirestore
   ) {}
-
+ 
+  /**
+   * Checks if a user is logged in, and sets an observable if user is.
+   */
   private ionViewWillEnter() {
     this.af.app.auth().onAuthStateChanged(user => {
       if (user) {
@@ -33,7 +36,12 @@ export class TabsPage {
       }
     });
   }
-
+  
+  /**
+   * Will get all unread messages in an observable. 
+   * Used to check how many unread messages the user has.
+   * @returns void
+   */
   private allUnreadMessages(): void {
     this.unreadMessages = this.af
       .collection<MessageModel>("messages", ref => {

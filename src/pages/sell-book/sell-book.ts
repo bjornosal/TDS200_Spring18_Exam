@@ -28,7 +28,18 @@ import * as firebase from "firebase";
   templateUrl: "sell-book.html"
 })
 export class SellBookPage {
-  private bookListing: BookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
+  private bookListing: BookListing = new BookListing(
+    "",
+    "",
+    "",
+    null,
+    null,
+    false,
+    "",
+    null,
+    "",
+    []
+  );
 
   private condition: Condition;
   private conditionNew: Condition = Condition.New;
@@ -58,7 +69,11 @@ export class SellBookPage {
     private bookProvider: BookProvider
   ) {}
 
-  private ionViewWillEnter() {
+  /**
+   * If the user is not logged in,
+   * will be navigated to the login page
+   */
+  private ionViewWillEnter(): void {
     if (!this.af.app.auth().currentUser) {
       this.navCtrl.push(LoginPage, {
         fromPage: "SellBookPage"
@@ -66,37 +81,70 @@ export class SellBookPage {
     }
   }
 
-  private postBookListing():void {
+  /**
+   * Posts a book listing to firebase
+   * @returns void
+   */
+  private postBookListing(): void {
     if (this.doFieldValidation() === "") {
-      let imageFileName = `${
-        this.af.app.auth().currentUser.email
-      }_${new Date().getTime()}.png`;
-
-      let task = this.afStorage
-        .ref(imageFileName)
-        .putString(this.previewImage, "base64", { contentType: "image/png" });
-      let uploadEvent = task.downloadURL();
-
-      uploadEvent.subscribe(uploadImageUrl => {
-        if (this.previewImage === "") {
-          this.addBookListingToDatabase("assets/imgs/fallback-photo.jpg");
-        } else {
-          this.addBookListingToDatabase(uploadImageUrl);
-        }
-
-        this.navCtrl.parent.select(0);
-      });
+      this.uploadPhoto();
     } else {
       this.presentToast(this.doFieldValidation());
     }
   }
 
-  private clearSellBookPage():void {
-    this.bookListing = new BookListing("", "", "", null,null, false,"", null, "",[]);
+  
+  /**
+   * Clears the sell book page.
+   * @returns void
+   */
+  private clearSellBookPage(): void {
+    this.bookListing = new BookListing(
+      "",
+      "",
+      "",
+      null,
+      null,
+      false,
+      "",
+      null,
+      "",
+      []
+    );
     this.previewImage = "";
   }
+ 
+  /**
+   * Uploads the photo to firebase and adds the book listing.
+   * @returns void
+   */
+  private uploadPhoto(): void {
+    let imageFileName = `${
+      this.af.app.auth().currentUser.email
+    }_${new Date().getTime()}.png`;
 
-  private addBookListingToDatabase(imageUrl: string):void {
+    let task = this.afStorage
+      .ref(imageFileName)
+      .putString(this.previewImage, "base64", { contentType: "image/png" });
+    let uploadEvent = task.downloadURL();
+
+    uploadEvent.subscribe(uploadImageUrl => {
+      if (this.previewImage === "") {
+        this.addBookListingToDatabase("assets/imgs/fallback-photo.jpg");
+      } else {
+        this.addBookListingToDatabase(uploadImageUrl);
+      }
+
+      this.navCtrl.parent.select(0);
+    });
+  }
+
+  /**
+   * Adds a book listing to firebase, then clears the sell book page.
+   * @param  {string} imageUrl to post
+   * @returns void 
+   */
+  private addBookListingToDatabase(imageUrl: string): void {
     this.af
       .collection<BookListing>("bookListings")
       .add({
@@ -116,6 +164,11 @@ export class SellBookPage {
       });
   }
 
+  /**
+   * Does field validation and concats a string 
+   * for each missing field.
+   * @returns string for fields that is missing
+   */
   private doFieldValidation(): string {
     let result: string = "";
     if (this.bookListing.title === "")
@@ -132,15 +185,21 @@ export class SellBookPage {
       result = result.concat("Condition needs to be set. ");
     return result;
   }
-
+  
+  /**
+   * Logs out the user.
+   */
   private logoutUser() {
     this.af.app.auth().signOut();
     this.clearSellBookPage();
     this.navCtrl.parent.select(0);
   }
-
-
-  private takePhoto():void {
+  
+  /**
+   * Takes a photo
+   * @returns void
+   */
+  private takePhoto(): void {
     this.camera.getPicture(this.options).then(
       imageData => {
         this.bookListing.photos.push("data:image/jpeg;base64," + imageData);
@@ -151,8 +210,13 @@ export class SellBookPage {
       }
     );
   }
-
-  private displayErrorAlert(err):void {
+  
+  /**
+   * Displays an error alert with given string as title
+   * @param  {string} err
+   * @returns void
+   */
+  private displayErrorAlert(err:string): void {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -161,6 +225,10 @@ export class SellBookPage {
     alert.present();
   }
 
+  /**
+   * Presents a toast to the user with a message.
+   * @param  {string} message
+   */
   private presentToast(message: string) {
     let toast = this.toastCtrl.create({
       message: message,
@@ -170,7 +238,11 @@ export class SellBookPage {
     toast.present();
   }
 
-  private getLocation():void {
+  /**
+   * Gets the location of the user. Sets the address of the user based on the result. 
+   * @returns void
+   */
+  private getLocation(): void {
     this.geolocation
       .getCurrentPosition()
       .then((res: any) => {
@@ -184,8 +256,12 @@ export class SellBookPage {
         console.log("error: " + err);
       });
   }
-
-  private searchForBookUsingIsbn():void {
+  
+  /**
+   * Searches for a book using ISBN, through the Google Book API. 
+   * @returns void
+   */
+  private searchForBookUsingIsbn(): void {
     this.bookProvider
       .getNameBasedOnIsbn(this.bookListing.isbn)
       .then((books: any) => {

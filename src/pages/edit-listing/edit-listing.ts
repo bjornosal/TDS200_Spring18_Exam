@@ -50,6 +50,7 @@ export class EditListingPage {
   ) {
     this.bookListing = navParams.get("listing");
   }
+  
   /**
    * Posts a book listing
    * @returns void

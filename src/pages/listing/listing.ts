@@ -55,7 +55,11 @@ export class ListingPage {
     private modalCtrl: ModalController,
     private toastCtrl: ToastController
   ) {}
-
+  
+  /**
+   * On entering page, gets the listing from param
+   * gets the current user as well.
+   */
   private ionViewWillEnter() {
     if (this.navParams.get("modal") == true) {
       this.openedAsModal = this.navParams.get("modal");
@@ -66,7 +70,11 @@ export class ListingPage {
       this.getCurrentUserFromDatabase();
     }
   }
-
+  
+  /**
+   * Gets the seller of the listing from the database. 
+   * @returns void
+   */
   private getSellerFromDatabase(): void {
     this.af
       .collection<User>("users")
@@ -76,7 +84,12 @@ export class ListingPage {
         this.seller = doc.data() as User;
       });
   }
-
+  
+  /**
+   * Gets the current user from database.
+   * If the user is logged in, it will set the angularfirecollection
+   * and the observable, before it subscribes to the messages collection.
+   */
   private getCurrentUserFromDatabase() {
     this.af
       .collection<User>("users")
@@ -91,7 +104,10 @@ export class ListingPage {
         this.messages.subscribe();
       });
   }
-
+ 
+  /**
+   * Presents an edit modal
+   */
   private presentEditModal() {
     this.modalCtrl
       .create(EditListingPage, {
@@ -100,10 +116,18 @@ export class ListingPage {
       .present();
   }
 
+  /**
+   * Checks if the current user is logged in
+   * @returns boolean if the current user is logged in.
+   */
   private isCurrentUserLoggedIn(): boolean {
     return this.af.app.auth().currentUser != null;
   }
-
+  
+  /**
+   * Checks if the listing is by the current user
+   * @returns boolean if opened by current user.
+   */
   private isListingByCurrentUser(): boolean {
     if (this.af.app.auth().currentUser != null) {
       return this.bookListing.seller == this.af.app.auth().currentUser.uid;
@@ -111,15 +135,28 @@ export class ListingPage {
       return false;
     }
   }
-
-  private isOpenedByModal(): boolean {
+  
+  /**
+   * Checks if the listing was opened as modal
+   * @returns boolean if opened as modal
+   */
+  private isOpenedAsModal(): boolean {
     return this.openedAsModal;
   }
 
+  /**
+   * Closes modal.
+   * @returns void
+   */
   private closeModal(): void {
     this.navCtrl.pop();
   }
-
+  
+  /**
+   * Sets an angularfirecollection on the messages collection where the book id 
+   * is the current id and orders it by the created column.
+   * @returns void
+   */
   private setAllMessagesCollection(): void {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref
@@ -127,7 +164,11 @@ export class ListingPage {
         .orderBy("created");
     });
   }
-
+  
+  /**
+   * Sets an observable on the angularfirecollection messages
+   * @returns void
+   */
   private setAllMessageObservableOnCollection(): void {
     this.messages = this.allMessages.snapshotChanges().map(actions => {
       return actions.map(action => {
@@ -165,7 +206,13 @@ export class ListingPage {
       return b.updated - a.updated;
     });
   }
-
+  
+  /**
+   * Adds a conversation to the conversation array if it is not found
+   * in the conversation array.
+   * @param  {Conversation} conv to add
+   * @returns void
+   */
   private addToConversation(conv: Conversation): void {
     let found = false;
     this.allConversations.forEach(element => {
@@ -182,7 +229,14 @@ export class ListingPage {
       this.allConversations.push(conv);
     }
   }
-
+ 
+  /**
+   * Navigates the user to a conversation. 
+   * If the user is not logged in, user will be 
+   * navigated to the login page.
+   * @param  {Conversation} incomingConversation? to navigate to
+   * @returns void
+   */
   private goToConversation(incomingConversation?: Conversation): void {
     let conversation: Conversation = incomingConversation;
 
@@ -207,7 +261,12 @@ export class ListingPage {
       });
     }
   }
-
+  
+  /**
+   * Updates a book listing on firebase to be sold or unsold.
+   * @param  {boolean} sold 
+   * @returns void
+   */
   private markBookAsSold(sold: boolean): void {
     this.af
       .collection<BookListing>("bookListings")
@@ -225,13 +284,22 @@ export class ListingPage {
         }
       });
   }
-
+  
+  /**
+   * Navigates to the sellers profile
+   * @returns void
+   */
   private goToSellerProfile(): void {
     this.navCtrl.push(SellerProfilePage, {
       seller: this.bookListing.seller
     });
   }
-
+  
+  /**
+   * Presents a toast for the user.
+   * @param  {string} message the message to give.
+   * @returns void
+   */
   private presentToast(message: string): void {
     let toast = this.toastCtrl.create({
       message: message,

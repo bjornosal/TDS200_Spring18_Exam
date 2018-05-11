@@ -26,7 +26,12 @@ export class SellerProfilePage {
   ) {
     this.getSellerFromDatabase(this.navParams.get("seller"));
   }
-
+  
+  /**
+   * Gets all the listings that the seller has posted.
+   * @param  {string} seller to check for listings of.
+   * @returns void
+   */
   private getAllListingsByUser(seller: string): void {
     this.allListings = this.af.collection<BookListing>("bookListings", ref => {
       return ref.where("seller", "==", seller);
@@ -45,7 +50,12 @@ export class SellerProfilePage {
       });
     });
   }
-
+  
+  /**
+   * Gets a seller from a database by id and sets it to the user.
+   * @param  {string} seller to get
+   * @returns void
+   */
   private getSellerFromDatabase(seller: string): void {
     this.af
       .collection<User>("users")
@@ -58,7 +68,12 @@ export class SellerProfilePage {
         this.getAllListingsByUser(seller);
       });
   }
-
+  
+  /**
+   * Navigates the user to a listing. 
+   * @param  {BookListing} listing to navigate to.
+   * @returns void
+   */
   private goToListing(listing: BookListing): void {
     this.navCtrl.push(ListingPage, {
       listing: listing

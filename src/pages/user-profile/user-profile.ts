@@ -55,7 +55,11 @@ export class UserProfilePage {
     private modalCtrl: ModalController
   ) {}
 
-  private ionViewWillEnter() {
+  /**
+   * Navigates the user to the login page if not logged in. 
+   * @returns void
+   */
+  private ionViewWillEnter():void {
     if (!this.af.app.auth().currentUser) {
       this.navCtrl.push(LoginPage, {
         fromPage: "UserProfilePage"
@@ -64,7 +68,11 @@ export class UserProfilePage {
       this.getCurrentUserFromDatabase();
     }
   }
-
+ 
+  /**
+   * Gets current user from the database.
+   * @returns void
+   */
   private getCurrentUserFromDatabase(): void {
     this.af
       .collection<User>("users")
@@ -82,6 +90,11 @@ export class UserProfilePage {
       });
   }
 
+  /**
+   * Gets a specific book from a database
+   * @param  {string} bookId to get
+   * @returns void
+   */
   private getBookFromDatabase(bookId: string): void {
     this.af
       .collection<BookListing>("bookListings")
@@ -91,13 +104,21 @@ export class UserProfilePage {
         this.listing = doc.data() as BookListing;
       });
   }
-
+  
+  /**
+   * Sets a collection on all messages and orders them by date created.
+   * @returns void
+   */
   private setAllMessagesCollection(): void {
     this.allMessages = this.af.collection<MessageModel>("messages", ref => {
       return ref.orderBy("created");
     });
   }
-
+  
+  /**
+   * Sets an observable on the message collection
+   * @returns void
+   */
   private setAllMessageObservableOnCollection(): void {
     this.allConversations = [];
     this.messages = this.allMessages.snapshotChanges().map(actions => {
@@ -133,13 +154,21 @@ export class UserProfilePage {
       return b.updated - a.updated;
     });
   }
-
+  
+  /**
+   * Gets all listings by the user.
+   * @returns void
+   */
   private getAllListingsByUser(): void {
     this.allListings = this.af.collection<BookListing>("bookListings", ref => {
       return ref.where("seller", "==", this.af.app.auth().currentUser.uid);
     });
   }
-
+  
+  /**
+   * Gets an observable on all listiings.
+   * @returns void
+   */
   private getObservableOnAllListings(): void {
     this.listings = this.allListings.snapshotChanges().map(actions => {
       return actions.map(action => {
@@ -154,12 +183,21 @@ export class UserProfilePage {
       });
     });
   }
-
+  
+  /**
+   * Logs out the user.
+   * @returns void
+   */
   private logoutUser(): void {
     this.af.app.auth().signOut();
     this.navCtrl.parent.select(0);
   }
-
+ 
+  /**
+   * Adds a conversation to the collection of conversations.
+   * @param  {Conversation} conv to add 
+   * @returns void
+   */
   private addToConversation(conv: Conversation): void {
     let found = false;
 
@@ -177,20 +215,37 @@ export class UserProfilePage {
       this.allConversations.push(conv);
     }
   }
-
+  
+  /**
+   * Displays the messages pane to the user.
+   * @returns boolean
+   */
   private displayMessagesContainer(): boolean {
     return this.displayMessages;
   }
-
+  
+  /**
+   * Opens the listing pane, and updates the observable on all listings.
+   * @returns void
+   */
   private openListingsContainer(): void {
     this.displayMessages = false;
     this.getObservableOnAllListings();
   }
-
+  
+  /**
+   * Opens a message container
+   * @returns void
+   */
   private openMessagesContainer(): void {
     this.displayMessages = true;
   }
-
+  
+  /**
+   * Presents a listing modal to the user.
+   * @param  {BookListing} listing to present
+   * @returns void
+   */
   private presentListingModal(listing: BookListing): void {
     this.modalCtrl
       .create(ListingPage, {
@@ -199,7 +254,12 @@ export class UserProfilePage {
       })
       .present();
   }
-
+  
+  /**
+   * Navigates the user to a conversation.
+   * @param  {Conversation} conversation
+   * @returns void
+   */
   private goToConversation(conversation: Conversation): void {
     this.navCtrl.push(ChatPage, {
       conversation: conversation

@@ -43,47 +43,19 @@ export class RegisterPage {
     private alertCtrl: AlertController
   ) {}
 
+  /**
+   * Registers a user to firebase
+   * with the email and a password.
+   * Will upload the photo taken by the user
+   * @returns void
+   */
   private registerUserWithEmailAndPassword(): void {
     if (this.isUsernameFilled() && this.areEmailsEqual()) {
       this.af.app
         .auth()
         .createUserWithEmailAndPassword(this.user.email, this.password)
         .then(res => {
-          let imageFileName = `${
-            this.af.app.auth().currentUser.email
-          }_${new Date().getTime()}.png`;
-
-          let task = this.afStorage
-            .ref(imageFileName)
-            .putString(this.previewImage, "base64", {
-              contentType: "image/png"
-            });
-          let uploadEvent = task.downloadURL();
-
-          uploadEvent.subscribe(uploadImageUrl => {
-            if (this.previewImage === "") {
-              this.addExtraUserInformationToFirebase(
-                this.user.name,
-                "assets/imgs/fallback-profile-photo.jpg"
-              );
-            } else {
-              this.addExtraUserInformationToFirebase(
-                this.user.name,
-                uploadImageUrl
-              );
-            }
-
-            this.navCtrl.parent.select(0);
-          });
-
-          if (this.navParams.get("fromPage") === "contact") {
-            this.closeModal();
-          } else {
-            this.navCtrl.push(this.navParams.get("fromPage")).then(() => {
-              const index = this.navCtrl.getActive().index;
-              this.navCtrl.remove(0, index);
-            });
-          }
+          this.uploadPhoto();
         })
         .catch(err => {
           this.presentToast(err.message);
@@ -93,6 +65,50 @@ export class RegisterPage {
     }
   }
 
+  /**
+   * Uploads a photo to firebase.
+   * and adds extra information to firebase.
+   * @returns void
+   */
+  private uploadPhoto(): void {
+    let imageFileName = `${
+      this.af.app.auth().currentUser.email
+    }_${new Date().getTime()}.png`;
+
+    let task = this.afStorage
+      .ref(imageFileName)
+      .putString(this.previewImage, "base64", {
+        contentType: "image/png"
+      });
+    let uploadEvent = task.downloadURL();
+
+    uploadEvent.subscribe(uploadImageUrl => {
+      if (this.previewImage === "") {
+        this.addExtraUserInformationToFirebase(
+          this.user.name,
+          "assets/imgs/fallback-profile-photo.jpg"
+        );
+      } else {
+        this.addExtraUserInformationToFirebase(this.user.name, uploadImageUrl);
+      }
+
+      this.navCtrl.parent.select(0);
+    });
+
+    if (this.navParams.get("fromPage") === "contact") {
+      this.closeModal();
+    } else {
+      this.navCtrl.push(this.navParams.get("fromPage")).then(() => {
+        const index = this.navCtrl.getActive().index;
+        this.navCtrl.remove(0, index);
+      });
+    }
+  }
+
+  /**
+   * Gets the validation result
+   * @returns string full concated string
+   */
   private getFieldValidationResult(): string {
     let result: string = "";
 
@@ -103,18 +119,37 @@ export class RegisterPage {
     return result;
   }
 
+  /**
+   * Checks if the username is filled.
+   * @returns boolean if filled
+   */
   private isUsernameFilled(): boolean {
     return this.user.name.length > 0;
   }
 
+  /**
+   * Checks if the password is filled
+   * @returns boolean if filled
+   */
   private isPasswordFilled(): boolean {
     return this.password.length >= 6;
   }
 
+  /**
+   * Checks if emails are equal
+   * @returns boolean if equal
+   */
   private areEmailsEqual(): boolean {
     return this.user.email.toLowerCase === this.confirmedEmail.toLowerCase;
   }
 
+  /**
+   * Adds the extra user information to firebase. 
+   * Adds it to the firebase database.
+   * @param  {string} name to add 
+   * @param  {string} photoURL to add
+   * @returns void
+   */
   private addExtraUserInformationToFirebase(
     name: string,
     photoURL: string
@@ -128,7 +163,12 @@ export class RegisterPage {
         photoURL: photoURL
       } as User);
   }
-
+  
+  /**
+   * Presents a toast to the user.
+   * @param  {string} message to present
+   * @returns void
+   */
   private presentToast(message: string): void {
     let toast = this.toastCtrl.create({
       message: message,
@@ -138,14 +178,19 @@ export class RegisterPage {
 
     toast.present();
   }
-
-  //TODO: test this closing
-
+  
+  /**
+   * Closes the modal
+   */
   private closeModal() {
     this.navCtrl.remove(1);
     this.navCtrl.pop();
   }
-
+  
+  /**
+   * Takes a photo 
+   * @returns void
+   */
   private takePhoto(): void {
     this.camera.getPicture(this.options).then(
       imageData => {
@@ -156,8 +201,14 @@ export class RegisterPage {
       }
     );
   }
-
-  private displayErrorAlert(err): void {
+  
+  
+  /** 
+   * Displays an error alert to the user
+   * @param  {string} err to set as title
+   * @returns void
+   */
+  private displayErrorAlert(err:string): void {
     let alert = this.alertCtrl.create({
       title: "Error",
       subTitle: "Error while trying to capture picture",
@@ -165,7 +216,11 @@ export class RegisterPage {
     });
     alert.present();
   }
-
+  
+  /**
+   * Pops the current page.
+   * @returns void
+   */
   private goBackToLogin(): void {
     this.navCtrl.pop();
   }

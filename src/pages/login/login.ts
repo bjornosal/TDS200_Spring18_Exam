@@ -37,13 +37,23 @@ export class LoginPage {
     this.fromPage = this.navParams.get("fromPage");
    
   }
-
+ 
+  /**
+   * Navigates the user to the register page
+   * @returns void
+   */
   private goToRegisterPage():void {
     this.navCtrl.push(RegisterPage, {
       fromPage: this.fromPage
     });
   }
-
+ 
+  /**
+   * Logs the user in with email and password. 
+   * Afterwards navigates the user to the page 
+   * got sent from.
+   * @returns void
+   */
   private loginUserWithEmailAndPassword():void {
     if (this.doFieldValidation() === "") {
       this.af.app
@@ -63,18 +73,29 @@ export class LoginPage {
       this.presentToast(this.doFieldValidation());
     }
   }
-
+  
+  /**
+   * Does field validation and 
+   * concats the strings where the fields 
+   * fail validation.
+   * @returns string
+   */
   private doFieldValidation(): string {
     let result: string = "";
 
     if (this.user.email === "" || this.user.email === undefined)
-      result = result.concat("E-mail field can not be empty. <br>");
+      result = result.concat("E-mail field can not be empty.");
     if (this.password === "")
-      result = result.concat("Password field can not be empty.<br>");
+      result = result.concat("Password field can not be empty.");
 
     return result;
   }
 
+  /**
+   * Presents a toast to the user.
+   * @param  {string} message to prsent to user.
+   * @returns void
+   */
   private presentToast(message: string):void {
     let toast = this.toastCtrl.create({
       message: message,
@@ -85,6 +106,9 @@ export class LoginPage {
     toast.present();
   }
 
+  /**
+   * Closes the modal.
+   */
   private closeModal() {
     this.navCtrl.pop();
   }
