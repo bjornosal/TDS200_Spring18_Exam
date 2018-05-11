@@ -30,8 +30,22 @@
     <ion-textarea type="text" max="140" placeholder="Description (Max 140 characters)" [(ngModel)]="bookListing.description"></ion-textarea>
   </ion-item>
 
+
+  <!--TODO: ADD PIPE?? -->
+  <ion-row>
+    <ion-col col-9 class="row-input">
+      <ion-input type="number" placeholder="ISBN" max="140"></ion-input>
+    </ion-col>
+    <ion-col>
+      <!-- ADD POPUP TO ASK TO AUTOFILL -->
+      <button ion-button icon-only >
+        <ion-icon ios="ios-search-outline" md="md-search"></ion-icon>
+      </button>
+    </ion-col>
+  </ion-row>
+
   <ion-item>
-    <ion-input type="number"  placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
+    <ion-input type="number" placeholder="Price" [(ngModel)]="bookListing.price"></ion-input>
   </ion-item>
 
   <ion-item>
@@ -43,7 +57,7 @@
   </ion-item>
 
   <ion-row>
-    <ion-col col-10>
+    <ion-col col-9 class="row-input">
       <ion-input type="text" max="150" placeholder="Address" [(ngModel)]="bookListing.address"></ion-input>
     </ion-col>
     <ion-col col-2>
