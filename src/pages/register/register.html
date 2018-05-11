@@ -1,9 +1,19 @@
 <ion-content padding>
 
   <ion-card>
+
     <ion-item>
       <h1 class="login-header">Register</h1>
     </ion-item>
+
+    <div class="profile-photo-container" text-center>
+      <button ion-button icon-only class="add-photo-button" (click)="takePhoto()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <img *ngIf="previewImage.length > 0" [src]="'data:image/jpeg;base64,' + previewImage" />
+      <img *ngIf="previewImage.length == 0" src="assets/imgs/fallback-profile-photo.jpg" />
+    </div>
+    
     <ion-item>
       <ion-input type="text" [(ngModel)]="user.name" placeholder="Name"></ion-input>
     </ion-item>

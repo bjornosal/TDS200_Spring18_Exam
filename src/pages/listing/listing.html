@@ -14,9 +14,7 @@
 
   <div class="listing-information">
     <ion-row>
-      <ion-col col-3 class="listing-information-column-left">
-        <ion-label>Title</ion-label>
-      </ion-col>
+
       <ion-col class="listing-information-column-right">
         <p class="listing-main-information">{{bookListing.title}}</p>
       </ion-col>
@@ -24,26 +22,31 @@
 
     <ion-row>
       <ion-col col-3 class="listing-information-column-left">
-        <ion-label>Condition</ion-label>
+        <ion-label>Price</ion-label>
       </ion-col>
       <ion-col class="listing-information-column-right">
+        <p class="listing-main-information">{{bookListing.price}}</p>
+      </ion-col>
+      <ion-col col-3 class="listing-information-column-left ">
+        <ion-label>Condition</ion-label>
+      </ion-col>
+      <ion-col class="listing-information-column-right ">
         <p class="listing-main-information">{{bookListing.condition}}</p>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col col-3 class="listing-information-column-left listing-information-column-bottom">
-        <ion-label>Price</ion-label>
+        <ion-label>Area</ion-label>
       </ion-col>
       <ion-col class="listing-information-column-right listing-information-column-bottom">
-        <p class="listing-main-information">{{bookListing.price}}</p>
+        <p class="listing-sub-information">Osterhaus' Gate 13, 0183, Oslo</p>
       </ion-col>
     </ion-row>
-
   </div>
 
   <user-profile-information [user]="seller" *ngIf="!isListingByCurrentUser()" (click)="goToSellerProfile()"></user-profile-information>
 
-  <ion-list class="messagesContainer">
+  <ion-list class="messagesContainer" *ngIf="(allConversations.length > 0)">
     <ion-item *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
       <p>Sender: {{conversation.senderName}}</p>
       <p>Title: {{conversation.bookTitle}}</p>
@@ -63,14 +66,7 @@
         <p class="listing-sub-information">{{bookListing.description}}</p>
       </ion-col>
     </ion-row>
-    <ion-row>
-      <ion-col col-3 class="listing-information-column-left listing-information-column-bottom">
-        <ion-label>Area</ion-label>
-      </ion-col>
-      <ion-col class="listing-information-column-right listing-information-column-bottom">
-        <p class="listing-sub-information">Osterhaus' Gate 13, 0183, Oslo</p>
-      </ion-col>
-    </ion-row>
+
   </div>
 
 </ion-content>

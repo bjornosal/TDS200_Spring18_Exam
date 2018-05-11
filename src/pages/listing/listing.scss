@@ -24,17 +24,12 @@ page-listing {
         
         .listing-main-information {
           margin: 0;
-          position: absolute;
-          top: 50%;
-          font-size: 1.2em;
-          transform: translate(0, -50%);
-          width: 100%;
+
         }
         .listing-sub-information {
             margin: 0;
             width: 100%;
         }
-      
       }
 
       .listing-information-column-left {

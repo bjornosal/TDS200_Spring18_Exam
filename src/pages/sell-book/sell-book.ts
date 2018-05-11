@@ -72,7 +72,6 @@ export class SellBookPage {
     }
   }
 
-  //TODO did this work?
   postBookListing() {
     if (this.doFieldValidation() === "") {
       let imageFileName = `${

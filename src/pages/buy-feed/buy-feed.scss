@@ -1,6 +1,5 @@
 page-buy-feed {
 
-
   .listing-container {
     width: 100%;
     display: flex;
@@ -8,7 +7,6 @@ page-buy-feed {
     flex-wrap: wrap;
     justify-content: flex-start;
     align-content: stretch;
-    
 
     book-listing {
       width: 49%;
@@ -17,7 +15,6 @@ page-buy-feed {
     }
      
   }
-
   .buyfeed-navbar-filter {
     background-color: map-get($colors, light);
     width: 100%;
