@@ -1,6 +1,4 @@
 page-user-profile {
-
-    
     .messagesAndListingsContainer {
         width: 100%;
         display: flex;
@@ -8,16 +6,34 @@ page-user-profile {
         flex-wrap: wrap;
         justify-content: flex-start;
         align-content: stretch;
+
+        ion-list-header {
+            font-size: 1.2em;
+            border-bottom: 0;
+        }
+        
+        ion-row {
+            border-bottom: 2px solid map-get($colors, transparent-white);
+                
+        }
+        
+        .focused-container {
+            background-color: map-get($colors, secondary);
+            color: #000;
+        }
         button {
             width: 50%;
         }
         .messagesContainer {
             width: 100%;
+           
+            .conversation-book-title {
+                margin-left: 2.5%;
+            }
         }
         .myListingsContainer {
             width: 100%;
-            
-            img{
+            img {
                 width: 15vw;
                 height: 15vw;
                 float: left;

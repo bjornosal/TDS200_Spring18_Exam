@@ -14,26 +14,36 @@
 
 <ion-content>
 
-  <user-profile-information [user]="user"></user-profile-information> 
+  <user-profile-information [user]="user"></user-profile-information>
 
   <div class="messagesAndListingsContainer">
-    <!--TODO: ADD COLOR IF CLICKED-->
-    <button full ion-button (click)="openMessagesContainer()">Messages</button>
-    <button full ion-button (click)="openListingsContainer()">My Listings</button>
+    <button full ion-button [class.focused-container]="displayMessagesContainer()" (click)="openMessagesContainer()">Messages</button>
+    <button full ion-button [class.focused-container]="!displayMessagesContainer()" (click)="openListingsContainer()">My Listings</button>
 
     <ion-list class="messagesContainer" *ngIf="displayMessagesContainer()">
-      <ion-item *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
-        <p>Book Title: {{conversation.bookTitle}}</p>
-        <p>Person: {{conversation.senderName}}</p>
-      </ion-item>
-
+      <ion-list-header>
+        <ion-row>
+          <ion-col col-7>Book</ion-col>
+          <ion-col>With</ion-col>
+        </ion-row>
+      </ion-list-header>
+      <ion-row *ngFor="let conversation of allConversations" (click)="goToConversation(conversation)">
+        <ion-col col-7 class="conversation-book-title">{{conversation.bookTitle}}</ion-col>
+        <ion-col>{{conversation.senderName}}</ion-col>
+      </ion-row>
     </ion-list>
 
     <ion-list class="myListingsContainer" *ngIf="!displayMessagesContainer()">
-      <ion-item *ngFor="let listing of listings | async | reverse" (click)="presentListingModal(listing)">
-        <img src="{{listing.photos[0]}}" />
-        <p>Listing: {{listing.title}}</p>
-      </ion-item>
+      <ion-row *ngFor="let listing of listings | async | reverse" (click)="presentListingModal(listing)">
+        <ion-col col-2>
+          <img src="{{listing.photos[0]}}" />
+        </ion-col>
+        <ion-col>
+          <p>{{listing.title}}</p>
+        </ion-col>
+      </ion-row>
+
+
     </ion-list>
   </div>
 </ion-content>
