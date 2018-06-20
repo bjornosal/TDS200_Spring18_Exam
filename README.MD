@@ -30,4 +30,4 @@ A usersystem is needed. With other words the users of the app must have the poss
 * Messaging System 
     * Able to send message to sellers. 
     * Chat implemented in books and under the user's profile page. 
-and more?
+* and more?
