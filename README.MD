@@ -28,6 +28,6 @@ A usersystem is needed. With other words the users of the app must have the poss
 * Search on book-name and ISBN. 
 * Self-implemented tabs. 
 * Messaging System 
-** Able to send message to sellers. 
-** Chat implemented in books and under the user's profile page. 
+    * Able to send message to sellers. 
+    * Chat implemented in books and under the user's profile page. 
 and more?
