@@ -201,7 +201,6 @@ export class EditListingPage {
           this.presentToast("No books with that ISBN");
         }
         if (books.totalItems == 1) {
-          console.log(books.items[0].volumeInfo.title);
           this.bookListing.title = books.items[0].volumeInfo.title;
         }
       });
