@@ -1,47 +1,33 @@
-# TDS200 Exam
+# TDS200 - Cross-platform Exam
 
-### Sources
+### Cross-platform
 
-#### Custom Components
-https://stackoverflow.com/questions/42287304/pass-variable-to-custom-component
-https://stackoverflow.com/questions/42287304/pass-variable-to-custom-component
+TDS200 is an introduction course in cross-platform development where we were introduced to Ionic v3.
 
-https://www.joshmorony.com/custom-components-in-ionic-2/
-https://stackoverflow.com/questions/43507800/custom-component-in-ionic-v3
+The exam was a three-part exam.
+20% was theoretical task where we discussed pros and cons of cross-platform development versus Android development. 
+15% was a reflection over our technical solution which I will present next. 
 
-https://pointdeveloper.com/ionic-2-beginner-navigating-between-pages/
+65% was our techincal solution developed with the Ionic Framework. 
 
-https://forum.ionicframework.com/t/how-to-get-current-page-name/52993/6
+### Technical Competence Task
 
-https://forum.ionicframework.com/t/pass-data-between-two-pages-using-the-setroot-function/103876
+#### Case: 
+"You are soon done with the fourth semester of your Bachelor, and you have used books which you wish to sell to the students after you. You are as well starting the third year of your bachelor and wish to find used books for your classes. The solution is an app for sales of used books for you and your fellow students."
 
+#### Implementation: 
+A usersystem is needed. With other words the users of the app must have the possibility to register, log in and log out. An overview of all the books that are for sale must also be available. In addition a user must be able to add new used books for sale. Which means that it makes sense to use Firebase for data storage. These are the minimum requirements for the application's functionality.
 
-https://stackoverflow.com/questions/37296999/ionic-2-disabling-back-button-for-a-specific-view
+#### Additional implementions in my solution: 
 
-https://forum.ionicframework.com/t/disable-android-hardware-back-button-on-ionic/115533/6
-
-//Check if value exists in FB
-https://stackoverflow.com/questions/37910008/check-if-value-exists-in-firebase-db
-
-TODO: before delivery, create two dummy users with messages so that person checking can see all functionality.
-
-date in firebase
-<https://github.com/angular/angularfire2/issues/1205>
-
-https://stackoverflow.com/questions/20383622/width-equal-to-content
-
-https://forum.ionicframework.com/t/remove-subscriptions-when-leaving-page/73485
-https://blog.codecentric.de/en/2018/01/different-ways-unsubscribing-rxjs-observables-angular/
-
-https://forum.ionicframework.com/t/how-to-increment-badge-in-the-tabs/83376
-
-https://stackoverflow.com/questions/38057537/how-to-check-the-length-of-an-observable-array
-
-https://stackoverflow.com/questions/42718627/how-do-i-fix-a-button-to-bottom-ionic
-
-Reversing order of array
-<https://stackoverflow.com/questions/48659890/ionic-latest-add-item-not-display-in-the-list-top>
-
-<https://codepen.io/calendee/pen/wjugd>
-
-https://forum.ionicframework.com/t/ionic-scroll-bottom/45041/4
+* Camera - Taking Photo for book-post.
+* User Profile Page
+* Listing History - Complete history of all listings from a user. 
+* Marking books as sold / Re-listing
+* Editing existing listing
+* Search on book-name and ISBN. 
+* Self-implemented tabs. 
+* Messaging System 
+** Able to send message to sellers. 
+** Chat implemented in books and under the user's profile page. 
+and more?
